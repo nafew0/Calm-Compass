@@ -10,20 +10,20 @@ import { requestPasswordReset } from '@/services/auth'
 const SHELL_PROPS = {
   eyebrow: 'Account Recovery',
   title: 'Forgot your password?',
-  description: 'Enter your username or email and calm_compass will send a reset link if the account is eligible.',
-  showcaseTitle: 'Self-service password recovery with generic responses.',
+  description: 'Enter your username or email and CalmCompass will send a reset link if eligible.',
+  showcaseTitle: 'Password recovery.',
   showcaseDescription:
-    'calm_compass keeps the recovery flow non-enumerating, rate-limited, and consistent whether the account exists or not.',
+    'Recovery stays private, rate-limited, and simple.',
   metrics: [
     { value: '1 link', label: 'Single-use reset' },
     { value: '120s', label: 'Cooldown' },
     { value: 'Masked', label: 'No enumeration' },
   ],
   highlights: [
-    'The reset request response stays generic to avoid account enumeration.',
-    'calm_compass applies a per-account cooldown and an IP-level abuse throttle.',
-    'Existing reset links still land on the validated reset-password page.',
-    'Admins and end users now share the same secure reset infrastructure.',
+    'Single-use reset links.',
+    'Private responses.',
+    'Automatic link expiry.',
+    'Shared secure reset flow.',
   ],
 }
 
@@ -51,7 +51,7 @@ export default function ForgotPassword() {
     } catch (error) {
       toast({
         title: 'Request failed',
-        description: error.response?.data?.detail || 'calm_compass could not process the reset request right now.',
+        description: error.response?.data?.detail || 'CalmCompass could not process the reset request right now.',
         variant: 'error',
       })
     } finally {
@@ -89,7 +89,7 @@ export default function ForgotPassword() {
               required
             />
           </div>
-          <Button className="w-full rounded-xl" disabled={submitting}>
+          <Button className="w-full" disabled={submitting}>
             {submitting ? 'Sending...' : 'Send reset link'}
           </Button>
         </form>

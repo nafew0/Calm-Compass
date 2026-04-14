@@ -103,7 +103,7 @@ export default function AdminUsers() {
   }
 
   if (error) {
-    return <div className="theme-panel rounded-[1.8rem] p-6 text-sm text-rose-600">calm_compass could not load users right now.</div>
+    return <div className="theme-panel rounded-[1.8rem] p-6 text-sm text-rose-600">CalmCompass could not load users right now.</div>
   }
 
   const currentPage = Number(params.page || 1)
@@ -114,7 +114,7 @@ export default function AdminUsers() {
       <CardHeader className="gap-4">
         <div>
           <CardTitle>Users</CardTitle>
-          <CardDescription>Search, filter, and inspect calm_compass accounts.</CardDescription>
+          <CardDescription>Search, filter, and inspect CalmCompass accounts.</CardDescription>
         </div>
         <div className="grid gap-3 lg:grid-cols-[1.4fr_repeat(3,minmax(0,0.8fr))]">
           <Input
@@ -151,7 +151,39 @@ export default function AdminUsers() {
         </div>
       </CardHeader>
       <CardContent className="space-y-5">
-        <div className="overflow-x-auto">
+        <div className="grid gap-3 md:hidden">
+          {!data?.results?.length ? (
+            <div className="rounded-lg border border-[rgb(var(--theme-border-rgb)/0.76)] bg-white/85 p-4 text-sm text-muted-foreground">
+              No users match these filters.
+            </div>
+          ) : null}
+          {(data?.results || []).map((userRecord) => (
+            <button
+              key={userRecord.id}
+              type="button"
+              className="rounded-lg border border-[rgb(var(--theme-border-rgb)/0.76)] bg-white/85 p-4 text-left"
+              onClick={() => navigate(`/admin/users/${userRecord.id}`)}
+            >
+              <div className="flex items-start justify-between gap-3">
+                <div className="min-w-0">
+                  <p className="truncate font-semibold text-foreground">{userRecord.username}</p>
+                  <p className="truncate text-xs text-muted-foreground">{userRecord.email}</p>
+                </div>
+                <Badge variant={userRecord.is_active ? 'success' : 'danger'}>
+                  {userRecord.is_active ? 'Active' : 'Inactive'}
+                </Badge>
+              </div>
+              <div className="mt-3 flex flex-wrap items-center gap-2">
+                <Badge variant="outline">{userRecord.current_plan?.name || 'Free'}</Badge>
+                <span className="text-xs text-muted-foreground">
+                  Joined {formatDateTime(userRecord.created_at, { hour: undefined, minute: undefined })}
+                </span>
+              </div>
+            </button>
+          ))}
+        </div>
+
+        <div className="hidden overflow-x-auto md:block">
           <table className="min-w-full text-left text-sm">
             <thead className="text-xs uppercase tracking-[0.16em] text-muted-foreground">
               {table.getHeaderGroups().map((headerGroup) => (

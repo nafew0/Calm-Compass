@@ -34,7 +34,7 @@ function renderRevenueSummary(revenueTotals = {}) {
   if (!entries.length) {
     return 'No paid revenue yet'
   }
-  return entries.map(([currency, amount]) => `${formatMoney(amount, currency)} ${currency}`).join(' · ')
+  return entries.map(([currency, amount]) => `${formatMoney(amount, currency)} ${currency}`).join(' - ')
 }
 
 export default function AdminDashboard() {
@@ -77,7 +77,7 @@ export default function AdminDashboard() {
         />
         <SummaryCard
           label="Total plans"
-          value={data.summary.total_plans ?? '—'}
+          value={data.summary.total_plans ?? 'n/a'}
           hint="Active subscription plans available."
         />
       </div>
@@ -125,7 +125,7 @@ export default function AdminDashboard() {
         <Card className="theme-panel rounded-[1.8rem] border-0">
           <CardHeader>
             <CardTitle>Recent signups</CardTitle>
-            <CardDescription>The latest accounts created in calm_compass.</CardDescription>
+            <CardDescription>The latest accounts created in CalmCompass.</CardDescription>
           </CardHeader>
           <CardContent className="space-y-3">
             {data.recent_signups.map((signup) => (

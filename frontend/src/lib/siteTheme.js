@@ -1,60 +1,60 @@
 const WHITE_RGB = { r: 255, g: 255, b: 255 }
-const FOREGROUND_RGB = { r: 15, g: 23, b: 42 }
+const FOREGROUND_RGB = { r: 24, g: 33, b: 29 }
 const DEFAULT_SITE_COLORS = {
-  primary: '#f79945',
-  secondary: '#bc5eb3',
-  accent: '#5b2d62',
+  primary: '#2f7d68',
+  secondary: '#3f7ea6',
+  accent: '#b85f63',
 }
 
 export const SITE_THEME_STORAGE_KEY = 'calm_compass-site-theme'
 
-export const DEFAULT_SITE_THEME_ID = 'quest-default'
+export const DEFAULT_SITE_THEME_ID = 'calm-white'
 
 export const SITE_THEME_PRESETS = [
   {
-    id: 'quest-default',
-    name: 'calm_compass Core',
-    description: 'Apricot and orchid with a deep plum accent.',
+    id: 'calm-white',
+    name: 'Calm White',
+    description: 'White surfaces with sage, sky, and soft rose accents.',
     colors: DEFAULT_SITE_COLORS,
   },
   {
-    id: 'citrus-studio',
-    name: 'Citrus Studio',
-    description: 'Orange, teal, and sky.',
+    id: 'garden-light',
+    name: 'Garden Light',
+    description: 'Leaf green, quiet blue, and warm rose.',
     colors: {
-      primary: '#ea580c',
-      secondary: '#0f766e',
-      accent: '#0284c7',
+      primary: '#2f7d4f',
+      secondary: '#4c7c95',
+      accent: '#b8666b',
     },
   },
   {
-    id: 'harbor-signal',
-    name: 'Harbor Signal',
-    description: 'Teal, cobalt, and coral.',
+    id: 'clear-water',
+    name: 'Clear Water',
+    description: 'Teal, mist blue, and gentle berry.',
     colors: {
-      primary: '#0f766e',
-      secondary: '#1d4ed8',
-      accent: '#fb7185',
+      primary: '#17766f',
+      secondary: '#5e8fa8',
+      accent: '#aa5f7a',
     },
   },
   {
-    id: 'ember-field',
-    name: 'Ember Field',
-    description: 'Crimson, spruce, and gold.',
+    id: 'soft-clinic',
+    name: 'Soft Clinic',
+    description: 'Clinical teal, slate-green, and muted rose.',
     colors: {
-      primary: '#dc2626',
-      secondary: '#166534',
-      accent: '#f59e0b',
+      primary: '#247b73',
+      secondary: '#5d7c73',
+      accent: '#bd6a68',
     },
   },
   {
-    id: 'grove-board',
-    name: 'Grove Board',
-    description: 'Forest, cyan, and amber.',
+    id: 'fresh-air',
+    name: 'Fresh Air',
+    description: 'Sage, cool blue, and berry.',
     colors: {
-      primary: '#15803d',
-      secondary: '#0f766e',
-      accent: '#d97706',
+      primary: '#3d7d5a',
+      secondary: '#477b9d',
+      accent: '#a95e75',
     },
   },
 ]

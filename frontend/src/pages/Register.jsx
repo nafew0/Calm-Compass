@@ -45,7 +45,7 @@ const Register = () => {
       <div className="theme-app-gradient flex h-[calc(100vh-4rem)] items-center justify-center">
         <div className="theme-panel flex items-center gap-3 rounded-2xl px-5 py-4">
           <LoaderCircle className="h-5 w-5 animate-spin text-primary" />
-          <span className="text-sm font-medium text-muted-foreground">Loading…</span>
+          <span className="text-sm font-medium text-muted-foreground">Loading...</span>
         </div>
       </div>
     )
@@ -139,15 +139,14 @@ const Register = () => {
                     <p className="text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">
                       Email Verification
                     </p>
-                    <div className="mt-5 inline-flex h-12 w-12 items-center justify-center rounded-full bg-[rgb(var(--theme-secondary-soft-rgb))] text-[rgb(var(--theme-secondary-rgb))]">
+                    <div className="mt-5 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-[rgb(var(--theme-secondary-soft-rgb))] text-[rgb(var(--theme-secondary-rgb))]">
                       <MailCheck className="h-5 w-5" />
                     </div>
                     <h1 className="mt-5 text-2xl font-bold tracking-tight text-[rgb(var(--theme-primary-ink-rgb))]">
                       Check your email
                     </h1>
                     <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                      Your account is ready, but you need to verify your email before
-                      signing in.
+                      Verify your email before signing in.
                       {verificationState.emailHint
                         ? ` We sent the first link to ${verificationState.emailHint}.`
                         : ''}
@@ -155,7 +154,7 @@ const Register = () => {
                     <div className="mt-6 space-y-3">
                       <Button
                         type="button"
-                        className="w-full rounded-xl"
+                        className="w-full rounded-lg"
                         onClick={handleResendVerification}
                         disabled={resending || resendCooldown > 0}
                       >
@@ -167,7 +166,7 @@ const Register = () => {
                       </Button>
                       <Link
                         to="/login"
-                        className="flex h-11 w-full items-center justify-center rounded-xl border border-[rgb(var(--theme-border-rgb))] bg-white text-sm font-semibold text-foreground transition hover:bg-[rgb(var(--theme-muted-rgb)/0.55)]"
+                        className="flex h-11 w-full items-center justify-center rounded-lg border border-[rgb(var(--theme-border-rgb))] bg-white text-sm font-semibold text-foreground transition hover:bg-[rgb(var(--theme-muted-rgb)/0.55)]"
                       >
                         Back to sign in
                       </Link>
@@ -179,7 +178,7 @@ const Register = () => {
                       New Account
                     </p>
                     <h1 className="mt-3 text-2xl font-bold tracking-tight text-[rgb(var(--theme-primary-ink-rgb))]">
-                      Create caregiver account
+                      Create account
                     </h1>
                     <p className="mt-1 text-sm text-muted-foreground">
                       Already have one?{' '}
@@ -193,7 +192,7 @@ const Register = () => {
 
                     <form onSubmit={handleSubmit} className="mt-5 space-y-3">
                       {error && (
-                        <div className="flex items-center gap-2 rounded-xl bg-destructive/10 px-4 py-3 text-sm text-destructive">
+                        <div className="flex items-center gap-2 rounded-lg bg-destructive/10 px-4 py-3 text-sm text-destructive">
                           <AlertCircle className="h-4 w-4 shrink-0" />
                           {error}
                         </div>
@@ -261,7 +260,7 @@ const Register = () => {
                             value={formData[field.name]}
                             onChange={handleChange}
                             required={field.required}
-                            className="h-10 w-full rounded-xl border border-[rgb(var(--theme-border-rgb))] bg-white px-4 text-sm text-foreground placeholder-muted-foreground outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
+                            className="h-11 w-full rounded-lg border border-[rgb(var(--theme-border-rgb))] bg-white px-4 text-base text-foreground placeholder-muted-foreground outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20 sm:text-sm"
                           />
                         </div>
                       ))}
@@ -269,12 +268,12 @@ const Register = () => {
                       <button
                         type="submit"
                         disabled={loading}
-                        className="mt-1 flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-primary text-sm font-semibold text-primary-foreground shadow-[0_4px_16px_rgb(var(--theme-primary-rgb)/0.3)] transition hover:bg-primary/90 disabled:opacity-50"
+                        className="mt-1 flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-primary text-sm font-semibold text-primary-foreground shadow-[0_8px_22px_rgb(var(--theme-primary-rgb)/0.16)] transition hover:bg-primary/90 active:scale-[0.985] disabled:opacity-50"
                       >
                         {loading ? (
                           <>
                             <LoaderCircle className="h-4 w-4 animate-spin" />
-                            Creating account…
+                            Creating account...
                           </>
                         ) : (
                           <>

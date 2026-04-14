@@ -1,6 +1,6 @@
 import { useDeferredValue, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { ArrowRight, LoaderCircle, Search } from 'lucide-react'
+import { ArrowRight, LoaderCircle, Search, X } from 'lucide-react'
 
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -12,20 +12,22 @@ function BehaviorResultItem({ behavior }) {
   return (
     <Link
       to={`/decoder/behavior/${behavior.slug}`}
-      className="group rounded-[1.6rem] border border-slate-200 bg-white px-5 py-5 transition hover:-translate-y-0.5 hover:border-emerald-300 hover:shadow-[0_18px_45px_rgba(15,23,42,0.08)]"
+      className="soft-card pressable block p-4"
     >
       <div className="flex items-start justify-between gap-4">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-emerald-700">
-            {behavior.category?.name}
-          </p>
-          <h3 className="mt-2 text-lg font-semibold tracking-tight text-slate-950">
+        <div className="min-w-0">
+          <Badge variant="outline">{behavior.category?.name}</Badge>
+          <h3 className="mt-3 text-lg font-semibold tracking-tight text-foreground">
             {behavior.title}
           </h3>
+          {behavior.short_summary ? (
+            <p className="mt-2 line-clamp-2 text-sm leading-6 text-muted-foreground">
+              {behavior.short_summary}
+            </p>
+          ) : null}
         </div>
-        <ArrowRight className="mt-1 h-4 w-4 shrink-0 text-slate-400 transition group-hover:translate-x-0.5 group-hover:text-emerald-700" />
+        <ArrowRight className="mt-1 h-4 w-4 shrink-0 text-muted-foreground" />
       </div>
-      <p className="mt-3 text-sm leading-7 text-slate-600">{behavior.short_summary}</p>
     </Link>
   )
 }
@@ -36,22 +38,18 @@ function CategoryCard({ category }) {
   return (
     <Link
       to={`/decoder/${category.slug}`}
-      className="group rounded-[1.7rem] border border-slate-200 bg-white px-5 py-5 transition hover:-translate-y-0.5 hover:border-emerald-300 hover:shadow-[0_18px_45px_rgba(15,23,42,0.08)]"
+      className="soft-card pressable flex items-center justify-between gap-3 p-4"
     >
-      <div className="flex items-start justify-between gap-4">
-        <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-700">
+      <div className="flex min-w-0 items-center gap-3">
+        <span className="theme-icon-primary inline-flex h-11 w-11 shrink-0 items-center justify-center">
           <Icon className="h-5 w-5" />
         </span>
-        <Badge variant="outline" className="border-slate-200 bg-slate-50 text-slate-600">
-          {category.behavior_count} ready
-        </Badge>
+        <div className="min-w-0">
+          <h3 className="truncate text-base font-semibold text-foreground">{category.name}</h3>
+          <p className="text-sm text-muted-foreground">{category.behavior_count} behaviors</p>
+        </div>
       </div>
-      <h3 className="mt-4 text-lg font-semibold tracking-tight text-slate-950">
-        {category.name}
-      </h3>
-      <p className="mt-2 text-sm leading-7 text-slate-600">
-        Browse decoder guidance for this behavior group.
-      </p>
+      <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground" />
     </Link>
   )
 }
@@ -84,7 +82,7 @@ export default function DecoderHome() {
           setCategories([])
           setCategoriesError(
             error.response?.data?.detail ||
-              'The behavior categories could not be loaded right now.'
+              'Categories could not be loaded right now.'
           )
         }
       } finally {
@@ -104,7 +102,7 @@ export default function DecoderHome() {
   useEffect(() => {
     const timerId = window.setTimeout(() => {
       setDebouncedQuery(deferredSearchInput.trim())
-    }, 250)
+    }, 220)
 
     return () => window.clearTimeout(timerId)
   }, [deferredSearchInput])
@@ -132,7 +130,7 @@ export default function DecoderHome() {
         if (!cancelled) {
           setResults([])
           setResultsError(
-            error.response?.data?.detail || 'Search is unavailable at the moment.'
+            error.response?.data?.detail || 'Search is unavailable right now.'
           )
         }
       } finally {
@@ -152,92 +150,68 @@ export default function DecoderHome() {
   const isSearching = searchInput.trim().length > 0
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] bg-[linear-gradient(180deg,#f4faf7_0%,#ffffff_100%)] px-4 py-8 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-6xl space-y-8">
-        <section className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-[0_24px_60px_rgba(15,23,42,0.06)]">
-          <div className="grid gap-8 px-6 py-7 sm:px-8 lg:grid-cols-[1.15fr_0.85fr] lg:px-10 lg:py-9">
-            <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-emerald-700">
-                Behavior Decoder
-              </p>
-              <h1 className="mt-4 max-w-3xl text-4xl font-semibold tracking-tight text-slate-950 sm:text-5xl">
-                What’s happening right now?
-              </h1>
-              <p className="mt-4 max-w-2xl text-sm leading-7 text-slate-600 sm:text-base">
-                Search a behavior or browse a category to get calm, structured guidance fast.
-              </p>
-            </div>
-
-            <div className="rounded-[1.7rem] border border-emerald-100 bg-emerald-50/70 p-5">
-              <label
-                htmlFor="decoder-search"
-                className="text-xs font-semibold uppercase tracking-[0.16em] text-emerald-800"
+    <div className="page-shell screen-enter">
+      <div className="page-stack max-w-3xl space-y-4">
+        <section className="soft-card p-4">
+          <h1 className="text-2xl font-semibold tracking-tight text-foreground">
+            What are you noticing?
+          </h1>
+          <div className="relative mt-4">
+            <Search className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
+            <Input
+              id="decoder-search"
+              value={searchInput}
+              onChange={(event) => setSearchInput(event.target.value)}
+              placeholder="Try: shower, wandering, anger"
+              className="h-14 bg-white pl-12 pr-12 text-base"
+              autoComplete="off"
+            />
+            {searchInput ? (
+              <button
+                type="button"
+                className="absolute right-3 top-1/2 inline-flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-lg text-muted-foreground transition hover:bg-muted hover:text-foreground"
+                onClick={() => setSearchInput('')}
+                aria-label="Clear search"
               >
-                Search behaviors
-              </label>
-              <div className="relative mt-3">
-                <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-emerald-700" />
-                <Input
-                  id="decoder-search"
-                  value={searchInput}
-                  onChange={(event) => setSearchInput(event.target.value)}
-                  placeholder="Try: shower, wandering, paranoia..."
-                  className="h-14 rounded-[1.1rem] border-emerald-200 bg-white pl-11 text-base"
-                  autoComplete="off"
-                />
-              </div>
-              <p className="mt-3 text-sm leading-6 text-emerald-900/80">
-                Search checks behavior titles and indexed content. Browse stays available below when you’re not searching.
-              </p>
-            </div>
+                <X className="h-4 w-4" />
+              </button>
+            ) : null}
           </div>
         </section>
 
         {isSearching ? (
-          <section className="space-y-4">
-            <div className="flex items-center justify-between gap-4">
-              <div>
-                <p className="text-sm font-semibold uppercase tracking-[0.16em] text-slate-500">
-                  Search results
-                </p>
-                <h2 className="mt-1 text-2xl font-semibold tracking-tight text-slate-950">
-                  {debouncedQuery.length >= 2 ? `Results for “${debouncedQuery}”` : 'Keep typing'}
-                </h2>
-              </div>
-              <Button
-                type="button"
-                variant="ghost"
-                className="rounded-full"
-                onClick={() => setSearchInput('')}
-              >
-                Clear search
+          <section className="space-y-3">
+            <div className="flex items-center justify-between gap-3">
+              <h2 className="text-lg font-semibold text-foreground">
+                {debouncedQuery.length >= 2 ? 'Matches' : 'Keep typing'}
+              </h2>
+              <Button type="button" variant="ghost" size="sm" onClick={() => setSearchInput('')}>
+                Clear
               </Button>
             </div>
 
             {debouncedQuery.length < 2 ? (
-              <div className="rounded-[1.6rem] border border-slate-200 bg-white px-5 py-5 text-sm leading-7 text-slate-600">
-                Type at least 2 characters to search the decoder.
+              <div className="soft-tile p-4 text-sm text-muted-foreground">
+                Type at least 2 characters.
               </div>
             ) : resultsLoading ? (
-              <div className="flex items-center gap-3 rounded-[1.6rem] border border-slate-200 bg-white px-5 py-5 text-sm text-slate-600">
+              <div className="soft-tile flex items-center gap-3 p-4 text-sm text-muted-foreground">
                 <LoaderCircle className="h-4 w-4 animate-spin" />
-                Searching behaviors...
+                Searching...
               </div>
             ) : resultsError ? (
-              <div className="rounded-[1.6rem] border border-amber-200 bg-amber-50 px-5 py-5 text-sm leading-7 text-amber-900">
+              <div className="rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
                 {resultsError}
               </div>
             ) : results.length === 0 ? (
-              <div className="rounded-[1.6rem] border border-slate-200 bg-white px-5 py-5">
-                <p className="text-lg font-semibold tracking-tight text-slate-950">
-                  No direct matches yet
-                </p>
-                <p className="mt-2 max-w-2xl text-sm leading-7 text-slate-600">
-                  Try a simpler word, or clear the search and browse the behavior categories below.
+              <div className="soft-card p-4">
+                <p className="text-base font-semibold text-foreground">No direct match</p>
+                <p className="mt-1 text-sm leading-6 text-muted-foreground">
+                  Try one simple word, or browse categories.
                 </p>
               </div>
             ) : (
-              <div className="grid gap-4">
+              <div className="grid gap-3">
                 {results.map((behavior) => (
                   <BehaviorResultItem key={behavior.slug} behavior={behavior} />
                 ))}
@@ -245,27 +219,19 @@ export default function DecoderHome() {
             )}
           </section>
         ) : (
-          <section className="space-y-4">
-            <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.16em] text-slate-500">
-                Browse categories
-              </p>
-              <h2 className="mt-1 text-2xl font-semibold tracking-tight text-slate-950">
-                Start with the closest behavior group
-              </h2>
-            </div>
-
+          <section className="space-y-3">
+            <h2 className="text-lg font-semibold text-foreground">Browse by group</h2>
             {categoriesLoading ? (
-              <div className="flex items-center gap-3 rounded-[1.6rem] border border-slate-200 bg-white px-5 py-5 text-sm text-slate-600">
+              <div className="soft-tile flex items-center gap-3 p-4 text-sm text-muted-foreground">
                 <LoaderCircle className="h-4 w-4 animate-spin" />
-                Loading categories...
+                Loading...
               </div>
             ) : categoriesError ? (
-              <div className="rounded-[1.6rem] border border-amber-200 bg-amber-50 px-5 py-5 text-sm leading-7 text-amber-900">
+              <div className="rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
                 {categoriesError}
               </div>
             ) : (
-              <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+              <div className="grid gap-3 md:grid-cols-2">
                 {categories.map((category) => (
                   <CategoryCard key={category.slug} category={category} />
                 ))}

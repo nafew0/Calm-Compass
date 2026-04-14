@@ -4,6 +4,7 @@ import { AuthProvider } from './contexts/AuthContext'
 import { SiteThemeProvider } from './contexts/SiteThemeContext'
 import { ToastProvider } from './hooks/useToast'
 import AdminRoute from './components/AdminRoute'
+import AppShell from './components/AppShell'
 import ProtectedRoute from './components/ProtectedRoute'
 import Navbar from './components/Navbar'
 
@@ -34,127 +35,152 @@ const AdminSettings = lazy(() => import('./pages/admin/AdminSettings'))
 function AppFallback() {
   return (
     <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center">
-      <div className="rounded-2xl bg-card px-5 py-4 text-sm font-medium text-muted-foreground">
+      <div className="theme-panel px-5 py-4 text-sm font-medium text-muted-foreground">
         Loading...
       </div>
     </div>
   )
 }
 
-function App() {
+function AppRoutes() {
+  return (
+    <Suspense fallback={<AppFallback />}>
+      <Routes>
+        {/* Public routes */}
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/verify-email" element={<VerifyEmail />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/payment/success" element={<PaymentSuccess />} />
+        <Route path="/payment/failed" element={<PaymentFailed />} />
+        <Route path="/pricing" element={<Pricing />} />
+
+        {/* Protected routes */}
+        <Route
+          path="/setup"
+          element={
+            <ProtectedRoute allowIncompleteSetup>
+              <Setup />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/decoder"
+          element={
+            <ProtectedRoute>
+              <DecoderHome />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/decoder/behavior/:slug"
+          element={
+            <ProtectedRoute>
+              <DecoderBehavior />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/decoder/:categorySlug"
+          element={
+            <ProtectedRoute>
+              <DecoderCategory />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/log"
+          element={
+            <ProtectedRoute>
+              <Log />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/medications"
+          element={
+            <ProtectedRoute>
+              <Medications />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Admin routes */}
+        <Route
+          path="/admin"
+          element={
+            <AdminRoute>
+              <AdminLayout />
+            </AdminRoute>
+          }
+        >
+          <Route index element={<AdminDashboard />} />
+          <Route path="users" element={<AdminUsers />} />
+          <Route path="users/:userId" element={<AdminUserDetail />} />
+          <Route path="payments" element={<AdminPayments />} />
+          <Route path="settings" element={<AdminSettings />} />
+        </Route>
+
+        {/* Catch all */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </Suspense>
+  )
+}
+
+function AppFrame() {
   const location = useLocation()
+  const usesAppShell =
+    /^\/(dashboard|decoder|log|medications|profile)(\/|$)/.test(location.pathname)
+  const usesAdminShell = location.pathname.startsWith('/admin')
   const hideNavbar =
+    usesAppShell ||
+    usesAdminShell ||
     location.pathname === '/reset-password' ||
     location.pathname === '/forgot-password'
 
+  const content = usesAppShell ? (
+    <AppShell>
+      <AppRoutes />
+    </AppShell>
+  ) : (
+    <main className={hideNavbar ? undefined : 'pt-16'}>
+      <AppRoutes />
+    </main>
+  )
+
+  return (
+    <div className="min-h-screen bg-background">
+      {hideNavbar ? null : <Navbar />}
+      {content}
+    </div>
+  )
+}
+
+function App() {
   return (
     <AuthProvider>
       <SiteThemeProvider>
         <ToastProvider>
-          <div className="min-h-screen bg-background">
-            {hideNavbar ? null : <Navbar />}
-            <main className={hideNavbar ? undefined : 'pt-16'}>
-              <Suspense fallback={<AppFallback />}>
-                <Routes>
-                  {/* Public routes */}
-                  <Route path="/" element={<Home />} />
-                  <Route path="/login" element={<Login />} />
-                  <Route path="/register" element={<Register />} />
-                  <Route path="/verify-email" element={<VerifyEmail />} />
-                  <Route path="/forgot-password" element={<ForgotPassword />} />
-                  <Route path="/reset-password" element={<ResetPassword />} />
-                  <Route path="/payment/success" element={<PaymentSuccess />} />
-                  <Route path="/payment/failed" element={<PaymentFailed />} />
-                  <Route path="/pricing" element={<Pricing />} />
-
-                  {/* Protected routes */}
-                  <Route
-                    path="/setup"
-                    element={
-                      <ProtectedRoute allowIncompleteSetup>
-                        <Setup />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/decoder"
-                    element={
-                      <ProtectedRoute>
-                        <DecoderHome />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/decoder/behavior/:slug"
-                    element={
-                      <ProtectedRoute>
-                        <DecoderBehavior />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/decoder/:categorySlug"
-                    element={
-                      <ProtectedRoute>
-                        <DecoderCategory />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/dashboard"
-                    element={
-                      <ProtectedRoute>
-                        <Dashboard />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/log"
-                    element={
-                      <ProtectedRoute>
-                        <Log />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/medications"
-                    element={
-                      <ProtectedRoute>
-                        <Medications />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/profile"
-                    element={
-                      <ProtectedRoute>
-                        <Profile />
-                      </ProtectedRoute>
-                    }
-                  />
-
-                  {/* Admin routes */}
-                  <Route
-                    path="/admin"
-                    element={
-                      <AdminRoute>
-                        <AdminLayout />
-                      </AdminRoute>
-                    }
-                  >
-                    <Route index element={<AdminDashboard />} />
-                    <Route path="users" element={<AdminUsers />} />
-                    <Route path="users/:userId" element={<AdminUserDetail />} />
-                    <Route path="payments" element={<AdminPayments />} />
-                    <Route path="settings" element={<AdminSettings />} />
-                  </Route>
-
-                  {/* Catch all */}
-                  <Route path="*" element={<Navigate to="/" replace />} />
-                </Routes>
-              </Suspense>
-            </main>
-          </div>
+          <AppFrame />
         </ToastProvider>
       </SiteThemeProvider>
     </AuthProvider>

@@ -42,7 +42,7 @@ const Login = () => {
       <div className="theme-app-gradient flex h-[calc(100vh-4rem)] items-center justify-center">
         <div className="theme-panel flex items-center gap-3 rounded-2xl px-5 py-4">
           <LoaderCircle className="h-5 w-5 animate-spin text-primary" />
-          <span className="text-sm font-medium text-muted-foreground">Loading…</span>
+          <span className="text-sm font-medium text-muted-foreground">Loading...</span>
         </div>
       </div>
     )
@@ -130,26 +130,24 @@ const Login = () => {
                   Sign in
                 </h1>
                 <p className="mt-1 text-sm text-muted-foreground">
-                  Enter your credentials to continue.
+                  Welcome back.
                 </p>
 
                 <form onSubmit={handleSubmit} className="mt-7 space-y-5">
                   {recoveryIdentifier ? (
-                    <div className="rounded-2xl border border-[rgb(var(--theme-secondary-strong-rgb)/0.9)] bg-[rgb(var(--theme-secondary-soft-rgb)/0.68)] p-4 text-sm text-[rgb(var(--theme-secondary-ink-rgb))]">
+                    <div className="rounded-lg border border-[rgb(var(--theme-secondary-strong-rgb)/0.9)] bg-[rgb(var(--theme-secondary-soft-rgb)/0.68)] p-4 text-sm text-[rgb(var(--theme-secondary-ink-rgb))]">
                       <div className="flex items-start gap-3">
-                        <span className="theme-icon-secondary inline-flex h-10 w-10 items-center justify-center rounded-full">
+                        <span className="theme-icon-secondary inline-flex h-10 w-10 items-center justify-center rounded-lg">
                           <MailCheck className="h-4 w-4" />
                         </span>
                         <div className="min-w-0 flex-1">
                           <p className="font-semibold">Need help signing in?</p>
-                          <p className="mt-1 opacity-80">
-                            If the account is eligible, CalmCompass can resend a verification email or you can request a password reset without confirming whether the account exists.
-                          </p>
+                          <p className="mt-1 opacity-80">Resend verification or reset your password.</p>
                           <div className="mt-3 flex flex-wrap gap-3">
                             <Button
                               type="button"
                               variant="secondary"
-                              className="rounded-full"
+                              className="rounded-lg"
                               onClick={handleResendVerification}
                               disabled={resending || resendCooldown > 0}
                             >
@@ -172,7 +170,7 @@ const Login = () => {
                   ) : null}
 
                   {error && (
-                    <div className="flex items-center gap-2 rounded-xl bg-destructive/10 px-4 py-3 text-sm text-destructive">
+                    <div className="flex items-center gap-2 rounded-lg bg-destructive/10 px-4 py-3 text-sm text-destructive">
                       <AlertCircle className="h-4 w-4 shrink-0" />
                       {error}
                     </div>
@@ -190,7 +188,7 @@ const Login = () => {
                       value={formData.username}
                       onChange={handleChange}
                       required
-                      className="h-11 w-full rounded-xl border border-[rgb(var(--theme-border-rgb))] bg-white px-4 text-sm text-foreground placeholder-muted-foreground outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
+                      className="h-11 w-full rounded-lg border border-[rgb(var(--theme-border-rgb))] bg-white px-4 text-base text-foreground placeholder-muted-foreground outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20 sm:text-sm"
                     />
                   </div>
 
@@ -206,7 +204,7 @@ const Login = () => {
                       value={formData.password}
                       onChange={handleChange}
                       required
-                      className="h-11 w-full rounded-xl border border-[rgb(var(--theme-border-rgb))] bg-white px-4 text-sm text-foreground placeholder-muted-foreground outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
+                      className="h-11 w-full rounded-lg border border-[rgb(var(--theme-border-rgb))] bg-white px-4 text-base text-foreground placeholder-muted-foreground outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20 sm:text-sm"
                     />
                     <div className="pt-1 text-right">
                       <Link
@@ -221,12 +219,12 @@ const Login = () => {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-primary text-sm font-semibold text-primary-foreground shadow-[0_4px_16px_rgb(var(--theme-primary-rgb)/0.3)] transition hover:bg-primary/90 disabled:opacity-50"
+                    className="flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-primary text-sm font-semibold text-primary-foreground shadow-[0_8px_22px_rgb(var(--theme-primary-rgb)/0.16)] transition hover:bg-primary/90 active:scale-[0.985] disabled:opacity-50"
                   >
                     {loading ? (
                       <>
                         <LoaderCircle className="h-4 w-4 animate-spin" />
-                        Signing in…
+                        Signing in...
                       </>
                     ) : (
                       <>

@@ -5,13 +5,7 @@ import { Link, useSearchParams } from 'react-router-dom'
 import PlanBadge from '@/components/subscription/PlanBadge'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Switch } from '@/components/ui/switch'
 import { useAuth } from '@/contexts/AuthContext'
 import { useToast } from '@/hooks/useToast'
@@ -23,40 +17,16 @@ import { getPlans } from '@/services/subscriptions'
 import { cn } from '@/lib/utils'
 
 function formatLimit(value, label) {
-  if (!value) {
-    return `Unlimited ${label}`
-  }
-
+  if (!value) return `Unlimited ${label}`
   return `${value.toLocaleString()} ${label}`
 }
 
 function formatPrice(amount, currency) {
   const numericAmount = Number(amount || 0)
-  if (numericAmount === 0) {
-    return 'Free'
-  }
-
-  if (currency === 'BDT') {
-    return `৳${numericAmount.toLocaleString('en-BD', { maximumFractionDigits: 0 })}`
-  }
-
-  if (currency === 'USD') {
-    return `$${numericAmount.toLocaleString('en-US', { maximumFractionDigits: 0 })}`
-  }
-
+  if (numericAmount === 0) return 'Free'
+  if (currency === 'BDT') return `BDT ${numericAmount.toLocaleString('en-BD', { maximumFractionDigits: 0 })}`
+  if (currency === 'USD') return `$${numericAmount.toLocaleString('en-US', { maximumFractionDigits: 0 })}`
   return `${currency || 'USD'} ${numericAmount.toLocaleString('en-US', { maximumFractionDigits: 0 })}`
-}
-
-function getCurrencyLabel(currency) {
-  if (currency === 'BDT') {
-    return 'BDT'
-  }
-
-  if (currency === 'USD') {
-    return 'USD'
-  }
-
-  return currency || 'USD'
 }
 
 function getPricingDetails(plan, { yearlyBilling, isBangladeshiBilling }) {
@@ -69,25 +39,14 @@ function getPricingDetails(plan, { yearlyBilling, isBangladeshiBilling }) {
       amount: activeAmount,
       currency: 'BDT',
       providerLabel: 'bKash',
-      savings:
-        monthlyAmount > 0 && yearlyAmount > 0
-          ? Math.max(0, monthlyAmount * 12 - yearlyAmount)
-          : 0,
       missingPrice: plan.slug !== 'free' && activeAmount === 0,
     }
   }
 
-  const monthlyAmount = Number(plan.price_monthly || 0)
-  const yearlyAmount = Number(plan.price_yearly || 0)
-
   return {
-    amount: yearlyBilling ? yearlyAmount : monthlyAmount,
+    amount: yearlyBilling ? Number(plan.price_yearly || 0) : Number(plan.price_monthly || 0),
     currency: 'USD',
     providerLabel: 'Stripe',
-    savings:
-      monthlyAmount > 0 && yearlyAmount > 0
-        ? Math.max(0, monthlyAmount * 12 - yearlyAmount)
-        : 0,
     missingPrice: false,
   }
 }
@@ -117,7 +76,7 @@ export default function Pricing() {
         }
       } catch (err) {
         if (!cancelled) {
-          setError(err.response?.data?.detail || 'Unable to load subscription plans right now.')
+          setError(err.response?.data?.detail || 'Unable to load plans right now.')
         }
       } finally {
         if (!cancelled) {
@@ -134,13 +93,11 @@ export default function Pricing() {
   }, [])
 
   useEffect(() => {
-    if (searchParams.get('canceled') !== 'true') {
-      return
-    }
+    if (searchParams.get('canceled') !== 'true') return
 
     toast({
       title: 'Checkout canceled',
-      description: 'Your Stripe checkout session was canceled before payment completed.',
+      description: 'No payment was completed.',
       variant: 'warning',
     })
 
@@ -153,35 +110,25 @@ export default function Pricing() {
   const selectedBillingCycle = yearlyBilling ? 'yearly' : 'monthly'
 
   const handleChangePlan = (plan) => {
-    if (plan.slug === 'free') {
-      return
-    }
+    if (plan.slug === 'free') return
 
     const providerLabel = isBangladeshiBilling ? 'bKash' : 'Stripe'
-    const audienceLabel = isBangladeshiBilling
-      ? 'Bangladeshi Nationals'
-      : 'Non-Bangladeshi Nationals'
-
     setCheckoutPlanId(plan.id)
 
     const createCheckout = isBangladeshiBilling
       ? createBkashCheckoutSession
       : createStripeCheckoutSession
 
-    createCheckout({
-      planId: plan.id,
-      billingCycle: selectedBillingCycle,
-    })
+    createCheckout({ planId: plan.id, billingCycle: selectedBillingCycle })
       .then((response) => {
         window.location.assign(response.bkash_url || response.checkout_url)
       })
-      .catch((error) => {
-        const detail =
-          error.response?.data?.detail ||
-          `${providerLabel} checkout for ${audienceLabel} could not be created.`
+      .catch((checkoutError) => {
         toast({
           title: 'Checkout unavailable',
-          description: detail,
+          description:
+            checkoutError.response?.data?.detail ||
+            `${providerLabel} checkout could not be created.`,
           variant: 'error',
           duration: 5000,
         })
@@ -191,88 +138,60 @@ export default function Pricing() {
 
   return (
     <div className="theme-app-gradient min-h-[calc(100vh-4rem)] px-4 py-8 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-7xl space-y-8">
-        <header className="theme-panel rounded-[2.25rem] px-6 py-8 md:px-8">
-          <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-            <div className="space-y-4">
-              <div className="flex flex-wrap items-center gap-3">
-                <Badge variant="default">Subscription plans</Badge>
-                {isAuthenticated ? <PlanBadge plan={user?.current_plan} /> : null}
-              </div>
-              <div className="space-y-3">
-                <h1 className="text-4xl font-semibold tracking-tight text-foreground md:text-5xl">
-                  Pick the plan that fits your needs
-                </h1>
-                <p className="max-w-3xl text-base leading-8 text-muted-foreground">
-                  Licensing is enforced server-side for item limits. Plan values come from Django admin, including separate Stripe and bKash prices for different billing categories.
-                </p>
-              </div>
-            </div>
-          </div>
+      <div className="mx-auto max-w-5xl space-y-5">
+        <header className="theme-panel p-5 md:p-6">
+          <Badge variant="default">Access</Badge>
+          <h1 className="mt-4 text-3xl font-semibold tracking-tight text-foreground md:text-4xl">
+            Choose your CalmCompass access.
+          </h1>
+          <p className="mt-3 max-w-2xl text-sm leading-6 text-muted-foreground">
+            Plans come from Django admin and checkout stays server-backed.
+          </p>
+          {isAuthenticated ? <div className="mt-4"><PlanBadge plan={user?.current_plan} /></div> : null}
         </header>
 
-        <div className="grid gap-4 lg:grid-cols-2">
-          <div className="theme-panel-soft flex flex-col gap-3 rounded-[1.75rem] px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
+        <section className="grid gap-3 md:grid-cols-2">
+          <div className="theme-panel-soft flex items-center justify-between gap-3 p-4">
             <div>
-              <p className="text-sm font-semibold text-foreground">Billing cycle</p>
+              <p className="text-sm font-semibold text-foreground">Billing</p>
+              <p className="text-xs text-muted-foreground">{yearlyBilling ? 'Yearly' : 'Monthly'}</p>
+            </div>
+            <Switch checked={yearlyBilling} onCheckedChange={setYearlyBilling} />
+          </div>
+          <div className="theme-panel-soft flex items-center justify-between gap-3 p-4">
+            <div>
+              <p className="text-sm font-semibold text-foreground">Provider</p>
               <p className="text-xs text-muted-foreground">
-                Toggle between monthly and yearly pricing.
+                {isBangladeshiBilling ? 'bKash / BDT' : 'Stripe / USD'}
               </p>
             </div>
-            <div className="flex items-center gap-3">
-              <span className={cn('text-sm', !yearlyBilling ? 'font-semibold text-foreground' : 'text-muted-foreground')}>
-                Monthly
-              </span>
-              <Switch checked={yearlyBilling} onCheckedChange={setYearlyBilling} />
-              <span className={cn('text-sm', yearlyBilling ? 'font-semibold text-foreground' : 'text-muted-foreground')}>
-                Yearly
-              </span>
-            </div>
+            <Switch checked={isBangladeshiBilling} onCheckedChange={setIsBangladeshiBilling} />
           </div>
-
-          <div className="theme-panel-soft flex flex-col gap-3 rounded-[1.75rem] px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <p className="text-sm font-semibold text-foreground">Billing category</p>
-              <p className="text-xs text-muted-foreground">
-                Stripe is shown in USD for non-Bangladeshi nationals. bKash is shown in BDT for Bangladeshi nationals.
-              </p>
-            </div>
-            <div className="flex items-center gap-3">
-              <span className={cn('text-sm', !isBangladeshiBilling ? 'font-semibold text-foreground' : 'text-muted-foreground')}>
-                Non-Bangladeshi Nationals
-              </span>
-              <Switch checked={isBangladeshiBilling} onCheckedChange={setIsBangladeshiBilling} />
-              <span className={cn('text-sm', isBangladeshiBilling ? 'font-semibold text-foreground' : 'text-muted-foreground')}>
-                Bangladeshi Nationals
-              </span>
-            </div>
-          </div>
-        </div>
+        </section>
 
         {loading ? (
-          <div className="grid gap-5 lg:grid-cols-3">
+          <div className="grid gap-3 md:grid-cols-3">
             {Array.from({ length: 3 }, (_, index) => (
-              <div key={index} className="theme-panel h-[28rem] animate-pulse rounded-[2rem]" />
+              <div key={index} className="theme-panel h-64 animate-pulse" />
             ))}
           </div>
         ) : null}
 
         {error ? (
-          <Card className="rounded-[2rem] border-rose-200 bg-rose-50">
+          <Card className="border-rose-200 bg-rose-50">
             <CardHeader>
               <CardTitle className="text-rose-900">Unable to load plans</CardTitle>
-              <CardDescription className="text-rose-700">{error}</CardDescription>
             </CardHeader>
+            <CardContent>
+              <p className="text-sm text-rose-700">{error}</p>
+            </CardContent>
           </Card>
         ) : null}
 
         {!loading && !error ? (
-          <div className="grid gap-5 lg:grid-cols-3">
+          <div className="grid gap-3 md:grid-cols-3">
             {plans.map((plan) => {
-              const pricing = getPricingDetails(plan, {
-                yearlyBilling,
-                isBangladeshiBilling,
-              })
+              const pricing = getPricingDetails(plan, { yearlyBilling, isBangladeshiBilling })
               const isCurrentPlan = currentPlanSlug === plan.slug
               const isCheckoutPlan = checkoutPlanId === plan.id
               const actionLabel = !isAuthenticated
@@ -283,80 +202,44 @@ export default function Pricing() {
                   ? 'Current plan'
                   : (user?.current_plan?.tier ?? 0) < plan.tier
                     ? 'Upgrade'
-                    : 'Downgrade'
+                    : 'Change plan'
 
               return (
                 <Card
                   key={plan.id}
                   className={cn(
-                    'theme-panel rounded-[2rem] border-0 shadow-[0_24px_60px_rgb(var(--theme-shadow-rgb)/0.12)]',
-                    plan.slug === 'pro' ? 'ring-2 ring-[rgb(var(--theme-primary-rgb)/0.18)]' : ''
+                    'theme-panel border-0',
+                    plan.slug === 'pro' ? 'ring-2 ring-primary/20' : ''
                   )}
                 >
-                  <CardHeader className="space-y-5">
+                  <CardHeader className="space-y-4">
                     <div className="flex items-center justify-between gap-3">
                       <PlanBadge plan={plan} />
-                      <div className="flex flex-wrap items-center gap-2">
-                        <Badge variant="outline">{pricing.providerLabel}</Badge>
-                        {yearlyBilling && pricing.savings > 0 ? (
-                          <Badge variant="outline">
-                            Save {formatPrice(pricing.savings, pricing.currency)}
-                          </Badge>
+                      <Badge variant="outline">{pricing.providerLabel}</Badge>
+                    </div>
+                    <div>
+                      <CardTitle className="text-2xl">{plan.name}</CardTitle>
+                      <div className="mt-4 flex items-end gap-2">
+                        <span className="text-4xl font-semibold tracking-tight text-foreground">
+                          {pricing.missingPrice ? 'Set in admin' : formatPrice(pricing.amount, pricing.currency)}
+                        </span>
+                        {!pricing.missingPrice && Number(pricing.amount || 0) > 0 ? (
+                          <span className="pb-1 text-sm text-muted-foreground">
+                            /{yearlyBilling ? 'year' : 'month'}
+                          </span>
                         ) : null}
                       </div>
                     </div>
-                    <div>
-                      <CardTitle className="text-3xl">{plan.name}</CardTitle>
-                      <CardDescription className="mt-3 text-sm leading-7">
-                        {plan.slug === 'free'
-                          ? 'A solid starting tier for pilots and smaller internal studies.'
-                          : plan.slug === 'pro'
-                            ? 'More headroom for teams running regular research programs.'
-                            : 'Unlimited capacity for larger organizations and high-volume work.'}
-                      </CardDescription>
-                    </div>
-                    <div className="flex items-end gap-2">
-                      <span className="text-5xl font-semibold tracking-tight text-foreground">
-                        {pricing.missingPrice
-                          ? 'Set in admin'
-                          : formatPrice(pricing.amount, pricing.currency)}
-                      </span>
-                      <span className="pb-2 text-sm text-muted-foreground">
-                        {pricing.missingPrice || Number(pricing.amount || 0) === 0
-                          ? ''
-                          : yearlyBilling
-                            ? '/year'
-                            : '/month'}
-                      </span>
-                    </div>
-                    {!pricing.missingPrice && Number(pricing.amount || 0) > 0 ? (
-                      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-                        {getCurrencyLabel(pricing.currency)} billing
-                      </p>
-                    ) : null}
-                    {pricing.missingPrice ? (
-                      <p className="text-xs text-muted-foreground">
-                        Set the BDT amount for this plan in Django admin before offering it through bKash.
-                      </p>
-                    ) : null}
                   </CardHeader>
-
-                  <CardContent className="space-y-6">
-                    <div className="grid gap-3">
-                      <div className="theme-panel-soft rounded-2xl px-4 py-3">
-                        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-                          Item capacity
-                        </p>
-                        <p className="mt-1 text-sm font-medium text-foreground">
-                          {formatLimit(plan.max_items, 'items')}
-                        </p>
-                      </div>
+                  <CardContent className="space-y-5">
+                    <div className="theme-panel-soft px-3 py-3 text-sm font-medium text-foreground">
+                      {formatLimit(plan.max_items, 'items')}
                     </div>
 
                     <div className="space-y-3">
-                      {(plan.features || []).map((feature) => (
+                      {(plan.features || []).slice(0, 5).map((feature) => (
                         <div key={feature} className="flex items-start gap-3">
-                          <span className="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full bg-emerald-100 text-emerald-700">
+                          <span className="theme-icon-primary mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center">
                             <Check className="h-4 w-4" />
                           </span>
                           <p className="text-sm leading-6 text-muted-foreground">{feature}</p>
@@ -365,12 +248,12 @@ export default function Pricing() {
                     </div>
 
                     {!isAuthenticated ? (
-                      <Button asChild className="w-full rounded-full">
+                      <Button asChild className="w-full">
                         <Link to="/register">{actionLabel}</Link>
                       </Button>
                     ) : (
                       <Button
-                        className="w-full rounded-full"
+                        className="w-full"
                         variant={isCurrentPlan ? 'outline' : 'default'}
                         disabled={isCurrentPlan || isCheckoutPlan || pricing.missingPrice}
                         onClick={() => handleChangePlan(plan)}
@@ -385,14 +268,6 @@ export default function Pricing() {
                         )}
                       </Button>
                     )}
-
-                    {isAuthenticated && !isCurrentPlan && !pricing.missingPrice ? (
-                      <p className="text-xs text-muted-foreground">
-                        {isBangladeshiBilling
-                          ? 'bKash opens a hosted payment page in BDT. Active Stripe subscriptions must end before switching to bKash, and active bKash plans renew from the profile page.'
-                          : 'Stripe Checkout opens a hosted payment page. Existing active Stripe subscriptions should be changed from Manage Billing to avoid duplicates.'}
-                      </p>
-                    ) : null}
                   </CardContent>
                 </Card>
               )
@@ -401,12 +276,9 @@ export default function Pricing() {
         ) : null}
 
         {!loading && !error && !plans.length ? (
-          <Card className="theme-panel rounded-[2rem] border-dashed text-center">
+          <Card className="theme-panel border-dashed text-center">
             <CardHeader>
-              <CardTitle>No plans are active</CardTitle>
-              <CardDescription>
-                Activate at least one plan from Django admin to expose the licensing catalog.
-              </CardDescription>
+              <CardTitle>No active plans</CardTitle>
             </CardHeader>
           </Card>
         ) : null}

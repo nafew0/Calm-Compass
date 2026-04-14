@@ -58,13 +58,13 @@ export default function AdminSettings() {
       await queryClient.invalidateQueries({ queryKey: ['admin-settings'] })
       toast({
         title: 'Settings saved',
-        description: 'calm_compass updated the platform settings successfully.',
+        description: 'CalmCompass updated the platform settings successfully.',
         variant: 'success',
       })
     } catch (requestError) {
       toast({
         title: 'Save failed',
-        description: requestError.response?.data?.detail || 'calm_compass could not save settings right now.',
+        description: requestError.response?.data?.detail || 'CalmCompass could not save settings right now.',
         variant: 'error',
       })
     } finally {
@@ -90,7 +90,7 @@ export default function AdminSettings() {
     } catch (requestError) {
       toast({
         title: 'Connection failed',
-        description: requestError.response?.data?.detail || 'calm_compass could not validate the AI provider.',
+        description: requestError.response?.data?.detail || 'CalmCompass could not validate the AI provider.',
         variant: 'error',
       })
     } finally {
@@ -103,7 +103,7 @@ export default function AdminSettings() {
   }
 
   if (error) {
-    return <div className="theme-panel rounded-[1.8rem] p-6 text-sm text-rose-600">calm_compass could not load settings right now.</div>
+    return <div className="theme-panel rounded-[1.8rem] p-6 text-sm text-rose-600">CalmCompass could not load settings right now.</div>
   }
 
   return (
@@ -201,7 +201,7 @@ export default function AdminSettings() {
               </div>
               <p className="mt-2 text-sm text-muted-foreground">
                 {data.ai_api_key_openai_meta.configured
-                  ? 'Configured in the server environment. calm_compass does not expose provider secrets in the admin panel.'
+                  ? 'Configured in the server environment. CalmCompass does not expose provider secrets in the admin panel.'
                   : 'Configure `OPENAI_API_KEY` on the server to enable OpenAI requests and connection testing.'}
               </p>
             </div>
@@ -215,7 +215,7 @@ export default function AdminSettings() {
               </div>
               <p className="mt-2 text-sm text-muted-foreground">
                 {data.ai_api_key_anthropic_meta.configured
-                  ? 'Configured in the server environment. calm_compass does not expose provider secrets in the admin panel.'
+                  ? 'Configured in the server environment. CalmCompass does not expose provider secrets in the admin panel.'
                   : 'Configure `ANTHROPIC_API_KEY` on the server to enable Anthropic requests and connection testing.'}
               </p>
             </div>

@@ -1,10 +1,10 @@
 import { useDeferredValue, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import {
-  ArrowLeft,
   BookOpenText,
   LoaderCircle,
   PencilLine,
+  Plus,
   Search,
   Trash2,
   X,
@@ -22,7 +22,6 @@ import {
 } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
-import { useAuth } from '@/contexts/AuthContext'
 import { useToast } from '@/hooks/useToast'
 import {
   createLogEntry,
@@ -49,10 +48,10 @@ function MoodToggle({ mood, selected, onToggle }) {
       type="button"
       onClick={() => onToggle(mood.value)}
       className={[
-        'inline-flex min-h-11 items-center justify-center rounded-full border px-4 py-2 text-sm font-semibold transition',
+        'inline-flex min-h-11 items-center justify-center rounded-lg border px-4 py-2 text-sm font-semibold transition active:scale-[0.985]',
         selected
-          ? 'border-emerald-300 bg-emerald-100 text-emerald-900'
-          : 'border-slate-200 bg-white text-slate-700 hover:border-emerald-200 hover:bg-emerald-50',
+          ? 'border-[rgb(var(--theme-primary-strong-rgb))] bg-[rgb(var(--theme-primary-soft-rgb))] text-[rgb(var(--theme-primary-ink-rgb))]'
+          : 'border-[rgb(var(--theme-border-rgb))] bg-white text-foreground hover:border-primary/30',
       ].join(' ')}
       aria-pressed={selected}
     >
@@ -61,11 +60,11 @@ function MoodToggle({ mood, selected, onToggle }) {
   )
 }
 
-function SummaryStat({ label, value }) {
+function SummaryChip({ label, value }) {
   return (
-    <div className="rounded-[1.5rem] border border-slate-200 bg-slate-50 px-4 py-4">
-      <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">{label}</p>
-      <p className="mt-2 text-2xl font-semibold tracking-tight text-slate-950">{value}</p>
+    <div className="soft-tile px-3 py-3">
+      <p className="text-xs font-semibold text-muted-foreground">{label}</p>
+      <p className="mt-1 truncate text-lg font-semibold text-foreground">{value}</p>
     </div>
   )
 }
@@ -75,27 +74,23 @@ function BehaviorSuggestion({ behavior, onSelect }) {
     <button
       type="button"
       onClick={() => onSelect(behavior)}
-      className="w-full rounded-[1.2rem] border border-slate-200 bg-white px-4 py-4 text-left transition hover:border-emerald-300 hover:bg-emerald-50/60"
+      className="soft-card pressable w-full p-3 text-left"
     >
-      <p className="text-xs font-semibold uppercase tracking-[0.16em] text-emerald-700">
-        {behavior.category?.name}
-      </p>
-      <p className="mt-2 text-sm font-semibold text-slate-950">{behavior.title}</p>
-      <p className="mt-2 text-sm leading-6 text-slate-600">{behavior.short_summary}</p>
+      <Badge variant="outline">{behavior.category?.name}</Badge>
+      <p className="mt-2 text-sm font-semibold text-foreground">{behavior.title}</p>
     </button>
   )
 }
 
 function LinkedBehaviorPill({ behavior, onRemove }) {
   return (
-    <div className="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm text-emerald-900">
-      <BookOpenText className="h-4 w-4" />
-      <span className="font-medium">{behavior.title}</span>
-      {behavior.category?.name ? <span className="text-emerald-800/70">• {behavior.category.name}</span> : null}
+    <div className="inline-flex max-w-full items-center gap-2 rounded-lg border border-[rgb(var(--theme-primary-strong-rgb))] bg-[rgb(var(--theme-primary-soft-rgb))] px-3 py-2 text-sm text-[rgb(var(--theme-primary-ink-rgb))]">
+      <BookOpenText className="h-4 w-4 shrink-0" />
+      <span className="truncate font-medium">{behavior.title}</span>
       <button
         type="button"
         onClick={onRemove}
-        className="rounded-full p-1 text-emerald-800/80 transition hover:bg-emerald-100"
+        className="rounded-lg p-1 transition hover:bg-white/60"
         aria-label="Remove linked behavior"
       >
         <X className="h-3.5 w-3.5" />
@@ -106,88 +101,73 @@ function LinkedBehaviorPill({ behavior, onRemove }) {
 
 function EntryCard({ entry, editingId, deletingId, onEdit, onDelete }) {
   const linkedBehavior = entry.linked_behavior
+  const moodDetails =
+    entry.mood_details?.length
+      ? entry.mood_details
+      : entry.moods.map((mood) => ({ mood, label: getMoodLabel(mood) }))
 
   return (
-    <article className="rounded-[1.8rem] border border-slate-200 bg-white px-5 py-5 shadow-sm">
-      <div className="flex flex-wrap items-start justify-between gap-3">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
+    <article className="soft-card p-4">
+      <div className="flex items-start justify-between gap-3">
+        <div className="min-w-0">
+          <p className="text-xs font-semibold text-muted-foreground">
             {formatLogTimestamp(entry.created_at)}
           </p>
           <div className="mt-3 flex flex-wrap gap-2">
-            {(entry.mood_details?.length ? entry.mood_details : entry.moods.map((mood) => ({ mood, label: getMoodLabel(mood) }))).map(
-              (item) => (
-                <Badge
-                  key={`${entry.id}-${item.mood}`}
-                  variant="secondary"
-                  className="border-slate-200 bg-slate-100 text-slate-700"
-                >
-                  {item.label}
-                </Badge>
-              )
-            )}
+            {moodDetails.map((item) => (
+              <Badge key={`${entry.id}-${item.mood}`} variant="secondary">
+                {item.label}
+              </Badge>
+            ))}
           </div>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex shrink-0 items-center gap-1">
           <Button
             type="button"
-            variant="outline"
-            className="rounded-full px-4"
+            variant="ghost"
+            size="icon"
             disabled={editingId === entry.id}
             onClick={() => onEdit(entry.id)}
+            aria-label="Edit entry"
           >
             {editingId === entry.id ? (
-              <>
-                <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
-                Loading
-              </>
+              <LoaderCircle className="h-4 w-4 animate-spin" />
             ) : (
-              <>
-                <PencilLine className="mr-2 h-4 w-4" />
-                Edit
-              </>
+              <PencilLine className="h-4 w-4" />
             )}
           </Button>
           <Button
             type="button"
             variant="ghost"
-            className="rounded-full px-4 text-rose-700 hover:bg-rose-50 hover:text-rose-800"
+            size="icon"
+            className="text-rose-700 hover:bg-rose-50 hover:text-rose-800"
             disabled={deletingId === entry.id}
             onClick={() => onDelete(entry)}
+            aria-label="Delete entry"
           >
             {deletingId === entry.id ? (
-              <>
-                <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
-                Deleting
-              </>
+              <LoaderCircle className="h-4 w-4 animate-spin" />
             ) : (
-              <>
-                <Trash2 className="mr-2 h-4 w-4" />
-                Delete
-              </>
+              <Trash2 className="h-4 w-4" />
             )}
           </Button>
         </div>
       </div>
 
       {linkedBehavior ? (
-        <div className="mt-4 rounded-[1.2rem] border border-emerald-200 bg-emerald-50/70 px-4 py-4">
-          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-emerald-800">
-            Linked behavior
-          </p>
-          <Link
-            to={`/decoder/behavior/${linkedBehavior.slug}`}
-            className="mt-2 inline-flex text-sm font-semibold text-emerald-900 transition hover:text-emerald-700"
-          >
-            {linkedBehavior.title}
-          </Link>
-        </div>
+        <Link
+          to={`/decoder/behavior/${linkedBehavior.slug}`}
+          className="mt-4 flex items-center justify-between gap-3 rounded-lg border border-[rgb(var(--theme-primary-strong-rgb))] bg-[rgb(var(--theme-primary-soft-rgb)/0.72)] px-3 py-3 text-sm font-semibold text-[rgb(var(--theme-primary-ink-rgb))]"
+        >
+          <span className="truncate">{linkedBehavior.title}</span>
+          <BookOpenText className="h-4 w-4 shrink-0" />
+        </Link>
       ) : null}
 
-      <p className="mt-4 text-sm leading-7 text-slate-600">
-        {entry.note || 'No note added for this entry.'}
-      </p>
+      {entry.note ? (
+        <p className="mt-4 text-sm leading-6 text-muted-foreground">{entry.note}</p>
+      ) : null}
     </article>
   )
 }
@@ -197,27 +177,18 @@ function DeleteEntryDialog({ entry, open, deleting, onOpenChange, onConfirm }) {
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-lg">
         <DialogHeader>
-          <DialogTitle>Delete this log entry?</DialogTitle>
-          <DialogDescription>
-            This removes the selected Daily Log entry and updates the weekly summary.
-          </DialogDescription>
+          <DialogTitle>Delete entry?</DialogTitle>
+          <DialogDescription>This removes the selected Daily Log note.</DialogDescription>
         </DialogHeader>
-        <div className="rounded-[1.3rem] border border-slate-200 bg-slate-50 px-4 py-4 text-sm leading-7 text-slate-600">
-          {entry?.note || 'This entry has no note attached.'}
+        <div className="soft-tile p-4 text-sm leading-6 text-muted-foreground">
+          {entry?.note || 'This entry has no note.'}
         </div>
         <DialogFooter>
           <Button type="button" variant="outline" onClick={() => onOpenChange(false)} disabled={deleting}>
-            Keep entry
+            Keep
           </Button>
           <Button type="button" variant="destructive" onClick={onConfirm} disabled={deleting}>
-            {deleting ? (
-              <>
-                <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
-                Deleting...
-              </>
-            ) : (
-              'Delete entry'
-            )}
+            {deleting ? 'Deleting...' : 'Delete'}
           </Button>
         </DialogFooter>
       </DialogContent>
@@ -226,7 +197,6 @@ function DeleteEntryDialog({ entry, open, deleting, onOpenChange, onConfirm }) {
 }
 
 export default function Log() {
-  const { user } = useAuth()
   const { toast } = useToast()
   const [summary, setSummary] = useState(null)
   const [summaryLoading, setSummaryLoading] = useState(true)
@@ -238,6 +208,7 @@ export default function Log() {
   const [entriesError, setEntriesError] = useState('')
   const [nextPage, setNextPage] = useState(null)
   const [refreshKey, setRefreshKey] = useState(0)
+  const [formOpen, setFormOpen] = useState(false)
   const [moods, setMoods] = useState([])
   const [note, setNote] = useState('')
   const [selectedBehavior, setSelectedBehavior] = useState(null)
@@ -256,7 +227,7 @@ export default function Log() {
   useEffect(() => {
     const timerId = window.setTimeout(() => {
       setDebouncedBehaviorSearch(deferredBehaviorSearch.trim())
-    }, 250)
+    }, 220)
 
     return () => window.clearTimeout(timerId)
   }, [deferredBehaviorSearch])
@@ -277,7 +248,7 @@ export default function Log() {
         if (!cancelled) {
           setSummary(null)
           setSummaryError(
-            error.response?.data?.detail || 'The weekly summary could not be loaded right now.'
+            error.response?.data?.detail || 'Weekly summary could not be loaded.'
           )
         }
       } finally {
@@ -314,7 +285,7 @@ export default function Log() {
           setEntriesCount(0)
           setNextPage(null)
           setEntriesError(
-            error.response?.data?.detail || 'Recent entries could not be loaded right now.'
+            error.response?.data?.detail || 'Recent entries could not be loaded.'
           )
         }
       } finally {
@@ -354,7 +325,7 @@ export default function Log() {
         if (!cancelled) {
           setBehaviorResults([])
           setBehaviorResultsError(
-            error.response?.data?.detail || 'Behavior search is unavailable right now.'
+            error.response?.data?.detail || 'Behavior search is unavailable.'
           )
         }
       } finally {
@@ -385,6 +356,11 @@ export default function Log() {
     setRefreshKey((current) => current + 1)
   }
 
+  const openNewEntry = () => {
+    resetForm()
+    setFormOpen(true)
+  }
+
   const handleToggleMood = (moodValue) => {
     setMoods((current) =>
       current.includes(moodValue)
@@ -398,8 +374,8 @@ export default function Log() {
 
     if (moods.length === 0) {
       toast({
-        title: 'Select at least one mood',
-        description: 'Pick the mood chips that best fit the moment before saving.',
+        title: 'Pick a mood',
+        description: 'Choose at least one mood before saving.',
         variant: 'warning',
       })
       return
@@ -422,19 +398,16 @@ export default function Log() {
 
       toast({
         title: editingEntryId ? 'Entry updated' : 'Entry saved',
-        description: editingEntryId
-          ? 'The Daily Log entry has been updated.'
-          : 'The Daily Log entry has been added.',
         variant: 'success',
       })
       resetForm()
+      setFormOpen(false)
       refreshData()
     } catch (error) {
       toast({
         title: 'Could not save entry',
         description:
-          error.response?.data?.detail ||
-          'Please review the form and try again.',
+          error.response?.data?.detail || 'Review the form and try again.',
         variant: 'error',
       })
     } finally {
@@ -453,7 +426,7 @@ export default function Log() {
       setSelectedBehavior(entry.linked_behavior ?? null)
       setBehaviorSearchInput('')
       setBehaviorResults([])
-      window.scrollTo({ top: 0, behavior: 'smooth' })
+      setFormOpen(true)
     } catch (error) {
       toast({
         title: 'Could not load entry',
@@ -467,9 +440,7 @@ export default function Log() {
   }
 
   const handleDeleteEntry = async () => {
-    if (!entryPendingDelete) {
-      return
-    }
+    if (!entryPendingDelete) return
 
     setDeletingEntryId(entryPendingDelete.id)
 
@@ -477,19 +448,15 @@ export default function Log() {
       await deleteLogEntry(entryPendingDelete.id)
       if (editingEntryId === entryPendingDelete.id) {
         resetForm()
+        setFormOpen(false)
       }
-      toast({
-        title: 'Entry deleted',
-        description: 'The Daily Log entry has been removed.',
-        variant: 'success',
-      })
+      toast({ title: 'Entry deleted', variant: 'success' })
       setEntryPendingDelete(null)
       refreshData()
     } catch (error) {
       toast({
         title: 'Could not delete entry',
-        description:
-          error.response?.data?.detail || 'Please try again in a moment.',
+        description: error.response?.data?.detail || 'Try again in a moment.',
         variant: 'error',
       })
     } finally {
@@ -498,9 +465,7 @@ export default function Log() {
   }
 
   const handleLoadMore = async () => {
-    if (!nextPage || entriesLoadingMore) {
-      return
-    }
+    if (!nextPage || entriesLoadingMore) return
 
     setEntriesLoadingMore(true)
 
@@ -512,8 +477,7 @@ export default function Log() {
     } catch (error) {
       toast({
         title: 'Could not load more entries',
-        description:
-          error.response?.data?.detail || 'Please try again in a moment.',
+        description: error.response?.data?.detail || 'Try again in a moment.',
         variant: 'error',
       })
     } finally {
@@ -532,122 +496,111 @@ export default function Log() {
   )
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] bg-[linear-gradient(180deg,#f4faf7_0%,#ffffff_100%)] px-4 py-8 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-5xl space-y-8">
-        <header className="space-y-5 rounded-[2rem] border border-slate-200 bg-white px-6 py-6 shadow-[0_24px_60px_rgba(15,23,42,0.06)] sm:px-8">
-          <Link
-            to="/dashboard"
-            className="inline-flex items-center gap-2 text-sm font-medium text-slate-600 transition hover:text-slate-950"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Back to care home
-          </Link>
-          <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+    <div className="page-shell screen-enter">
+      <div className="page-stack max-w-3xl space-y-4">
+        <section className="soft-card p-4">
+          <div className="flex items-start justify-between gap-4">
             <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-emerald-700">
+              <h1 className="text-2xl font-semibold tracking-tight text-foreground">
                 Daily Log
-              </p>
-              <h1 className="mt-3 text-4xl font-semibold tracking-tight text-slate-950 sm:text-5xl">
-                Keep the week visible.
               </h1>
-              <p className="mt-4 max-w-2xl text-sm leading-7 text-slate-600 sm:text-base">
-                Track mood shifts, attach a matching decoder behavior when useful, and keep a
-                simple record for {user?.care_recipient_name || 'your care recipient'}.
-              </p>
-            </div>
-            <div className="rounded-[1.5rem] border border-emerald-200 bg-emerald-50 px-5 py-4 text-sm leading-7 text-emerald-900">
-              Weekly summary refreshes automatically from the last 7 days of entries.
-            </div>
-          </div>
-        </header>
-
-        <section className="rounded-[1.9rem] border border-slate-200 bg-white px-6 py-6 shadow-sm sm:px-7">
-          <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
-            <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.16em] text-slate-500">
-                Last 7 days
-              </p>
-              <h2 className="mt-2 text-2xl font-semibold tracking-tight text-slate-950">
-                Weekly summary
-              </h2>
-              <p className="mt-2 text-sm leading-7 text-slate-600">
+              <p className="mt-1 text-sm text-muted-foreground">
                 {summary
                   ? formatSummaryDateRange(summary.start_date, summary.end_date)
-                  : 'Recent Daily Log activity'}
+                  : 'Last 7 days'}
               </p>
             </div>
-            <Button type="button" variant="outline" className="rounded-full px-5" onClick={refreshData}>
-              Refresh summary
+            <Button type="button" onClick={openNewEntry}>
+              <Plus className="mr-2 h-4 w-4" />
+              Add
             </Button>
           </div>
 
           {summaryLoading ? (
-            <div className="mt-5 flex items-center gap-3 rounded-[1.4rem] border border-slate-200 bg-slate-50 px-4 py-4 text-sm text-slate-600">
+            <div className="mt-4 flex items-center gap-3 text-sm text-muted-foreground">
               <LoaderCircle className="h-4 w-4 animate-spin" />
-              Loading weekly summary...
+              Loading...
             </div>
           ) : summaryError ? (
-            <div className="mt-5 rounded-[1.4rem] border border-amber-200 bg-amber-50 px-4 py-4 text-sm leading-7 text-amber-900">
+            <div className="mt-4 rounded-lg border border-amber-200 bg-amber-50 p-3 text-sm text-amber-900">
               {summaryError}
             </div>
           ) : (
-            <div className="mt-5 grid gap-4">
-              <div className="grid gap-4 sm:grid-cols-3">
-                <SummaryStat label="Entries" value={summary?.entry_count ?? 0} />
-                <SummaryStat label="Linked behaviors" value={summary?.linked_behavior_count ?? 0} />
-                <SummaryStat
-                  label="Top mood"
-                  value={topMoodCounts[0] ? topMoodCounts[0].label : 'None yet'}
-                />
-              </div>
-
-              <div className="rounded-[1.5rem] border border-slate-200 bg-slate-50 px-4 py-4">
-                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
-                  Mood counts
-                </p>
-                <div className="mt-3 flex flex-wrap gap-2">
-                  {summary?.mood_counts?.map((item) => (
-                    <Badge
-                      key={item.mood}
-                      variant={item.count > 0 ? 'secondary' : 'outline'}
-                      className={
-                        item.count > 0
-                          ? 'border-slate-200 bg-white text-slate-700'
-                          : 'border-slate-200 bg-transparent text-slate-500'
-                      }
-                    >
-                      {item.label}: {item.count}
-                    </Badge>
-                  ))}
-                </div>
-              </div>
+            <div className="mt-4 grid grid-cols-3 gap-2">
+              <SummaryChip label="Entries" value={summary?.entry_count ?? 0} />
+              <SummaryChip label="Linked" value={summary?.linked_behavior_count ?? 0} />
+              <SummaryChip label="Top mood" value={topMoodCounts[0]?.label || 'None'} />
             </div>
           )}
         </section>
 
-        <section className="rounded-[1.9rem] border border-slate-200 bg-white px-6 py-6 shadow-sm sm:px-7">
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-            <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.16em] text-slate-500">
-                {editingEntryId ? 'Edit entry' : 'Quick add'}
-              </p>
-              <h2 className="mt-2 text-2xl font-semibold tracking-tight text-slate-950">
-                {editingEntryId ? 'Update this log entry' : 'Add a Daily Log entry'}
-              </h2>
-            </div>
-            {editingEntryId ? (
-              <Button type="button" variant="ghost" className="rounded-full px-5" onClick={resetForm}>
-                Cancel edit
-              </Button>
-            ) : null}
+        <section className="space-y-3">
+          <div className="flex items-center justify-between gap-3">
+            <h2 className="text-lg font-semibold text-foreground">Recent</h2>
+            <p className="text-sm text-muted-foreground">{entriesCount} total</p>
           </div>
 
-          <form onSubmit={handleSubmit} className="mt-6 space-y-6">
+          {entriesLoading ? (
+            <div className="soft-tile flex items-center gap-3 p-4 text-sm text-muted-foreground">
+              <LoaderCircle className="h-4 w-4 animate-spin" />
+              Loading...
+            </div>
+          ) : entriesError ? (
+            <div className="rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
+              {entriesError}
+            </div>
+          ) : entries.length === 0 ? (
+            <div className="soft-card p-5 text-sm leading-6 text-muted-foreground">
+              No entries yet. Add a quick mood check-in when something changes.
+            </div>
+          ) : (
+            <div className="grid gap-3">
+              {entries.map((entry) => (
+                <EntryCard
+                  key={entry.id}
+                  entry={entry}
+                  editingId={editingLoadId}
+                  deletingId={deletingEntryId}
+                  onEdit={handleEditEntry}
+                  onDelete={setEntryPendingDelete}
+                />
+              ))}
+            </div>
+          )}
+
+          {nextPage ? (
+            <Button
+              type="button"
+              variant="outline"
+              className="w-full"
+              disabled={entriesLoadingMore}
+              onClick={handleLoadMore}
+            >
+              {entriesLoadingMore ? 'Loading...' : 'Load more'}
+            </Button>
+          ) : null}
+        </section>
+      </div>
+
+      <Dialog
+        open={formOpen}
+        onOpenChange={(open) => {
+          setFormOpen(open)
+          if (!open && !saving) {
+            resetForm()
+          }
+        }}
+      >
+        <DialogContent className="mobile-sheet max-h-[90vh] overflow-y-auto md:max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>{editingEntryId ? 'Edit entry' : 'Add entry'}</DialogTitle>
+            <DialogDescription>Pick a mood, add a short note, and link a behavior if useful.</DialogDescription>
+          </DialogHeader>
+
+          <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <label className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
-                Mood
-              </label>
-              <div className="mt-3 flex flex-wrap gap-2.5">
+              <p className="text-sm font-semibold text-foreground">Mood</p>
+              <div className="mt-3 flex flex-wrap gap-2">
                 {DAILY_LOG_MOODS.map((mood) => (
                   <MoodToggle
                     key={mood.value}
@@ -661,13 +614,10 @@ export default function Log() {
 
             <div>
               <div className="flex items-center justify-between gap-3">
-                <label
-                  htmlFor="daily-log-note"
-                  className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500"
-                >
+                <label htmlFor="daily-log-note" className="text-sm font-semibold text-foreground">
                   Note
                 </label>
-                <span className="text-xs font-medium text-slate-500">
+                <span className="text-xs font-medium text-muted-foreground">
                   {note.length}/{NOTE_LIMIT}
                 </span>
               </div>
@@ -675,30 +625,23 @@ export default function Log() {
                 id="daily-log-note"
                 value={note}
                 onChange={(event) => setNote(event.target.value.slice(0, NOTE_LIMIT))}
-                placeholder="Add a quick note about the moment, what helped, or what changed."
-                className="mt-3 min-h-[120px] rounded-[1.4rem] border-slate-200 bg-slate-50"
+                placeholder="What happened?"
+                className="mt-2 min-h-[112px] bg-white"
               />
             </div>
 
             <div>
-              <label
-                htmlFor="daily-log-behavior-search"
-                className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500"
-              >
-                Link behavior (optional)
+              <label htmlFor="daily-log-behavior-search" className="text-sm font-semibold text-foreground">
+                Link behavior
               </label>
-              <div className="relative mt-3">
-                <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+              <div className="relative mt-2">
+                <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                 <Input
                   id="daily-log-behavior-search"
                   value={behaviorSearchInput}
                   onChange={(event) => setBehaviorSearchInput(event.target.value)}
-                  placeholder={
-                    selectedBehavior
-                      ? 'Search to replace the linked behavior'
-                      : 'Search decoder behaviors to attach one'
-                  }
-                  className="h-12 rounded-[1.1rem] border-slate-200 pl-11"
+                  placeholder={selectedBehavior ? 'Search to replace' : 'Search decoder'}
+                  className="pl-11"
                   autoComplete="off"
                 />
               </div>
@@ -712,21 +655,15 @@ export default function Log() {
                 </div>
               ) : null}
 
-              {debouncedBehaviorSearch.length > 0 && debouncedBehaviorSearch.length < BEHAVIOR_SEARCH_MIN_LENGTH ? (
-                <p className="mt-3 text-sm text-slate-500">
-                  Type at least 2 characters to search behaviors.
-                </p>
-              ) : null}
-
               {behaviorResultsLoading ? (
-                <div className="mt-3 flex items-center gap-3 rounded-[1.3rem] border border-slate-200 bg-slate-50 px-4 py-4 text-sm text-slate-600">
+                <div className="mt-3 flex items-center gap-3 text-sm text-muted-foreground">
                   <LoaderCircle className="h-4 w-4 animate-spin" />
-                  Searching behaviors...
+                  Searching...
                 </div>
               ) : null}
 
               {behaviorResultsError ? (
-                <div className="mt-3 rounded-[1.3rem] border border-amber-200 bg-amber-50 px-4 py-4 text-sm leading-7 text-amber-900">
+                <div className="mt-3 rounded-lg border border-amber-200 bg-amber-50 p-3 text-sm text-amber-900">
                   {behaviorResultsError}
                 </div>
               ) : null}
@@ -749,104 +686,36 @@ export default function Log() {
                     ))}
                   </div>
                 ) : (
-                  <div className="mt-3 rounded-[1.3rem] border border-slate-200 bg-slate-50 px-4 py-4 text-sm leading-7 text-slate-600">
-                    No behavior matches yet. Try a shorter keyword or browse the decoder first.
-                  </div>
+                  <p className="mt-3 text-sm text-muted-foreground">No behavior matches.</p>
                 )
               ) : null}
             </div>
 
-            <div className="flex flex-wrap gap-3">
-              <Button type="submit" className="rounded-full px-6" disabled={saving}>
+            <DialogFooter>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setFormOpen(false)}
+                disabled={saving}
+              >
+                Cancel
+              </Button>
+              <Button type="submit" disabled={saving}>
                 {saving ? (
                   <>
                     <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
                     Saving...
                   </>
                 ) : editingEntryId ? (
-                  'Update entry'
+                  'Update'
                 ) : (
-                  'Save entry'
+                  'Save'
                 )}
               </Button>
-              <Button asChild variant="outline" className="rounded-full px-6">
-                <Link to="/decoder">Open decoder</Link>
-              </Button>
-            </div>
+            </DialogFooter>
           </form>
-        </section>
-
-        <section className="space-y-4">
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-            <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.16em] text-slate-500">
-                Recent entries
-              </p>
-              <h2 className="mt-2 text-2xl font-semibold tracking-tight text-slate-950">
-                Daily Log history
-              </h2>
-            </div>
-            <p className="text-sm text-slate-500">{entriesCount} total entries</p>
-          </div>
-
-          {entriesLoading ? (
-            <div className="flex items-center gap-3 rounded-[1.6rem] border border-slate-200 bg-white px-5 py-5 text-sm text-slate-600 shadow-sm">
-              <LoaderCircle className="h-4 w-4 animate-spin" />
-              Loading recent entries...
-            </div>
-          ) : entriesError ? (
-            <div className="rounded-[1.6rem] border border-amber-200 bg-amber-50 px-5 py-5">
-              <p className="text-sm leading-7 text-amber-900">{entriesError}</p>
-              <Button type="button" variant="outline" className="mt-4 rounded-full px-5" onClick={refreshData}>
-                Try again
-              </Button>
-            </div>
-          ) : entries.length === 0 ? (
-            <div className="rounded-[1.6rem] border border-slate-200 bg-white px-5 py-6 shadow-sm">
-              <p className="text-lg font-semibold tracking-tight text-slate-950">No entries yet</p>
-              <p className="mt-2 max-w-2xl text-sm leading-7 text-slate-600">
-                Start with a quick mood check-in. Your recent notes and linked behaviors will stay here for easy review.
-              </p>
-            </div>
-          ) : (
-            <>
-              <div className="grid gap-4">
-                {entries.map((entry) => (
-                  <EntryCard
-                    key={entry.id}
-                    entry={entry}
-                    editingId={editingLoadId}
-                    deletingId={deletingEntryId}
-                    onEdit={handleEditEntry}
-                    onDelete={setEntryPendingDelete}
-                  />
-                ))}
-              </div>
-
-              {nextPage ? (
-                <div className="flex justify-center pt-2">
-                  <Button
-                    type="button"
-                    variant="outline"
-                    className="rounded-full px-6"
-                    disabled={entriesLoadingMore}
-                    onClick={handleLoadMore}
-                  >
-                    {entriesLoadingMore ? (
-                      <>
-                        <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
-                        Loading more...
-                      </>
-                    ) : (
-                      'Load more entries'
-                    )}
-                  </Button>
-                </div>
-              ) : null}
-            </>
-          )}
-        </section>
-      </div>
+        </DialogContent>
+      </Dialog>
 
       <DeleteEntryDialog
         entry={entryPendingDelete}

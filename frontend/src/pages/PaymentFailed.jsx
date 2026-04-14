@@ -34,7 +34,7 @@ export default function PaymentFailed() {
       <div className="mx-auto w-full max-w-3xl">
         <Card className="theme-panel rounded-[2.25rem] border-0">
           <CardHeader className="space-y-5 text-center">
-            <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-[2rem] bg-amber-100 text-amber-700 shadow-[0_18px_40px_rgb(var(--theme-shadow-rgb)/0.12)]">
+            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-lg bg-amber-100 text-amber-700 shadow-[0_18px_40px_rgb(var(--theme-shadow-rgb)/0.12)]">
               <AlertTriangle className="h-10 w-10" />
             </div>
             <div className="space-y-3">
@@ -52,16 +52,16 @@ export default function PaymentFailed() {
           <CardContent className="space-y-6 text-center">
             <div className="theme-panel-soft rounded-[1.75rem] px-5 py-5">
               <p className="text-sm text-muted-foreground">
-                No subscription upgrade was applied. You can retry the payment flow from pricing or manage your subscription from the profile page.
+                No access change was applied. You can try again from pricing.
               </p>
             </div>
 
             <div className="flex flex-col gap-3 sm:flex-row sm:justify-center">
-              <Button asChild className="rounded-full">
+              <Button asChild>
                 <Link to="/pricing">Try again</Link>
               </Button>
               {isAuthenticated ? (
-                <Button asChild variant="outline" className="rounded-full">
+                <Button asChild variant="outline">
                   <Link to="/profile">Go to profile</Link>
                 </Button>
               ) : null}

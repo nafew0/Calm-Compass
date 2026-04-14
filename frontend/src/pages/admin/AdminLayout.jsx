@@ -39,17 +39,17 @@ export default function AdminLayout() {
   const plansUrl = getPlansUrl()
 
   return (
-    <div className="theme-app-gradient min-h-[calc(100vh-4rem)] px-4 py-6 sm:px-5">
+    <div className="theme-app-gradient min-h-screen px-4 py-6 sm:px-5">
       <div className="grid gap-6 lg:grid-cols-[260px_minmax(0,1fr)] lg:items-start">
-        <aside className="theme-panel rounded-[2rem] p-5 lg:sticky lg:top-20 lg:h-[calc(100vh-6rem)]">
-          <div className="rounded-[1.5rem] border border-[rgb(var(--theme-border-rgb)/0.8)] bg-[rgb(var(--theme-primary-soft-rgb)/0.72)] p-4">
+        <aside className="theme-panel p-5 lg:sticky lg:top-6 lg:h-[calc(100vh-3rem)]">
+          <div className="rounded-lg border border-[rgb(var(--theme-border-rgb)/0.8)] bg-[rgb(var(--theme-primary-soft-rgb)/0.72)] p-4">
             <div className="flex items-center gap-3">
-              <div className="theme-icon-primary flex h-11 w-11 items-center justify-center rounded-2xl">
+              <div className="theme-icon-primary flex h-11 w-11 items-center justify-center">
                 <ShieldCheck className="h-5 w-5" />
               </div>
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                  calm_compass
+                  CalmCompass
                 </p>
                 <p className="text-lg font-semibold text-foreground">Admin panel</p>
               </div>
@@ -69,7 +69,7 @@ export default function AdminLayout() {
                   end={item.end}
                   className={({ isActive }) =>
                     cn(
-                      'flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium transition',
+                      'flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition',
                       isActive
                         ? 'bg-[rgb(var(--theme-primary-soft-rgb)/0.9)] text-[rgb(var(--theme-primary-ink-rgb))]'
                         : 'text-muted-foreground hover:bg-accent hover:text-foreground'
@@ -83,7 +83,7 @@ export default function AdminLayout() {
             })}
           </nav>
 
-          <div className="mt-6 space-y-3 rounded-[1.5rem] border border-dashed border-[rgb(var(--theme-border-rgb)/0.82)] p-4">
+          <div className="mt-6 space-y-3 rounded-lg border border-dashed border-[rgb(var(--theme-border-rgb)/0.82)] p-4">
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
               Quick links
             </p>

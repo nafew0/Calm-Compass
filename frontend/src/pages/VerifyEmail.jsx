@@ -8,7 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 
 const INITIAL_STATE = {
   status: 'loading',
-  message: 'Verifying your email…',
+  message: 'Verifying your email...',
 }
 
 const VerifyEmail = () => {
@@ -66,7 +66,7 @@ const VerifyEmail = () => {
       <Card className="theme-panel w-full max-w-xl border-0">
         <CardHeader className="items-center text-center">
           <div
-            className={`inline-flex h-14 w-14 items-center justify-center rounded-full ${
+            className={`inline-flex h-14 w-14 items-center justify-center rounded-lg ${
               isSuccess
                 ? 'bg-emerald-100 text-emerald-700'
                 : verificationState.status === 'error'
@@ -95,15 +95,15 @@ const VerifyEmail = () => {
         </CardHeader>
         <CardContent className="flex justify-center gap-3">
           {isSuccess ? (
-            <Button asChild className="rounded-full">
+            <Button asChild>
               <Link to="/login">Go to login</Link>
             </Button>
           ) : (
             <>
-              <Button asChild className="rounded-full">
+              <Button asChild>
                 <Link to="/login">Back to login</Link>
               </Button>
-              <Button asChild variant="secondary" className="rounded-full">
+              <Button asChild variant="secondary">
                 <Link to="/register">Create account again</Link>
               </Button>
             </>

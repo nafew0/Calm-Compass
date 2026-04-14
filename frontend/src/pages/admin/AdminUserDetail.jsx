@@ -51,13 +51,13 @@ export default function AdminUserDetail() {
       await refresh()
       toast({
         title: 'User status updated',
-        description: 'calm_compass saved the account status change.',
+        description: 'CalmCompass saved the account status change.',
         variant: 'success',
       })
     } catch (requestError) {
       toast({
         title: 'Status update failed',
-        description: requestError.response?.data?.detail || 'calm_compass could not update this user right now.',
+        description: requestError.response?.data?.detail || 'CalmCompass could not update this user right now.',
         variant: 'error',
       })
     } finally {
@@ -76,13 +76,13 @@ export default function AdminUserDetail() {
       await refresh()
       toast({
         title: 'Plan updated',
-        description: 'calm_compass applied the manual plan override.',
+        description: 'CalmCompass applied the manual plan override.',
         variant: 'success',
       })
     } catch (requestError) {
       toast({
         title: 'Plan change failed',
-        description: requestError.response?.data?.detail || 'calm_compass could not change the plan right now.',
+        description: requestError.response?.data?.detail || 'CalmCompass could not change the plan right now.',
         variant: 'error',
       })
     } finally {
@@ -96,13 +96,13 @@ export default function AdminUserDetail() {
       await sendAdminPasswordReset(userId)
       toast({
         title: 'Password reset sent',
-        description: 'calm_compass emailed a secure password reset link to the user.',
+        description: 'CalmCompass emailed a secure password reset link to the user.',
         variant: 'success',
       })
     } catch (requestError) {
       toast({
         title: 'Reset email failed',
-        description: requestError.response?.data?.detail || 'calm_compass could not send the reset email.',
+        description: requestError.response?.data?.detail || 'CalmCompass could not send the reset email.',
         variant: 'error',
       })
     } finally {
@@ -115,7 +115,7 @@ export default function AdminUserDetail() {
   }
 
   if (error) {
-    return <div className="theme-panel rounded-[1.8rem] p-6 text-sm text-rose-600">calm_compass could not load this user right now.</div>
+    return <div className="theme-panel rounded-[1.8rem] p-6 text-sm text-rose-600">CalmCompass could not load this user right now.</div>
   }
 
   const { user, subscription, usage, recent_payments: recentPayments, subscription_events: events, plans, payment_warnings: paymentWarnings } = data
@@ -228,11 +228,11 @@ export default function AdminUserDetail() {
             <div className="rounded-[1.2rem] border border-[rgb(var(--theme-border-rgb)/0.76)] bg-white/80 p-4">
               <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">Items used</p>
               <p className="mt-2 text-2xl font-semibold text-foreground">
-                {usage?.usage_snapshot?.items?.used ?? '—'}
+                {usage?.usage_snapshot?.items?.used ?? 'n/a'}
               </p>
             </div>
             <div className="rounded-[1.2rem] border border-[rgb(var(--theme-border-rgb)/0.76)] bg-white/80 p-4 text-sm text-muted-foreground">
-              Plan limit: {usage?.usage_snapshot?.items?.unlimited ? 'Unlimited items' : `${usage?.usage_snapshot?.items?.limit ?? '—'} items`}.
+              Plan limit: {usage?.usage_snapshot?.items?.unlimited ? 'Unlimited items' : `${usage?.usage_snapshot?.items?.limit ?? 'n/a'} items`}.
             </div>
           </CardContent>
         </Card>
@@ -255,7 +255,7 @@ export default function AdminUserDetail() {
                   </span>
                 </div>
                 <p className="mt-2 text-sm text-foreground">
-                  {event.plan?.name || 'No plan'} · {titleize(event.status)} · {titleize(event.payment_provider)}
+                  {event.plan?.name || 'No plan'} - {titleize(event.status)} - {titleize(event.payment_provider)}
                 </p>
               </div>
             ))}
@@ -287,7 +287,7 @@ export default function AdminUserDetail() {
                   </Badge>
                 </div>
                 <p className="mt-2 text-sm text-muted-foreground">
-                  {formatMoney(payment.amount, payment.currency)} · {formatDateTime(payment.created_at)}
+                  {formatMoney(payment.amount, payment.currency)} - {formatDateTime(payment.created_at)}
                 </p>
               </div>
             )) : <p className="text-sm text-muted-foreground">No payment history matched this user.</p>}

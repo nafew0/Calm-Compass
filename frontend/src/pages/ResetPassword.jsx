@@ -11,20 +11,19 @@ import { confirmPasswordReset, validatePasswordReset } from '@/services/auth'
 const SHELL_PROPS = {
   eyebrow: 'Password Reset',
   title: 'Reset your password',
-  description: 'Choose a new password to regain access to your calm_compass workspace.',
-  showcaseTitle: 'Secure account recovery without exposing user records.',
-  showcaseDescription:
-    'calm_compass validates every reset link before showing the form, then invalidates prior refresh tokens after the password changes.',
+  description: 'Choose a new password to regain access to CalmCompass.',
+  showcaseTitle: 'Secure account recovery.',
+  showcaseDescription: 'Reset links are checked before the form opens.',
   metrics: [
-    { value: 'JWT', label: 'Session revoked' },
-    { value: '1 link', label: 'Token validation' },
-    { value: 'Email', label: 'Secure delivery' },
+    { value: '1 link', label: 'Single use' },
+    { value: 'JWT', label: 'Revoked' },
+    { value: 'Email', label: 'Delivery' },
   ],
   highlights: [
-    'Reset links are verified before any password form is shown.',
-    'calm_compass revokes outstanding refresh tokens after the password changes.',
-    'The new password must still pass Django’s production password validators.',
-    'This reset flow works for admin-triggered recovery emails without exposing internal admin routes.',
+    'Reset links are verified first.',
+    'Old sessions are revoked.',
+    'Django password rules still apply.',
+    'Admin recovery uses the same flow.',
   ],
 }
 
@@ -47,7 +46,7 @@ export default function ResetPassword() {
       if (!uid || !token) {
         if (!cancelled) {
           setValid(false)
-          setValidationMessage('This password reset link is incomplete or malformed.')
+          setValidationMessage('This password reset link is incomplete.')
           setValidating(false)
         }
         return
@@ -62,7 +61,7 @@ export default function ResetPassword() {
       } catch (error) {
         if (!cancelled) {
           setValid(false)
-          setValidationMessage(error.response?.data?.detail || 'This password reset link is invalid or has expired.')
+          setValidationMessage(error.response?.data?.detail || 'This link is invalid or expired.')
         }
       } finally {
         if (!cancelled) {
@@ -80,10 +79,7 @@ export default function ResetPassword() {
 
   const handleChange = (event) => {
     const { name, value } = event.target
-    setFormState((current) => ({
-      ...current,
-      [name]: value,
-    }))
+    setFormState((current) => ({ ...current, [name]: value }))
   }
 
   const handleSubmit = async (event) => {
@@ -91,11 +87,7 @@ export default function ResetPassword() {
     setSubmitting(true)
 
     try {
-      await confirmPasswordReset({
-        uid,
-        token,
-        ...formState,
-      })
+      await confirmPasswordReset({ uid, token, ...formState })
       toast({
         title: 'Password reset complete',
         description: 'You can sign in with your new password now.',
@@ -105,7 +97,7 @@ export default function ResetPassword() {
     } catch (error) {
       toast({
         title: 'Password reset failed',
-        description: error.response?.data?.detail || 'calm_compass could not reset the password with this link.',
+        description: error.response?.data?.detail || 'CalmCompass could not reset the password with this link.',
         variant: 'error',
       })
     } finally {
@@ -126,16 +118,14 @@ export default function ResetPassword() {
       )}
     >
       {validating ? (
-        <div className="flex items-center gap-3 rounded-2xl border border-[rgb(var(--theme-border-rgb)/0.82)] bg-white/85 px-4 py-4 text-sm text-muted-foreground">
+        <div className="flex items-center gap-3 rounded-lg border border-[rgb(var(--theme-border-rgb)/0.82)] bg-white/85 px-4 py-4 text-sm text-muted-foreground">
           <LoaderCircle className="h-5 w-5 animate-spin text-primary" />
-          Validating your reset link...
+          Validating reset link...
         </div>
       ) : valid ? (
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <label className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
-              New password
-            </label>
+            <label className="text-sm font-semibold text-foreground">New password</label>
             <Input
               type="password"
               name="new_password"
@@ -146,9 +136,7 @@ export default function ResetPassword() {
             />
           </div>
           <div className="space-y-2">
-            <label className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
-              Confirm new password
-            </label>
+            <label className="text-sm font-semibold text-foreground">Confirm new password</label>
             <Input
               type="password"
               name="new_password2"
@@ -158,12 +146,12 @@ export default function ResetPassword() {
               required
             />
           </div>
-          <Button className="w-full rounded-xl" disabled={submitting}>
+          <Button className="w-full" disabled={submitting}>
             {submitting ? 'Resetting...' : 'Reset password'}
           </Button>
         </form>
       ) : (
-        <div className="space-y-4 rounded-2xl border border-rose-200 bg-rose-50 px-4 py-4 text-sm text-rose-700">
+        <div className="space-y-4 rounded-lg border border-rose-200 bg-rose-50 px-4 py-4 text-sm text-rose-700">
           <div className="flex items-start gap-3">
             <AlertCircle className="mt-0.5 h-5 w-5 shrink-0" />
             <div>
@@ -171,7 +159,7 @@ export default function ResetPassword() {
               <p className="mt-1">{validationMessage}</p>
             </div>
           </div>
-          <Button asChild variant="outline" className="rounded-xl border-rose-200 bg-white text-rose-700 hover:bg-rose-100">
+          <Button asChild variant="outline" className="border-rose-200 bg-white text-rose-700 hover:bg-rose-100">
             <Link to="/login">
               <CheckCircle2 className="mr-2 h-4 w-4" />
               Return to login

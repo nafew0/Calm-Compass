@@ -71,7 +71,7 @@ function getBkashProviderSummary(providerStatus) {
     providerStatus.trxID ? `trx ${providerStatus.trxID}` : '',
   ]
     .filter(Boolean)
-    .join(' · ')
+    .join(' - ')
 }
 
 export default function AdminPayments() {
@@ -115,7 +115,7 @@ export default function AdminPayments() {
         title: 'Search failed',
         description:
           requestError.response?.data?.detail ||
-          'calm_compass could not search bKash by trxID right now.',
+          'CalmCompass could not search bKash by trxID right now.',
         variant: 'error',
       })
     },
@@ -164,7 +164,7 @@ export default function AdminPayments() {
         title: 'Refund failed',
         description:
           requestError.response?.data?.detail ||
-          'calm_compass could not submit the bKash refund.',
+          'CalmCompass could not submit the bKash refund.',
         variant: 'error',
       })
     },
@@ -328,13 +328,13 @@ export default function AdminPayments() {
         ...params,
         page: undefined,
       })
-      downloadBlob(blob, 'calm_compass-payments.csv')
+      downloadBlob(blob, 'CalmCompass-payments.csv')
     } catch (requestError) {
       toast({
         title: 'Export failed',
         description:
           requestError.response?.data?.detail ||
-          'calm_compass could not export the filtered payments.',
+          'CalmCompass could not export the filtered payments.',
         variant: 'error',
       })
     }
@@ -351,7 +351,7 @@ export default function AdminPayments() {
   if (error) {
     return (
       <div className="theme-panel rounded-[1.8rem] p-6 text-sm text-rose-600">
-        calm_compass could not load payment records right now.
+        CalmCompass could not load payment records right now.
       </div>
     )
   }
@@ -469,7 +469,7 @@ export default function AdminPayments() {
                         ([currency, amount]) =>
                           `${formatMoney(amount, currency)} ${currency}`
                       )
-                      .join(' · ')
+                      .join(' - ')
                   : 'No paid revenue in this filter set.'}
               </p>
             </div>
@@ -484,7 +484,7 @@ export default function AdminPayments() {
                 </p>
                 <p className="text-sm text-muted-foreground">
                   Search a trxID directly against bKash and compare it with the local
-                  calm_compass record.
+                  CalmCompass record.
                 </p>
               </div>
               <div className="flex w-full flex-wrap gap-3 md:w-auto">
@@ -516,13 +516,13 @@ export default function AdminPayments() {
                   <p className="font-semibold text-foreground">Local match</p>
                   {bkashSearchResult.transaction ? (
                     <p className="mt-1 text-muted-foreground">
-                      {bkashSearchResult.transaction.user.username} ·{' '}
-                      {bkashSearchResult.transaction.plan.name} ·{' '}
+                      {bkashSearchResult.transaction.user.username} -{' '}
+                      {bkashSearchResult.transaction.plan.name} -{' '}
                       {formatMoney(
                         bkashSearchResult.transaction.amount,
                         bkashSearchResult.transaction.currency
                       )}{' '}
-                      · {bkashSearchResult.transaction.status}
+                      - {bkashSearchResult.transaction.status}
                     </p>
                   ) : (
                     <p className="mt-1 text-muted-foreground">
@@ -534,7 +534,63 @@ export default function AdminPayments() {
             ) : null}
           </div>
 
-          <div className="overflow-x-auto">
+          <div className="grid gap-3 md:hidden">
+            {!data?.results?.length ? (
+              <div className="rounded-lg border border-[rgb(var(--theme-border-rgb)/0.76)] bg-white/85 p-4 text-sm text-muted-foreground">
+                No payments match these filters.
+              </div>
+            ) : null}
+            {(data?.results || []).map((payment) => (
+              <article
+                key={payment.id}
+                className="rounded-lg border border-[rgb(var(--theme-border-rgb)/0.76)] bg-white/85 p-4"
+              >
+                <div className="flex items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <p className="font-semibold text-foreground">
+                      {formatMoney(payment.amount, payment.currency)}
+                    </p>
+                    <p className="truncate text-xs text-muted-foreground">
+                      {payment.user.username || 'Unmatched'} - {payment.plan.name || 'Unknown'}
+                    </p>
+                  </div>
+                  <Badge
+                    variant={
+                      payment.status === 'paid' || payment.status === 'completed'
+                        ? 'success'
+                        : 'secondary'
+                    }
+                  >
+                    {payment.status}
+                  </Badge>
+                </div>
+                <div className="mt-3 flex flex-wrap items-center gap-2">
+                  <Badge variant="outline">{payment.provider}</Badge>
+                  <span className="text-xs text-muted-foreground">
+                    {formatDateTime(payment.created_at)}
+                  </span>
+                </div>
+                {payment.provider === 'bkash' ? (
+                  <div className="mt-3 flex items-center justify-between gap-3">
+                    <p className="truncate text-xs text-muted-foreground">
+                      {payment.trx_id || payment.provider_reference}
+                    </p>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      disabled={!payment.refundable}
+                      onClick={() => openRefundDialog(payment)}
+                    >
+                      Refund
+                    </Button>
+                  </div>
+                ) : null}
+              </article>
+            ))}
+          </div>
+
+          <div className="hidden overflow-x-auto md:block">
             <table className="min-w-full text-left text-sm">
               <thead className="text-xs uppercase tracking-[0.16em] text-muted-foreground">
                 {table.getHeaderGroups().map((headerGroup) => (

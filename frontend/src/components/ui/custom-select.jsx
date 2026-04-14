@@ -33,7 +33,7 @@ export function CustomSelect({
           type="button"
           disabled={disabled}
           className={cn(
-            'inline-flex h-11 w-full items-center justify-between gap-3 rounded-2xl border border-input bg-background px-3 text-left text-sm text-foreground transition hover:border-primary/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/20 disabled:cursor-not-allowed disabled:opacity-60',
+            'inline-flex h-11 w-full items-center justify-between gap-3 rounded-lg border border-input bg-background px-3 text-left text-sm text-foreground transition hover:border-primary/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/20 disabled:cursor-not-allowed disabled:opacity-60',
             triggerClassName
           )}
         >
@@ -56,7 +56,7 @@ export function CustomSelect({
         avoidCollisions
         portal={portal}
         className={cn(
-          'theme-panel w-[var(--radix-dropdown-menu-trigger-width)] min-w-[14rem] max-w-[calc(100vw-2rem)] rounded-2xl p-2',
+          'theme-panel w-[var(--radix-dropdown-menu-trigger-width)] min-w-[14rem] max-w-[calc(100vw-2rem)] p-2',
           'max-h-72 overflow-y-auto',
           contentClassName
         )}
@@ -70,7 +70,7 @@ export function CustomSelect({
               key={`${option.value ?? 'empty'}-${option.label}`}
               onSelect={() => onChange(option.value)}
               className={cn(
-                'rounded-xl px-3 py-2.5 text-sm',
+                'rounded-lg px-3 py-2.5 text-sm',
                 isSelected
                   ? 'bg-[rgb(var(--theme-primary-soft-rgb)/0.72)] text-[rgb(var(--theme-primary-ink-rgb))]'
                   : 'text-foreground'

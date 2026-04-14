@@ -127,8 +127,8 @@ export default function PaymentSuccess() {
   const providerLabel = provider === 'bkash' ? 'bKash' : 'Stripe'
   const syncCopy =
     provider === 'bkash'
-      ? 'calm_compass is confirming your bKash payment and refreshing your workspace access.'
-      : 'calm_compass is syncing the Stripe subscription state and will return you to the dashboard automatically.'
+      ? 'CalmCompass is confirming your bKash payment.'
+      : 'CalmCompass is syncing your Stripe subscription.'
   const pendingCopy =
     provider === 'bkash'
       ? 'Confirming your subscription with bKash and refreshing your workspace access.'
@@ -139,7 +139,7 @@ export default function PaymentSuccess() {
       <div className="mx-auto w-full max-w-3xl">
         <Card className="theme-panel rounded-[2.25rem] border-0">
           <CardHeader className="space-y-5 text-center">
-            <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-[2rem] bg-emerald-100 text-emerald-700 shadow-[0_18px_40px_rgb(var(--theme-shadow-rgb)/0.12)]">
+            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-lg bg-emerald-100 text-emerald-700 shadow-[0_18px_40px_rgb(var(--theme-shadow-rgb)/0.12)]">
               <CheckCircle2 className="h-10 w-10" />
             </div>
             <div className="space-y-3">
@@ -150,7 +150,7 @@ export default function PaymentSuccess() {
                 Payment successful
               </CardTitle>
               <CardDescription className="mx-auto max-w-2xl text-base leading-8">
-                Your billing request has been accepted. {syncCopy}
+                {syncCopy}
               </CardDescription>
             </div>
           </CardHeader>
@@ -165,16 +165,16 @@ export default function PaymentSuccess() {
                 </div>
               ) : (
                 <p className="text-sm text-muted-foreground">
-                  Redirecting you to the dashboard now. If the plan badge still looks stale, refresh once after the webhook finishes processing.
+                  Redirecting you now.
                 </p>
               )}
             </div>
 
             <div className="flex flex-col gap-3 sm:flex-row sm:justify-center">
-              <Button asChild className="rounded-full">
+              <Button asChild>
                 <Link to="/dashboard">Go to dashboard</Link>
               </Button>
-              <Button asChild variant="outline" className="rounded-full">
+              <Button asChild variant="outline">
                 <Link to="/pricing">Back to pricing</Link>
               </Button>
             </div>
