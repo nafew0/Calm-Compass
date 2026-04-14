@@ -38,6 +38,7 @@ Keep this table as your source of truth. Everywhere Questiz uses one name, Calm 
 | Run directory | `/run/questiz` | `/run/calmcompass` |
 | Env file | `backend/.env` | `backend/.env` (scoped to its own path) |
 | JWT refresh cookie | `questiz_refresh` | `calm_compass_refresh` (already the default) |
+| Service runtime user | (whatever Questiz uses) | `buet` (same user you SSH in as) |
 
 > **Rule of thumb:** if a command, path, or unit name does not contain `calmcompass`, you are probably about to touch the wrong project. Stop and re-read.
 
@@ -347,15 +348,40 @@ npm run build
 
 ## 11. Create Runtime Directories
 
-These are the only Calm-Compass-only directories outside `/srv/calmcompass`:
+These are the only Calm-Compass-only directories outside `/srv/calmcompass`.
+
+### Who runs what (user model)
+
+Everything in this guide runs as the **`buet`** user — the same user you SSH in as, and the same user that already owns `/srv/calmcompass/app` from the `git clone`. That means:
+
+- Gunicorn, Celery worker, and Celery beat all run as `buet:buet`.
+- You will `git pull` and `npm run build` as `buet` with no chown dance afterwards.
+- Nginx still runs as `www-data` (the system default) and reaches Gunicorn through a unix socket that is group-owned by `www-data` — see section 12.
+- Nginx reads the static files under `/srv/calmcompass/app/...` using the default world-readable permissions that `git clone` and `npm run build` produce (dirs `755`, files `644`). No special ACLs needed.
+
+### Log directory (persistent)
 
 ```bash
-sudo mkdir -p /run/calmcompass /var/log/calmcompass
-sudo chown $USER:www-data /run/calmcompass /var/log/calmcompass
-sudo chmod 2750 /run/calmcompass /var/log/calmcompass
+sudo mkdir -p /var/log/calmcompass
+sudo chown buet:buet /var/log/calmcompass
+sudo chmod 0755 /var/log/calmcompass
 ```
 
-> Replace `$USER` with whatever system user will actually own the processes (often `www-data` or a dedicated `calmcompass` user). If Questiz runs as `www-data`, doing the same here keeps Nginx's group membership consistent.
+### Runtime directory (`/run` is tmpfs — wiped on every reboot)
+
+Because `/run` is a RAM disk, anything you `mkdir` there manually disappears on the next reboot. The clean way to have `/run/calmcompass/` auto-recreated at boot is a `tmpfiles.d` rule:
+
+```bash
+sudo tee /etc/tmpfiles.d/calmcompass.conf >/dev/null <<'EOF'
+d /run/calmcompass 0755 buet buet -
+EOF
+
+# Create it right now, without waiting for a reboot:
+sudo systemd-tmpfiles --create
+ls -ld /run/calmcompass   # should show:  drwxr-xr-x  buet buet
+```
+
+That's it — no `chown` of `/srv/calmcompass/app` is needed, because `buet` already owns every file in there from the `git clone`.
 
 ---
 
@@ -373,7 +399,9 @@ Description=Calm Compass Gunicorn socket
 
 [Socket]
 ListenStream=/run/calmcompass/gunicorn.sock
-SocketUser=www-data
+# Socket file is owned by buet (so Gunicorn-as-buet can create it)
+# but group-owned by www-data so Nginx (which runs as www-data) can connect.
+SocketUser=buet
 SocketGroup=www-data
 SocketMode=0660
 
@@ -395,9 +423,8 @@ After=network.target calmcompass-gunicorn.socket
 
 [Service]
 Type=notify
-User=www-data
-Group=www-data
-RuntimeDirectory=calmcompass
+User=buet
+Group=buet
 WorkingDirectory=/srv/calmcompass/app/backend
 EnvironmentFile=/srv/calmcompass/app/backend/.env
 ExecStart=/srv/calmcompass/app/backend/venv/bin/gunicorn \
@@ -413,11 +440,11 @@ RestartSec=5
 WantedBy=multi-user.target
 ```
 
-File ownership sanity:
+No `chown` step is needed here — `buet` already owns `/srv/calmcompass/app` from the `git clone` earlier. Verify if you want:
 
 ```bash
-sudo chown -R www-data:www-data /srv/calmcompass/app
-sudo chmod -R g+rX /srv/calmcompass/app
+ls -ld /srv/calmcompass/app /srv/calmcompass/app/backend /srv/calmcompass/app/backend/venv
+# each line should start with "drwxr-xr-x ... buet buet ..."
 ```
 
 Enable and start:
@@ -454,8 +481,8 @@ After=network.target redis-server.service postgresql.service
 
 [Service]
 Type=simple
-User=www-data
-Group=www-data
+User=buet
+Group=buet
 WorkingDirectory=/srv/calmcompass/app/backend
 EnvironmentFile=/srv/calmcompass/app/backend/.env
 ExecStart=/srv/calmcompass/app/backend/venv/bin/celery \
@@ -485,8 +512,8 @@ After=network.target redis-server.service postgresql.service
 
 [Service]
 Type=simple
-User=www-data
-Group=www-data
+User=buet
+Group=buet
 WorkingDirectory=/srv/calmcompass/app/backend
 EnvironmentFile=/srv/calmcompass/app/backend/.env
 ExecStart=/srv/calmcompass/app/backend/venv/bin/celery \
@@ -514,25 +541,121 @@ sudo systemctl status calmcompass-celery-beat.service
 
 ---
 
-## 14. Nginx Site (new file, separate from Questiz)
+## 14. Nginx Site — Phase 1 (HTTP-only, so certbot can do its work)
 
-Create a **brand new** site file. Do not touch `/etc/nginx/sites-available/questiz`.
+This is split into two phases to avoid the classic chicken-and-egg problem: a full HTTPS config references cert files that don't exist until certbot runs, but certbot needs a working HTTP site that serves its challenge file. Phase 1 is HTTP-only; phase 2 (section 16) is the full HTTPS config.
+
+Create a **brand new** site file. Do not touch `/etc/nginx/sites-available/questiz` or any other existing site.
 
 ```bash
 sudo nano /etc/nginx/sites-available/calmcompass
 ```
+
+Paste **only** this minimal HTTP block for now:
+
+```nginx
+server {
+    listen 80;
+    listen [::]:80;
+    server_name calmcompass.zai.bd;
+
+    # certbot writes its challenge file here.
+    location /.well-known/acme-challenge/ {
+        root /var/www/html;
+    }
+
+    # Until we have a cert, just show a plain message at /.
+    # This also confirms Nginx is serving this site at all.
+    location / {
+        default_type text/plain;
+        return 200 "calmcompass bootstrap — certificate pending\n";
+    }
+}
+```
+
+Make sure `/var/www/html` exists (it does on a default Ubuntu Nginx install, but verify):
+
+```bash
+sudo mkdir -p /var/www/html
+```
+
+Enable the site, test config, reload:
+
+```bash
+sudo ln -s /etc/nginx/sites-available/calmcompass /etc/nginx/sites-enabled/calmcompass
+sudo nginx -t
+sudo systemctl reload nginx
+```
+
+If `nginx -t` fails, **do not reload**. Fix the error first — an unreloaded config keeps Questiz safe. (A harmless unrelated warning from `/etc/nginx/sites-enabled/questiz*` about "protocol options redefined" is an existing Questiz-side issue; ignore it.)
+
+Quick sanity check from your local machine (or any other computer):
+
+```bash
+curl -I http://calmcompass.zai.bd/
+# Expect: HTTP/1.1 200 OK  and Server: nginx/...
+```
+
+If that fails, DNS for `calmcompass.zai.bd` may not be pointing at this server yet. Fix DNS before moving on — certbot will also fail if DNS isn't resolving.
+
+---
+
+## 15. TLS Certificate (Let's Encrypt)
+
+Now that Nginx is serving the domain over plain HTTP, get the cert. Use **webroot mode** so certbot only writes the cert files and does **not** try to rewrite your Nginx config — we'll write the full HTTPS config ourselves in section 16.
+
+```bash
+sudo apt install -y certbot python3-certbot-nginx
+sudo certbot certonly --webroot \
+  -w /var/www/html \
+  -d calmcompass.zai.bd \
+  --agree-tos \
+  --no-eff-email \
+  -m YOUR_REAL_EMAIL@example.com
+```
+
+Replace `YOUR_REAL_EMAIL@example.com` with a real address — Let's Encrypt uses it for expiry warnings.
+
+On success you should see:
+
+```
+Successfully received certificate.
+Certificate is saved at: /etc/letsencrypt/live/calmcompass.zai.bd/fullchain.pem
+Key is saved at:         /etc/letsencrypt/live/calmcompass.zai.bd/privkey.pem
+```
+
+Verify:
+
+```bash
+sudo ls /etc/letsencrypt/live/calmcompass.zai.bd/
+# should show: cert.pem  chain.pem  fullchain.pem  privkey.pem  README
+```
+
+Certbot's systemd timer (already running on this server because of Questiz) will auto-renew this cert going forward. Nothing else to configure for renewal.
+
+---
+
+## 16. Nginx Site — Phase 2 (full HTTPS config)
+
+Now that the cert files exist, replace the bootstrap site file with the full production config.
+
+```bash
+sudo nano /etc/nginx/sites-available/calmcompass
+```
+
+Delete everything and paste:
 
 ```nginx
 upstream calmcompass_gunicorn {
     server unix:/run/calmcompass/gunicorn.sock;
 }
 
+# HTTP: serve ACME challenges, redirect everything else to HTTPS.
 server {
     listen 80;
     listen [::]:80;
-    server_name calmcompass.yourdomain.com;
+    server_name calmcompass.zai.bd;
 
-    # Let certbot answer the HTTP-01 challenge, then redirect everything else.
     location /.well-known/acme-challenge/ {
         root /var/www/html;
     }
@@ -541,14 +664,14 @@ server {
     }
 }
 
+# HTTPS: the real site.
 server {
     listen 443 ssl http2;
     listen [::]:443 ssl http2;
-    server_name calmcompass.yourdomain.com;
+    server_name calmcompass.zai.bd;
 
-    # certbot will fill these in; placeholder paths shown.
-    ssl_certificate     /etc/letsencrypt/live/calmcompass.yourdomain.com/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/calmcompass.yourdomain.com/privkey.pem;
+    ssl_certificate     /etc/letsencrypt/live/calmcompass.zai.bd/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/calmcompass.zai.bd/privkey.pem;
 
     client_max_body_size 25M;
 
@@ -591,33 +714,27 @@ server {
 }
 ```
 
-Enable the site, test config, reload:
+> Note: this uses the legacy `listen 443 ssl http2;` form because it works on every Nginx version. Nginx 1.25.1+ also accepts a standalone `http2 on;` directive, but older versions (including what's on this server) reject it with `unknown directive "http2"`. The "protocol options redefined for [::]:443" warning you may see in `nginx -t` is a harmless side effect of both this site and Questiz's site using the same legacy form — it's a warning, not an error, and Nginx still loads cleanly.
+
+Test and reload:
 
 ```bash
-sudo ln -s /etc/nginx/sites-available/calmcompass /etc/nginx/sites-enabled/calmcompass
 sudo nginx -t
 sudo systemctl reload nginx
 ```
 
-If `nginx -t` fails, **do not reload**. Fix the error first — an unreloaded config keeps Questiz safe.
+If this fails with a cert-file error again, you did not actually get the cert in section 15 — re-run certbot and make sure it says "Successfully received certificate" before coming back here.
 
----
-
-## 15. TLS Certificate (Let's Encrypt)
-
-Only if this subdomain does not already have a cert:
+Quick sanity check:
 
 ```bash
-sudo apt install -y certbot python3-certbot-nginx
-sudo certbot --nginx -d calmcompass.yourdomain.com
-sudo systemctl reload nginx
+curl -I https://calmcompass.zai.bd/
+# Expect: HTTP/2 200  and a valid TLS handshake
 ```
-
-Certbot auto-renews via its own systemd timer, which is shared with Questiz — nothing else to configure.
 
 ---
 
-## 16. Wire Up Stripe And bKash Webhooks
+## 17. Wire Up Stripe And bKash Webhooks
 
 Both providers need to reach the new domain.
 
@@ -637,7 +754,7 @@ sudo systemctl restart calmcompass-celery-beat
 
 ---
 
-## 17. First-Time Smoke Test
+## 18. First-Time Smoke Test
 
 From a browser:
 
@@ -658,7 +775,7 @@ sudo tail -f /var/log/calmcompass/celery-worker.log
 
 ---
 
-## 18. Future Updates (after the first deploy)
+## 19. Future Updates (after the first deploy)
 
 Once the app is live, the normal update flow is:
 
@@ -700,7 +817,7 @@ pg_dump -U calmcompass_user -h 127.0.0.1 calmcompass_db > ~/calmcompass_backup_$
 
 ---
 
-## 19. Common Problems (shared-server edition)
+## 20. Common Problems (shared-server edition)
 
 ### 502 Bad Gateway on calmcompass.yourdomain.com, but Questiz still works
 Gunicorn failed to start or the socket path doesn't match.
@@ -744,7 +861,7 @@ Signing secret does not match. Rotate it in the Stripe dashboard, paste it into 
 
 ---
 
-## 20. What Not To Do (short list)
+## 21. What Not To Do (short list)
 
 - Do not run `sudo rm -rf /srv/questiz*` — ever.
 - Do not `git init` or `git clone` inside `/srv/questizsurvey/app`.
@@ -757,9 +874,9 @@ Signing secret does not match. Rotate it in the Stripe dashboard, paste it into 
 
 ---
 
-## 21. One-Shot "Looks Good, Deploy" Command Block
+## 22. One-Shot "Looks Good, Deploy" Command Block
 
-Only run this **after** sections 1–16 are done once manually. For subsequent deploys:
+Only run this **after** sections 1–17 are done once manually. For subsequent deploys:
 
 ```bash
 cd /srv/calmcompass/app && \
