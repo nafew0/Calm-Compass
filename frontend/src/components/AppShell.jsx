@@ -5,6 +5,7 @@ import {
   Home,
   LogOut,
   PillBottle,
+  ShieldCheck,
   User,
 } from 'lucide-react'
 
@@ -93,6 +94,12 @@ export default function AppShell({ children }) {
               <User className="mr-2 h-4 w-4" />
               Profile
             </DropdownMenuItem>
+            {user?.can_access_admin ? (
+              <DropdownMenuItem onClick={() => navigate('/admin')}>
+                <ShieldCheck className="mr-2 h-4 w-4" />
+                Admin Panel
+              </DropdownMenuItem>
+            ) : null}
             <DropdownMenuItem onClick={handleLogout}>
               <LogOut className="mr-2 h-4 w-4" />
               Log out

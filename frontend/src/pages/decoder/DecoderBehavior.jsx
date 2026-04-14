@@ -17,6 +17,12 @@ import { askAI, getAIStatus } from '@/services/aiChat'
 import { getBehaviorDetail, recordBehaviorView } from '@/services/knowledgebase'
 
 const AI_HELPLINE_LABEL = "Alzheimer's Association 24/7 Helpline: 800-272-3900"
+const AI_SECTION_TITLES = [
+  'What may be happening',
+  'Try this next',
+  'Words to try',
+  'Safety check',
+]
 
 function extractAIStatus(payload) {
   if (!payload) {
@@ -34,8 +40,189 @@ function extractAIStatus(payload) {
   }
 }
 
+function renderInlineMarks(text) {
+  const segments = String(text || '').split(/(\*\*.+?\*\*)/g).filter(Boolean)
+
+  return segments.map((segment, index) => {
+    const isBold = segment.startsWith('**') && segment.endsWith('**')
+    if (!isBold) {
+      return <span key={`${segment}-${index}`}>{segment}</span>
+    }
+
+    return (
+      <strong key={`${segment}-${index}`} className="font-semibold text-foreground">
+        {segment.slice(2, -2)}
+      </strong>
+    )
+  })
+}
+
+function createTextBlock(lines) {
+  const text = lines.join(' ').trim()
+  if (!text) return null
+
+  return {
+    type: 'paragraph',
+    text,
+  }
+}
+
+function parseAIBlocks(lines) {
+  const blocks = []
+  let paragraphLines = []
+  let index = 0
+
+  const flushParagraph = () => {
+    const paragraphBlock = createTextBlock(paragraphLines)
+    if (paragraphBlock) {
+      blocks.push(paragraphBlock)
+    }
+    paragraphLines = []
+  }
+
+  while (index < lines.length) {
+    const currentLine = lines[index].trim()
+
+    if (!currentLine) {
+      flushParagraph()
+      index += 1
+      continue
+    }
+
+    const unorderedMatch = currentLine.match(/^[-*]\s+(.+)$/)
+    const orderedMatch = currentLine.match(/^\d+[.)]\s+(.+)$/)
+
+    if (unorderedMatch || orderedMatch) {
+      flushParagraph()
+
+      const listType = orderedMatch ? 'ordered' : 'unordered'
+      const items = []
+
+      while (index < lines.length) {
+        const listLine = lines[index].trim()
+        const listItemMatch =
+          listType === 'ordered'
+            ? listLine.match(/^\d+[.)]\s+(.+)$/)
+            : listLine.match(/^[-*]\s+(.+)$/)
+
+        if (!listItemMatch) {
+          break
+        }
+
+        items.push(listItemMatch[1].trim())
+        index += 1
+      }
+
+      if (items.length) {
+        blocks.push({
+          type: 'list',
+          ordered: listType === 'ordered',
+          items,
+        })
+      }
+      continue
+    }
+
+    paragraphLines.push(currentLine)
+    index += 1
+  }
+
+  flushParagraph()
+
+  return blocks
+}
+
+function parseAIAnswer(answer) {
+  const cleanedAnswer = String(answer || '').replace(/\r\n/g, '\n').trim()
+  if (!cleanedAnswer) return []
+
+  const headingPattern = new RegExp(
+    `^(?:#{1,6}\\s*)?(${AI_SECTION_TITLES.join('|')})\\s*:?$`,
+    'i'
+  )
+
+  const sections = []
+  let currentSection = null
+
+  cleanedAnswer.split('\n').forEach((line) => {
+    const trimmedLine = line.trim()
+    const headingMatch = trimmedLine.match(headingPattern)
+
+    if (headingMatch) {
+      if (currentSection) {
+        sections.push({
+          title: currentSection.title,
+          blocks: parseAIBlocks(currentSection.lines),
+        })
+      }
+
+      currentSection = {
+        title: AI_SECTION_TITLES.find(
+          (title) => title.toLowerCase() === headingMatch[1].toLowerCase()
+        ) || headingMatch[1],
+        lines: [],
+      }
+      return
+    }
+
+    if (!currentSection) {
+      currentSection = {
+        title: 'Response',
+        lines: [],
+      }
+    }
+
+    currentSection.lines.push(line)
+  })
+
+  if (currentSection) {
+    sections.push({
+      title: currentSection.title,
+      blocks: parseAIBlocks(currentSection.lines),
+    })
+  }
+
+  return sections.filter((section) => section.blocks.length > 0)
+}
+
+function AIBodyBlock({ block }) {
+  if (block.type === 'list') {
+    const List = block.ordered ? 'ol' : 'ul'
+
+    return (
+      <List
+        className={`space-y-2 pl-5 text-sm leading-6 text-muted-foreground ${
+          block.ordered ? 'list-decimal' : 'list-disc'
+        }`}
+      >
+        {block.items.map((item, index) => (
+          <li key={`${item}-${index}`} className="pl-1 marker:text-[rgb(var(--theme-primary-ink-rgb))]">
+            {renderInlineMarks(item)}
+          </li>
+        ))}
+      </List>
+    )
+  }
+
+  return (
+    <p className="text-sm leading-6 text-muted-foreground">{renderInlineMarks(block.text)}</p>
+  )
+}
+
 function AIAnswerCard({ answer, source }) {
   if (!answer) return null
+
+  const sections = parseAIAnswer(answer)
+  const toneClasses = {
+    'What may be happening':
+      'border-[rgb(var(--theme-secondary-strong-rgb)/0.7)] bg-[rgb(var(--theme-secondary-soft-rgb)/0.34)]',
+    'Try this next':
+      'border-[rgb(var(--theme-primary-strong-rgb)/0.7)] bg-[rgb(var(--theme-primary-soft-rgb)/0.34)]',
+    'Words to try':
+      'border-[rgb(var(--theme-accent-strong-rgb)/0.7)] bg-[rgb(var(--theme-accent-soft-rgb)/0.34)]',
+    'Safety check': 'border-amber-200 bg-amber-50',
+    Response: 'border-[rgb(var(--theme-border-rgb)/0.92)] bg-white',
+  }
 
   return (
     <div className="soft-tile mt-4 p-4">
@@ -43,19 +230,34 @@ function AIAnswerCard({ answer, source }) {
         <p className="text-sm font-semibold text-foreground">AI response</p>
         <Badge variant="outline">{source === 'safety_fallback' ? 'Safety' : 'AI'}</Badge>
       </div>
-      <div className="mt-3 whitespace-pre-wrap text-sm leading-7 text-muted-foreground">
-        {answer}
+      <div className="mt-4 space-y-3">
+        {sections.map((section, index) => (
+          <section
+            key={`${section.title}-${index}`}
+            className={`rounded-[var(--radius)] border px-4 py-3 ${
+              toneClasses[section.title] || toneClasses.Response
+            }`}
+          >
+            <h3 className="text-sm font-semibold text-foreground">{section.title}</h3>
+            <div className="mt-2 space-y-2">
+              {section.blocks.map((block, blockIndex) => (
+                <AIBodyBlock key={`${section.title}-${block.type}-${blockIndex}`} block={block} />
+              ))}
+            </div>
+          </section>
+        ))}
       </div>
     </div>
   )
 }
 
-function DecoderSection({ icon: Icon, label, title, children, tone = 'slate' }) {
+function DecoderSection({ icon: Icon, title, children, tone = 'slate' }) {
   const toneClasses = {
     slate: 'bg-[rgb(var(--theme-neutral-strong-rgb))] text-foreground',
-    amber: 'bg-amber-50 text-amber-800',
-    emerald: 'bg-[rgb(var(--theme-primary-soft-rgb))] text-[rgb(var(--theme-primary-ink-rgb))]',
-    sky: 'bg-[rgb(var(--theme-secondary-soft-rgb))] text-[rgb(var(--theme-secondary-ink-rgb))]',
+    amber:
+      'bg-[rgb(var(--theme-secondary-soft-rgb)/0.92)] text-[rgb(var(--theme-secondary-ink-rgb))]',
+    emerald: 'bg-emerald-50 text-emerald-800',
+    sky: 'bg-[rgb(var(--theme-primary-soft-rgb)/0.92)] text-[rgb(var(--theme-primary-ink-rgb))]',
   }
 
   return (
@@ -66,14 +268,13 @@ function DecoderSection({ icon: Icon, label, title, children, tone = 'slate' }) 
         >
           <Icon className="h-5 w-5" />
         </span>
-        <div className="min-w-0">
-          <p className="text-xs font-semibold text-muted-foreground">{label}</p>
-          <h2 className="mt-1 text-xl font-semibold tracking-tight text-foreground">
-            {title}
-          </h2>
+        <div className="min-w-0 pt-1">
+          <h2 className="text-xl font-semibold tracking-tight text-foreground">{title}</h2>
         </div>
       </div>
-      <div className="mt-4 text-sm leading-7 text-muted-foreground">{children}</div>
+      <div className="mt-4 text-sm leading-7 text-[rgb(var(--theme-foreground-rgb)/0.86)]">
+        {children}
+      </div>
     </section>
   )
 }
@@ -306,19 +507,19 @@ export default function DecoderBehavior() {
         </section>
 
         <div className="grid gap-3">
-          <DecoderSection icon={Brain} label="1" title="What's Happening" tone="sky">
+          <DecoderSection icon={Brain} title="What's Happening" tone="sky">
             <p>{behavior.whats_happening}</p>
           </DecoderSection>
 
-          <DecoderSection icon={TriangleAlert} label="2" title="What NOT to Do" tone="amber">
+          <DecoderSection icon={TriangleAlert} title="What NOT to Do" tone="amber">
             <ListBlock items={behavior.what_not_to_do} ordered />
           </DecoderSection>
 
-          <DecoderSection icon={MessageSquareText} label="3" title="What to Say Instead" tone="emerald">
+          <DecoderSection icon={MessageSquareText} title="What to Say Instead" tone="emerald">
             <ListBlock items={behavior.what_to_say} />
           </DecoderSection>
 
-          <DecoderSection icon={Lightbulb} label="4" title="Why This Works">
+          <DecoderSection icon={Lightbulb} title="Why This Works">
             <p>{behavior.why_it_works}</p>
           </DecoderSection>
         </div>

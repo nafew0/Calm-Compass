@@ -1,20 +1,20 @@
 const WHITE_RGB = { r: 255, g: 255, b: 255 }
-const FOREGROUND_RGB = { r: 24, g: 33, b: 29 }
+const FOREGROUND_RGB = { r: 16, g: 28, b: 58 }
 const DEFAULT_SITE_COLORS = {
-  primary: '#2f7d68',
-  secondary: '#3f7ea6',
-  accent: '#b85f63',
+  primary: '#002055',
+  secondary: '#d9002b',
+  accent: '#a70d30',
 }
 
-export const SITE_THEME_STORAGE_KEY = 'calm_compass-site-theme'
+export const SITE_THEME_STORAGE_KEY = 'calm_compass-site-theme-v2'
 
-export const DEFAULT_SITE_THEME_ID = 'calm-white'
+export const DEFAULT_SITE_THEME_ID = 'compass-brand'
 
 export const SITE_THEME_PRESETS = [
   {
-    id: 'calm-white',
-    name: 'Calm White',
-    description: 'White surfaces with sage, sky, and soft rose accents.',
+    id: 'compass-brand',
+    name: 'Compass Brand',
+    description: 'Deep navy foundations with signal red highlights.',
     colors: DEFAULT_SITE_COLORS,
   },
   {
@@ -211,31 +211,31 @@ export function buildSiteThemeVariables(colors) {
   const secondary = hexToRgb(colors.secondary)
   const accent = hexToRgb(colors.accent)
 
-  const primarySoft = mixRgb(primary, WHITE_RGB, 0.88)
-  const primaryStrong = mixRgb(primary, WHITE_RGB, 0.72)
-  const primaryInk = mixRgb(FOREGROUND_RGB, primary, 0.22)
+  const primarySoft = mixRgb(primary, WHITE_RGB, 0.93)
+  const primaryStrong = mixRgb(primary, WHITE_RGB, 0.84)
+  const primaryInk = mixRgb(primary, FOREGROUND_RGB, 0.08)
 
-  const secondarySoft = mixRgb(secondary, WHITE_RGB, 0.89)
-  const secondaryStrong = mixRgb(secondary, WHITE_RGB, 0.74)
-  const secondaryInk = mixRgb(FOREGROUND_RGB, secondary, 0.18)
+  const secondarySoft = mixRgb(secondary, WHITE_RGB, 0.94)
+  const secondaryStrong = mixRgb(secondary, WHITE_RGB, 0.84)
+  const secondaryInk = mixRgb(secondary, FOREGROUND_RGB, 0.1)
 
-  const accentSoft = mixRgb(accent, WHITE_RGB, 0.9)
-  const accentStrong = mixRgb(accent, WHITE_RGB, 0.72)
-  const accentInk = mixRgb(FOREGROUND_RGB, accent, 0.2)
+  const accentSoft = mixRgb(accent, WHITE_RGB, 0.93)
+  const accentStrong = mixRgb(accent, WHITE_RGB, 0.82)
+  const accentInk = mixRgb(accent, FOREGROUND_RGB, 0.12)
 
-  const mixedBase = mixRgb(primary, secondary, 0.5)
-  const mixedAccent = mixRgb(mixedBase, accent, 0.35)
-  const mixedSoft = mixRgb(mixedAccent, WHITE_RGB, 0.92)
-  const mixedStrong = mixRgb(mixedAccent, WHITE_RGB, 0.78)
-  const neutral = mixRgb(mixedBase, WHITE_RGB, 0.95)
-  const neutralStrong = mixRgb(mixedBase, WHITE_RGB, 0.9)
+  const mixedBase = mixRgb(primary, secondary, 0.18)
+  const mixedAccent = mixRgb(mixedBase, accent, 0.14)
+  const mixedSoft = mixRgb(mixedAccent, WHITE_RGB, 0.94)
+  const mixedStrong = mixRgb(mixedAccent, WHITE_RGB, 0.84)
+  const neutral = mixRgb(primary, WHITE_RGB, 0.97)
+  const neutralStrong = mixRgb(primary, WHITE_RGB, 0.93)
 
-  const border = mixRgb(mixedBase, WHITE_RGB, 0.8)
-  const input = mixRgb(secondary, WHITE_RGB, 0.84)
-  const muted = mixRgb(primary, WHITE_RGB, 0.94)
-  const mutedForeground = mixRgb(FOREGROUND_RGB, mixedBase, 0.35)
-  const shadow = mixRgb(FOREGROUND_RGB, primary, 0.12)
-  const heroSpot = mixRgb(accent, WHITE_RGB, 0.82)
+  const border = mixRgb(primary, WHITE_RGB, 0.86)
+  const input = mixRgb(primary, WHITE_RGB, 0.9)
+  const muted = mixRgb(primary, WHITE_RGB, 0.95)
+  const mutedForeground = mixRgb(primary, WHITE_RGB, 0.44)
+  const shadow = mixRgb(primary, FOREGROUND_RGB, 0.35)
+  const heroSpot = mixRgb(secondary, WHITE_RGB, 0.78)
 
   return {
     '--background': hslToCssValue(WHITE_RGB),

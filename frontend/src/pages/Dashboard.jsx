@@ -20,12 +20,26 @@ const utilityCards = [
     title: 'Daily Log',
     copy: 'Add a quick note or mood check.',
     href: '/log',
+    surfaceClass:
+      'border-[rgb(var(--theme-primary-strong-rgb)/0.8)] bg-[rgb(var(--theme-primary-soft-rgb)/0.72)]',
+    iconSurfaceClass:
+      'border border-[rgb(var(--theme-border-rgb)/0.9)] bg-[rgb(var(--theme-neutral-rgb))]',
+    iconClass: 'text-[rgb(var(--theme-primary-ink-rgb))]',
+    titleClass: 'text-[rgb(var(--theme-primary-ink-rgb))]',
+    copyClass: 'text-[rgb(var(--theme-primary-ink-rgb)/0.78)]',
   },
   {
     icon: PillBottle,
     title: 'Meds',
     copy: 'Log the next dose in a tap.',
     href: '/medications',
+    surfaceClass:
+      'border-[rgb(var(--theme-secondary-strong-rgb)/0.8)] bg-[rgb(var(--theme-secondary-soft-rgb)/0.6)]',
+    iconSurfaceClass:
+      'border border-[rgb(var(--theme-border-rgb)/0.9)] bg-[rgb(var(--theme-neutral-rgb))]',
+    iconClass: 'text-[rgb(var(--theme-secondary-ink-rgb))]',
+    titleClass: 'text-[rgb(var(--theme-secondary-ink-rgb))]',
+    copyClass: 'text-[rgb(var(--theme-secondary-ink-rgb)/0.78)]',
   },
 ]
 
@@ -93,53 +107,74 @@ export default function Dashboard() {
         </section>
 
         <div className="grid grid-cols-2 gap-3">
-          {utilityCards.map(({ icon: Icon, title, copy, href }) => (
-            <Link key={title} to={href} className="soft-card pressable block p-4">
-              <span className="theme-icon-secondary inline-flex h-10 w-10 items-center justify-center">
-                <Icon className="h-5 w-5" />
-              </span>
-              <h2 className="mt-4 text-lg font-semibold text-foreground">{title}</h2>
-              <p className="mt-1 text-sm leading-5 text-muted-foreground">{copy}</p>
-            </Link>
-          ))}
+          {utilityCards.map(
+            ({
+              icon: Icon,
+              title,
+              copy,
+              href,
+              surfaceClass,
+              iconSurfaceClass,
+              iconClass,
+              titleClass,
+              copyClass,
+            }) => (
+              <Link
+                key={title}
+                to={href}
+                className={`soft-card pressable block p-4 ${surfaceClass}`}
+              >
+                <div className="flex items-center gap-3">
+                  <span
+                    className={`inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-[var(--radius)] ${iconSurfaceClass} ${iconClass}`}
+                  >
+                    <Icon className="h-5 w-5" />
+                  </span>
+                  <h2 className={`text-xl font-semibold ${titleClass}`}>{title}</h2>
+                </div>
+                <p className={`mt-4 text-sm leading-6 ${copyClass}`}>{copy}</p>
+              </Link>
+            )
+          )}
         </div>
 
         <section className="soft-card p-4">
-          <div className="flex items-start gap-3">
+          <div className="flex items-center gap-3">
             <span className="theme-icon-primary inline-flex h-10 w-10 shrink-0 items-center justify-center">
               <BookOpenText className="h-5 w-5" />
             </span>
-            <div className="min-w-0 flex-1">
-              <div className="flex items-center justify-between gap-3">
-                <h2 className="text-lg font-semibold text-foreground">Last lookup</h2>
-                {hasLastLookup ? (
-                  <Badge variant="outline">{lastViewed.behavior.category?.name}</Badge>
-                ) : null}
-              </div>
-              {loadingLastViewed ? (
-                <p className="mt-3 flex items-center gap-2 text-sm text-muted-foreground">
-                  <LoaderCircle className="h-4 w-4 animate-spin" />
-                  Loading...
-                </p>
-              ) : hasLastLookup ? (
-                <>
-                  <p className="mt-2 line-clamp-2 text-sm leading-6 text-muted-foreground">
-                    {lastViewed.behavior.title}
-                  </p>
-                  <Button asChild variant="outline" className="mt-4 w-full justify-between">
-                    <Link to={`/decoder/behavior/${lastViewed.behavior.slug}`}>
-                      Open again
-                      <ArrowRight className="h-4 w-4" />
-                    </Link>
-                  </Button>
-                </>
-              ) : (
-                <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                  Your recent decoder lookup will stay here.
-                </p>
-              )}
-            </div>
+            <h2 className="text-xl font-semibold text-[rgb(var(--theme-primary-ink-rgb))]">
+              Last lookup
+            </h2>
+            {hasLastLookup ? (
+              <Badge variant="outline" className="ml-auto">
+                {lastViewed.behavior.category?.name}
+              </Badge>
+            ) : null}
           </div>
+
+          {loadingLastViewed ? (
+            <p className="mt-4 flex items-center gap-2 text-sm text-muted-foreground">
+              <LoaderCircle className="h-4 w-4 animate-spin" />
+              Loading...
+            </p>
+          ) : hasLastLookup ? (
+            <div className="mt-4">
+              <p className="line-clamp-2 text-base leading-7 text-[rgb(var(--theme-primary-ink-rgb))]">
+                {lastViewed.behavior.title}
+              </p>
+              <Button asChild variant="outline" className="mt-4 w-full justify-between">
+                <Link to={`/decoder/behavior/${lastViewed.behavior.slug}`}>
+                  Open again
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+              </Button>
+            </div>
+          ) : (
+            <p className="mt-4 text-sm leading-6 text-muted-foreground">
+              Your recent decoder lookup will stay here.
+            </p>
+          )}
         </section>
 
         <section className="soft-tile p-4">

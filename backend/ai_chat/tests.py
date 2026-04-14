@@ -9,7 +9,7 @@ from rest_framework.test import APIClient
 
 from accounts.models import SiteSettings
 from ai_chat.models import AIChatUsage
-from ai_chat.services import AIChatService
+from ai_chat.services import AIChatService, SYSTEM_PROMPT
 from daily_log.models import LogEntry
 from knowledgebase.models import Behavior, BehaviorCategory
 
@@ -201,6 +201,12 @@ class AIChatApiTests(TestCase):
         self.assertIn("Linked behavior: Repeating the Same Question (Repetition)", prompt)
         self.assertEqual(prompt.count("Moods: Calm"), 15)
 
+    def test_system_prompt_requires_short_structured_answer(self):
+        self.assertIn("TL;DR-style", SYSTEM_PROMPT)
+        self.assertIn("70 to 140 words", SYSTEM_PROMPT)
+        self.assertIn("Use exactly these headings and no others", SYSTEM_PROMPT)
+        self.assertIn("Use flat bullets only", SYSTEM_PROMPT)
+
     @patch.object(AIChatService, "_request_ai_response")
     @patch("ai_chat.services.get_ai_api_key", return_value="test-key")
     def test_emergency_shortcut_returns_safety_fallback_without_consuming_query(
@@ -218,6 +224,7 @@ class AIChatApiTests(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data["source"], "safety_fallback")
         self.assertIn("What may be happening", response.data["answer"])
+        self.assertIn("- **Call emergency services now**", response.data["answer"])
         self.assertFalse(AIChatUsage.objects.filter(user=self.user).exists())
         mocked_request_ai_response.assert_not_called()
         self.assertGreaterEqual(mocked_get_ai_api_key.call_count, 1)

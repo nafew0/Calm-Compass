@@ -40,16 +40,18 @@ EMERGENCY_KEYWORDS = (
 SAFETY_FALLBACK_ANSWER = dedent(
     """
     What may be happening
-    This sounds like a possible emergency or an immediate safety risk, so an AI fallback is not the right next step.
+    This sounds like a possible emergency or immediate safety risk.
 
     Try this next
-    Call local emergency services now if there is danger, trouble breathing, collapse, severe bleeding, overdose, chest pain, stroke signs, or the person cannot be awakened. If the situation is urgent but not immediately life-threatening, contact the person’s clinician or urgent care right away.
+    - **Call emergency services now** if there is danger, trouble breathing, collapse, severe bleeding, overdose, chest pain, stroke signs, or the person cannot be awakened.
+    - If it feels urgent but not immediately life-threatening, contact the clinician or urgent care right away.
 
     Words to try
-    “I’m here with you. I’m getting help now.”
+    - “I’m here with you. I’m getting help now.”
 
     Safety check
-    Stay with the person, remove immediate hazards if you can do so safely, and reach out to the Alzheimer’s Association 24/7 Helpline at 800-272-3900 for caregiver support when emergency services are not the primary next step.
+    - Stay with the person and remove immediate hazards only if you can do so safely.
+    - For caregiver support when emergency services are not the main next step, call the Alzheimer’s Association 24/7 Helpline at 800-272-3900.
     """
 ).strip()
 
@@ -67,7 +69,9 @@ SYSTEM_PROMPT = dedent(
     - If the caregiver asks for non-dementia topics, say you can only help with dementia caregiving support.
     - If there are signs of immediate danger, sudden medical change, violence, injury, overdose, breathing trouble, chest pain, stroke symptoms, or loss of consciousness, clearly tell the caregiver to seek emergency help.
     - Keep the tone calm, direct, practical, and compassionate.
-    - Write short paragraphs and bullets only when they improve clarity.
+    - Keep the whole answer brief and TL;DR-style. Aim for about 70 to 140 words total.
+    - Use plain markdown formatting only when helpful: short bullets and a little bold for key actions or warnings.
+    - Use flat bullets only. No nested bullets, no long paragraphs, and no intro or closing note.
     - Use exactly these headings and no others:
       What may be happening
       Try this next
@@ -369,7 +373,7 @@ class AIChatService:
             "model": model,
             "instructions": system_prompt,
             "input": user_prompt,
-            "max_output_tokens": 700,
+            "max_output_tokens": 260,
         }
         if cls._should_use_openai_reasoning(model):
             payload["reasoning"] = {"effort": "low"}
@@ -392,7 +396,7 @@ class AIChatService:
     def _request_anthropic(cls, *, model, api_key, system_prompt, user_prompt):
         payload = {
             "model": model,
-            "max_tokens": 700,
+            "max_tokens": 260,
             "system": system_prompt,
             "messages": [{"role": "user", "content": user_prompt}],
         }

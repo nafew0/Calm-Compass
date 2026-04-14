@@ -153,23 +153,33 @@ export default function DecoderCategory() {
               No behavior matches this filter.
             </div>
           ) : (
-            filteredBehaviors.map((behavior) => (
-              <Link
-                key={behavior.slug}
-                to={`/decoder/behavior/${behavior.slug}`}
-                className="soft-card pressable flex items-start justify-between gap-4 p-4"
-              >
-                <div className="min-w-0">
-                  <h2 className="text-lg font-semibold text-foreground">{behavior.title}</h2>
-                  {behavior.short_summary ? (
-                    <p className="mt-2 line-clamp-2 text-sm leading-6 text-muted-foreground">
-                      {behavior.short_summary}
-                    </p>
-                  ) : null}
-                </div>
-                <ArrowRight className="mt-1 h-4 w-4 shrink-0 text-muted-foreground" />
-              </Link>
-            ))
+            filteredBehaviors.map((behavior, index) => {
+              const isTintedRow = index % 2 === 0
+
+              return (
+                <Link
+                  key={behavior.slug}
+                  to={`/decoder/behavior/${behavior.slug}`}
+                  className={`soft-card pressable flex items-start justify-between gap-4 p-4 ${
+                    isTintedRow
+                      ? 'border-[rgb(var(--theme-secondary-strong-rgb)/0.7)] bg-[rgb(var(--theme-secondary-soft-rgb)/0.42)]'
+                      : 'bg-white'
+                  }`}
+                >
+                  <div className="min-w-0">
+                    <h2 className="text-lg font-semibold text-[rgb(var(--theme-primary-ink-rgb))]">
+                      {behavior.title}
+                    </h2>
+                    {behavior.short_summary ? (
+                      <p className="mt-2 line-clamp-2 text-sm leading-6 text-muted-foreground">
+                        {behavior.short_summary}
+                      </p>
+                    ) : null}
+                  </div>
+                  <ArrowRight className="mt-1 h-4 w-4 shrink-0 text-[rgb(var(--theme-primary-ink-rgb))]" />
+                </Link>
+              )
+            })
           )}
         </section>
       </div>
