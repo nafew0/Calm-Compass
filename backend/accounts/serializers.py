@@ -1,0 +1,288 @@
+import os
+from io import BytesIO
+
+from django.contrib.auth import get_user_model
+from rest_framework import serializers
+from django.contrib.auth.password_validation import validate_password
+from django.core.files.uploadedfile import SimpleUploadedFile
+from PIL import Image, ImageOps, ImageSequence, UnidentifiedImageError
+
+from subscriptions.serializers import PlanSummarySerializer
+from subscriptions.services import LicenseService
+
+User = get_user_model()
+FORMAT_CONTENT_TYPES = {
+    "JPEG": "image/jpeg",
+    "PNG": "image/png",
+    "WEBP": "image/webp",
+    "GIF": "image/gif",
+}
+EXTENSION_FORMATS = {
+    ".jpg": "JPEG",
+    ".jpeg": "JPEG",
+    ".png": "PNG",
+    ".webp": "WEBP",
+    ".gif": "GIF",
+}
+
+
+def _normalize_avatar_frame(frame, image_format):
+    normalized = ImageOps.exif_transpose(frame)
+    if image_format == "JPEG" and normalized.mode not in {"RGB", "L"}:
+        normalized = normalized.convert("RGB")
+    return normalized.copy()
+
+
+def sanitize_avatar_upload(uploaded_file):
+    uploaded_file.seek(0)
+    with Image.open(uploaded_file) as image:
+        image_format = (image.format or "").upper()
+        if image_format not in FORMAT_CONTENT_TYPES:
+            extension = os.path.splitext(uploaded_file.name or "")[1].lower()
+            image_format = EXTENSION_FORMATS.get(extension, "PNG")
+
+        if getattr(image, "is_animated", False):
+            frames = [
+                _normalize_avatar_frame(frame.copy(), image_format)
+                for frame in ImageSequence.Iterator(image)
+            ]
+        else:
+            frames = [_normalize_avatar_frame(image, image_format)]
+
+        buffer = BytesIO()
+        save_kwargs = {}
+        if len(frames) > 1 and image_format in {"GIF", "WEBP"}:
+            save_kwargs["save_all"] = True
+            save_kwargs["append_images"] = frames[1:]
+            if "duration" in image.info:
+                save_kwargs["duration"] = image.info["duration"]
+            if "loop" in image.info:
+                save_kwargs["loop"] = image.info["loop"]
+
+        frames[0].save(buffer, format=image_format, **save_kwargs)
+        buffer.seek(0)
+
+        return SimpleUploadedFile(
+            uploaded_file.name,
+            buffer.getvalue(),
+            content_type=FORMAT_CONTENT_TYPES.get(image_format, "application/octet-stream"),
+        )
+
+
+class UserSerializer(serializers.ModelSerializer):
+    """Serializer for User model."""
+
+    current_plan = serializers.SerializerMethodField()
+    can_access_admin = serializers.SerializerMethodField()
+    has_completed_setup = serializers.ReadOnlyField()
+
+    class Meta:
+        model = User
+        fields = [
+            "id",
+            "username",
+            "email",
+            "can_access_admin",
+            "first_name",
+            "last_name",
+            "bio",
+            "avatar",
+            "care_recipient_name",
+            "organization",
+            "designation",
+            "phone",
+            "email_verified",
+            "has_completed_setup",
+            "current_plan",
+            "created_at",
+            "updated_at",
+        ]
+        read_only_fields = ["id", "created_at", "updated_at"]
+
+    def get_current_plan(self, obj):
+        plan = LicenseService.get_user_plan(obj)
+        return PlanSummarySerializer(plan).data
+
+    def get_can_access_admin(self, obj):
+        return bool(obj.is_superuser)
+
+
+class UserRegistrationSerializer(serializers.ModelSerializer):
+    """Serializer for user registration."""
+
+    password = serializers.CharField(
+        write_only=True, required=True, validators=[validate_password]
+    )
+    password2 = serializers.CharField(write_only=True, required=True)
+
+    class Meta:
+        model = User
+        fields = [
+            "username",
+            "email",
+            "password",
+            "password2",
+            "first_name",
+            "last_name",
+            "organization",
+        ]
+
+    def validate(self, attrs):
+        """Validate that passwords match."""
+        if attrs["password"] != attrs["password2"]:
+            raise serializers.ValidationError(
+                {"password": "Password fields didn't match."}
+            )
+        return attrs
+
+    def create(self, validated_data):
+        """Create a new user with encrypted password."""
+        validated_data.pop("password2")
+        user = User.objects.create_user(**validated_data)
+        return user
+
+
+class UserUpdateSerializer(serializers.ModelSerializer):
+    """Serializer for updating user profile."""
+
+    class Meta:
+        model = User
+        fields = [
+            "first_name",
+            "last_name",
+            "bio",
+            "avatar",
+            "care_recipient_name",
+            "email",
+            "organization",
+            "designation",
+            "phone",
+        ]
+
+    def validate_email(self, value):
+        """Check if email is already in use by another user."""
+        user = self.context["request"].user
+        if User.objects.exclude(pk=user.pk).filter(email=value).exists():
+            raise serializers.ValidationError("This email is already in use.")
+        return value
+
+    def validate_phone(self, value):
+        """Allow common international phone formats without being overly strict."""
+        normalized = (value or "").strip()
+        if not normalized:
+            return ""
+
+        allowed_characters = set("0123456789+()-. ")
+        if any(character not in allowed_characters for character in normalized):
+            raise serializers.ValidationError(
+                "Phone number may contain only digits, spaces, and + ( ) - . characters."
+            )
+        return normalized
+
+    def validate_care_recipient_name(self, value):
+        return (value or "").strip()
+
+    def validate_avatar(self, value):
+        """Validate avatar uploads to common safe image formats and a sane size."""
+        if not value:
+            return value
+
+        max_size_bytes = 5 * 1024 * 1024
+        allowed_extensions = {".jpg", ".jpeg", ".png", ".webp", ".gif"}
+        allowed_content_types = {
+            "image/jpeg",
+            "image/png",
+            "image/webp",
+            "image/gif",
+        }
+
+        if value.size > max_size_bytes:
+            raise serializers.ValidationError("Avatar image must be 5 MB or smaller.")
+
+        extension = os.path.splitext(value.name or "")[1].lower()
+        if extension and extension not in allowed_extensions:
+            raise serializers.ValidationError(
+                "Avatar must be a JPG, PNG, WEBP, or GIF image."
+            )
+
+        content_type = getattr(value, "content_type", "")
+        if content_type and content_type.lower() not in allowed_content_types:
+            raise serializers.ValidationError(
+                "Avatar must be a JPG, PNG, WEBP, or GIF image."
+            )
+
+        try:
+            image = Image.open(value)
+            image.verify()
+        except (UnidentifiedImageError, OSError, ValueError) as exc:
+            raise serializers.ValidationError("Upload a valid image file.") from exc
+        finally:
+            value.seek(0)
+
+        try:
+            return sanitize_avatar_upload(value)
+        except (UnidentifiedImageError, OSError, ValueError) as exc:
+            raise serializers.ValidationError("Upload a valid image file.") from exc
+
+
+class ChangePasswordSerializer(serializers.Serializer):
+    """Serializer for changing user password."""
+
+    old_password = serializers.CharField(required=True, write_only=True)
+    new_password = serializers.CharField(
+        required=True, write_only=True, validators=[validate_password]
+    )
+    new_password2 = serializers.CharField(required=True, write_only=True)
+
+    def validate(self, attrs):
+        """Validate that new passwords match."""
+        if attrs["new_password"] != attrs["new_password2"]:
+            raise serializers.ValidationError(
+                {"new_password": "Password fields didn't match."}
+            )
+        return attrs
+
+    def validate_old_password(self, value):
+        """Validate that old password is correct."""
+        user = self.context["request"].user
+        if not user.check_password(value):
+            raise serializers.ValidationError("Old password is incorrect.")
+        return value
+
+
+class VerificationEmailRequestSerializer(serializers.Serializer):
+    """Public resend request payload."""
+
+    identifier = serializers.CharField(required=True, max_length=255)
+
+    def validate_identifier(self, value):
+        normalized = value.strip()
+        if not normalized:
+            raise serializers.ValidationError("Identifier is required.")
+        return normalized
+
+
+class PasswordResetRequestSerializer(serializers.Serializer):
+    """Public forgot-password request payload."""
+
+    identifier = serializers.CharField(required=True, max_length=255)
+
+    def validate_identifier(self, value):
+        normalized = value.strip()
+        if not normalized:
+            raise serializers.ValidationError("Identifier is required.")
+        return normalized
+
+
+class VerifyEmailQuerySerializer(serializers.Serializer):
+    """Verification query string payload."""
+
+    token = serializers.CharField(required=True, max_length=64)
+
+    def validate_token(self, value):
+        normalized = value.strip()
+        if not normalized:
+            raise serializers.ValidationError("Verification token is required.")
+        if len(normalized) != 64:
+            raise serializers.ValidationError("Verification token is invalid.")
+        return normalized

@@ -1,0 +1,2209 @@
+{
+  "categories": [
+    {
+      "name": "Repetition",
+      "slug": "repetition",
+      "icon": "repeat-2",
+      "display_order": 1
+    },
+    {
+      "name": "Aggression & Agitation",
+      "slug": "aggression-agitation",
+      "icon": "siren",
+      "display_order": 2
+    },
+    {
+      "name": "Suspicion & Accusations",
+      "slug": "suspicion-accusations",
+      "icon": "shield-alert",
+      "display_order": 3
+    },
+    {
+      "name": "Personal Care Resistance",
+      "slug": "personal-care-resistance",
+      "icon": "bath",
+      "display_order": 4
+    },
+    {
+      "name": "Wandering",
+      "slug": "wandering",
+      "icon": "map",
+      "display_order": 5
+    },
+    {
+      "name": "Sleep & Sundowning",
+      "slug": "sleep-sundowning",
+      "icon": "moon-star",
+      "display_order": 6
+    },
+    {
+      "name": "Eating & Medication",
+      "slug": "eating-medication",
+      "icon": "pill",
+      "display_order": 7
+    },
+    {
+      "name": "Communication Difficulties",
+      "slug": "communication-difficulties",
+      "icon": "message-circle-warning",
+      "display_order": 8
+    },
+    {
+      "name": "Emotional Outbursts",
+      "slug": "emotional-outbursts",
+      "icon": "heart-crack",
+      "display_order": 9
+    },
+    {
+      "name": "Identity & Confusion",
+      "slug": "identity-confusion",
+      "icon": "brain-circuit",
+      "display_order": 10
+    }
+  ],
+  "behaviors": [
+    {
+      "title": "Anger, Agitation, or Yelling",
+      "slug": "anger-agitation-or-yelling",
+      "whats_happening": "They're overwhelmed, scared, or frustrated and can't express it any other way. The anger isn't about you — it's about their world not making sense. Damage to the frontal lobe reduces impulse control and emotional regulation.",
+      "what_not_to_do": [
+        "Don't match their volume or argue back.",
+        "Don't say \"Calm down\" or \"Stop yelling.\"",
+        "Don't crowd them or block their path.",
+        "Don't take it personally — this is the disease talking."
+      ],
+      "what_to_say": [
+        "\"I can see you're upset. I want to help.\"",
+        "\"You're safe. I'm not going anywhere.\"",
+        "\"Let's figure this out together.\"",
+        "\"I'm sorry this is frustrating. What can I do?\""
+      ],
+      "why_it_works": "Validating their emotion without arguing lowers their threat response. A calm, low-toned voice signals safety when their brain is in fight-or-flight mode. Matching their intensity escalates; your calm de-escalates.",
+      "common_triggers": [
+        "Being rushed during personal care (bathing, dressing)",
+        "Overstimulating environments (noise, crowds, clutter)",
+        "Physical discomfort or pain they can't articulate",
+        "Feeling out of control or being corrected",
+        "Medication side effects"
+      ],
+      "bonus_tips": [
+        "Step back physically to give them space — don't corner",
+        "Lower your body posture (sit if they're sitting)",
+        "If safe to do so, leave the room briefly and return when things cool down",
+        "Check for pain, hunger, need to use the toilet, or over-tiredness",
+        "Music from their era can rapidly shift mood"
+      ],
+      "category_slug": "aggression-agitation",
+      "tags": [
+        "anger",
+        "agitation",
+        "yelling",
+        "aggression",
+        "de-escalation",
+        "calming"
+      ],
+      "dementia_stage": "all",
+      "is_published": true
+    },
+    {
+      "title": "Apathy and Withdrawal",
+      "slug": "apathy-and-withdrawal",
+      "whats_happening": "Apathy is one of the most common but least recognized symptoms of dementia. Damage to the brain's motivation and reward centers causes a profound loss of initiative, interest, and emotional engagement. They're not being \"lazy\" — they've lost the neurological ability to generate motivation. This can look like depression but is neurologically distinct.",
+      "what_not_to_do": [
+        "Don't say \"Get up and DO something.\"",
+        "Don't assume they're depressed without assessment.",
+        "Don't leave them alone for long periods.",
+        "Don't fill every moment with activity — overwhelming."
+      ],
+      "what_to_say": [
+        "\"Want to come sit with me in the garden?\"",
+        "\"I could really use your help with something.\"",
+        "\"Let me play some music you love.\"",
+        "\"I'm going to sit here with you for a while.\""
+      ],
+      "why_it_works": "People with apathy often can't start activities on their own but can engage once started. Your presence and gentle initiation bypasses their broken \"start button.\" Activities connected to long-term habits or passions have the best success.",
+      "common_triggers": [
+        "Neurodegeneration in motivation centers",
+        "Depression (which should be treated if present)",
+        "Overstimulation leading to shutdown",
+        "Medications (sedatives, antipsychotics)",
+        "Social isolation"
+      ],
+      "bonus_tips": [
+        "Start activities for them — don't wait for them to show initiative",
+        "Activities connected to their past roles work best (gardening for a gardener, sorting tools for a builder)",
+        "Social interaction, even brief, combats withdrawal",
+        "Screen for depression — it's treatable and common in dementia",
+        "Music is the most reliable way to break through apathy",
+        "Gentle exercise (even chair-based) can help"
+      ],
+      "category_slug": "emotional-outbursts",
+      "tags": [
+        "apathy",
+        "and",
+        "withdrawal",
+        "emotional",
+        "outbursts"
+      ],
+      "dementia_stage": "all",
+      "is_published": true
+    },
+    {
+      "title": "Attention-Seeking or Constant Calling Out",
+      "slug": "attention-seeking-or-constant-calling-out",
+      "whats_happening": "Repetitive calling, yelling, or moaning (even without clear words) is usually a sign of unmet needs: loneliness, fear, pain, boredom, or disorientation. It can also be a self-stimulating behavior when the brain is understimulated. They're not trying to annoy you — they're trying to communicate.",
+      "what_not_to_do": [
+        "Don't ignore them for extended periods.",
+        "Don't say \"Be quiet!\" or \"Stop yelling!\"",
+        "Don't assume it's attention-seeking without investigating.",
+        "Don't punish the behavior."
+      ],
+      "what_to_say": [
+        "\"I'm right here. What do you need?\"",
+        "\"Are you in pain? Can you show me where?\"",
+        "\"Let's put on some music.\"",
+        "\"I'm going to sit with you for a while.\""
+      ],
+      "why_it_works": "Addressing the potential underlying need (pain, loneliness, bathroom, hunger) often resolves the behavior. Background music or audiobooks can fill the silence that triggers calling out.",
+      "common_triggers": [
+        "Pain or physical discomfort",
+        "Loneliness and social isolation",
+        "Boredom or lack of stimulation",
+        "Need to use the bathroom",
+        "Anxiety or fear",
+        "Environmental disorientation"
+      ],
+      "bonus_tips": [
+        "Check for pain first — especially if calling out is new",
+        "Provide a meaningful activity or company",
+        "Background music or familiar TV shows can provide comfort",
+        "Consider a pet or companion robot",
+        "If calling out is incessant and new, it could indicate delirium — contact the doctor"
+      ],
+      "category_slug": "repetition",
+      "tags": [
+        "attention",
+        "seeking",
+        "constant",
+        "calling",
+        "out",
+        "repetition"
+      ],
+      "dementia_stage": "all",
+      "is_published": true
+    },
+    {
+      "title": "Believing the TV is Real",
+      "slug": "believing-the-tv-is-real",
+      "whats_happening": "They cannot distinguish between on-screen events and reality. News coverage may terrify them. Dramas may seem like real emergencies happening in their home.",
+      "what_not_to_do": [
+        "Don't leave distressing news or violent shows playing in the background.",
+        "Don't laugh at their confusion.",
+        "Don't argue for long about what is or is not real."
+      ],
+      "what_to_say": [
+        "\"That's just a TV show. Everything is okay here.\""
+      ],
+      "why_it_works": "Reducing sensory confusion and switching to calmer programming lowers the brain’s misinterpretation load and restores a sense of safety.",
+      "common_triggers": [
+        "News footage or dramatic television",
+        "Low insight into screens versus reality",
+        "Fatigue and evening confusion",
+        "Loud sound or chaotic visuals"
+      ],
+      "bonus_tips": [
+        "Avoid news and dramatic programs",
+        "Use calm, familiar shows",
+        "Nature programs, old comedies, and music are safest.",
+        "Choose gentle, familiar shows like music, nature, or old comedies.",
+        "Turn the TV off if it keeps causing fear.",
+        "Sit with them briefly while changing the channel so the transition feels safe."
+      ],
+      "category_slug": "identity-confusion",
+      "tags": [
+        "believing",
+        "the",
+        "real",
+        "identity",
+        "confusion"
+      ],
+      "dementia_stage": "all",
+      "is_published": true
+    },
+    {
+      "title": "Catastrophic Reactions (Sudden Meltdowns)",
+      "slug": "catastrophic-reactions-sudden-meltdowns",
+      "whats_happening": "A catastrophic reaction is a sudden, extreme emotional outburst — screaming, crying, throwing things, hitting — triggered when they become completely overwhelmed. Their brain has hit maximum capacity and essentially \"crashes.\" It's the cognitive equivalent of a system overload.",
+      "what_not_to_do": [
+        "Don't restrain or physically confront them.",
+        "Don't raise your voice or add more stimulation.",
+        "Don't try to reason with them during the meltdown.",
+        "Don't crowd them — give space."
+      ],
+      "what_to_say": [
+        "(Speak very softly and slowly) \"You're okay. I'm here.\"",
+        "\"Let's go somewhere quiet.\"",
+        "\"I'm going to stay right here. You're safe.\"",
+        "Sometimes silence and calm presence is best — no words needed."
+      ],
+      "why_it_works": "Reducing all stimulation gives their overloaded brain room to recover. Your calm presence acts as an emotional anchor. These episodes usually pass in 5–15 minutes with minimal intervention.",
+      "common_triggers": [
+        "Being asked to do something beyond their ability",
+        "Overstimulation (too much noise, activity, people)",
+        "Feeling embarrassed or put on the spot",
+        "Multi-step tasks that are too complex",
+        "Being rushed or corrected",
+        "Pain or physical discomfort"
+      ],
+      "bonus_tips": [
+        "Prevention is the best strategy — learn their limits and avoid pushing past them",
+        "Simplify tasks into single steps",
+        "Reduce background noise and visual clutter",
+        "After the episode passes, don't bring it up — they likely won't remember",
+        "Keep a log of what triggered it to prevent future episodes",
+        "Ensure your own safety — if they become physically aggressive, step back and call for help if needed"
+      ],
+      "category_slug": "aggression-agitation",
+      "tags": [
+        "catastrophic",
+        "reactions",
+        "sudden",
+        "meltdowns",
+        "aggression",
+        "agitation"
+      ],
+      "dementia_stage": "all",
+      "is_published": true
+    },
+    {
+      "title": "Clinging and Separation Anxiety",
+      "slug": "clinging-and-separation-anxiety",
+      "whats_happening": "Similar to shadowing but more emotionally intense. They may cry, scream, or panic when the primary caregiver leaves, even briefly. Their attachment system is in overdrive because the world feels unsafe. You are their only source of security.",
+      "what_not_to_do": [
+        "Don't sneak out when they're distracted.",
+        "Don't say \"I'll be right back\" unless you will be.",
+        "Don't show irritation at their distress.",
+        "Don't have lengthy, emotional goodbyes — they increase anxiety."
+      ],
+      "what_to_say": [
+        "\"I'm going to [place]. [Name] is going to stay with you. I'll be back at [time].\"",
+        "\"You're in good hands. I love you.\"",
+        "\"Look, [trusted person] is here! You two have fun.\"",
+        "Leave a personal item (scarf, photo) as a comfort object."
+      ],
+      "why_it_works": "Clear, simple statements about your departure and return reduce uncertainty. A transitional object (something of yours) provides comfort in your absence. Quick, confident exits are easier for them than prolonged goodbyes.",
+      "common_triggers": [
+        "Caregiver leaving the home",
+        "New or unfamiliar substitute caregiver",
+        "Changes in routine",
+        "Increased confusion"
+      ],
+      "bonus_tips": [
+        "Build a relationship between them and a secondary caregiver BEFORE you need to leave",
+        "Call during your absence — hearing your voice can help",
+        "Keep departures brief and upbeat",
+        "Return when you say you will — consistency builds trust",
+        "Consider a \"buddy system\" — a pet, companion, or familiar activity that provides comfort"
+      ],
+      "category_slug": "emotional-outbursts",
+      "tags": [
+        "clinging",
+        "and",
+        "separation",
+        "anxiety",
+        "emotional",
+        "outbursts"
+      ],
+      "dementia_stage": "all",
+      "is_published": true
+    },
+    {
+      "title": "Collecting or \"Shoplifting\" Others' Belongings",
+      "slug": "collecting-or-shoplifting-others-belongings",
+      "whats_happening": "They don't recognize ownership boundaries anymore. They may think others' items are theirs, or they're fulfilling a \"shopping\" or \"gathering\" instinct.",
+      "what_not_to_do": [
+        "Don't accuse them of stealing.",
+        "Don't shame them in front of others.",
+        "Don't try to force an apology or reasoning about ownership."
+      ],
+      "what_to_say": [
+        "\"That's a nice find! Let me help you carry it.\""
+      ],
+      "why_it_works": "A calm, non-accusatory response prevents defensiveness and lets you protect dignity while quietly returning items to the right place.",
+      "common_triggers": [
+        "Loss of ownership boundaries",
+        "Habitual collecting or gathering instincts",
+        "Boredom and curiosity",
+        "Confusing shared spaces"
+      ],
+      "bonus_tips": [
+        "Don't accuse",
+        "Create a \"shopping\" area with safe items",
+        "Return items discreetly",
+        "Label personal belongings.",
+        "Create a safe basket or drawer of items they are allowed to collect.",
+        "Label personal belongings clearly in shared settings.",
+        "Return misplaced items discreetly rather than confronting them."
+      ],
+      "category_slug": "identity-confusion",
+      "tags": [
+        "collecting",
+        "shoplifting",
+        "others'",
+        "belongings",
+        "identity",
+        "confusion"
+      ],
+      "dementia_stage": "all",
+      "is_published": true
+    },
+    {
+      "title": "Confabulation (Making Up Stories)",
+      "slug": "confabulation-making-up-stories",
+      "whats_happening": "Confabulation isn't lying — it's the brain filling memory gaps with fabricated information without the person knowing it's false. They genuinely believe what they're saying. Their brain is constructing a narrative to make sense of missing pieces. This is an unconscious, neurological process.",
+      "what_not_to_do": [
+        "Don't say \"That never happened\" or \"You're making that up.\"",
+        "Don't try to fact-check their stories in front of others.",
+        "Don't mock or laugh at their accounts.",
+        "Don't argue about the details."
+      ],
+      "what_to_say": [
+        "\"That sounds like quite a story. Tell me more.\"",
+        "\"It sounds like that was important to you.\"",
+        "\"That must have been [exciting/scary/interesting].\"",
+        "Simply listen and engage with the emotion behind the story."
+      ],
+      "why_it_works": "Engaging with confabulation at the emotional level (rather than fact-checking) provides them with social connection and validation. The story itself doesn't matter — the human connection does.",
+      "common_triggers": [
+        "Memory gaps the brain is trying to fill",
+        "Social situations where they feel pressure to contribute",
+        "Questions about recent events they can't remember",
+        "Desire to maintain social standing"
+      ],
+      "bonus_tips": [
+        "Don't put them on the spot with questions about recent events",
+        "Enjoy the stories — they often contain emotional truths even when facts are wrong",
+        "Redirect conversations away from areas likely to trigger confabulation",
+        "Inform other family members that this is a symptom, not dishonesty"
+      ],
+      "category_slug": "communication-difficulties",
+      "tags": [
+        "confabulation",
+        "making",
+        "stories",
+        "communication",
+        "difficulties"
+      ],
+      "dementia_stage": "all",
+      "is_published": true
+    },
+    {
+      "title": "Crying or Emotional Outbursts",
+      "slug": "crying-or-emotional-outbursts",
+      "whats_happening": "They may be experiencing emotional lability — sudden, intense emotional responses caused by brain damage that disrupts emotional regulation. The crying may or may not be connected to actual sadness; sometimes the brain's \"cry signal\" fires without a clear emotional trigger. They may also be experiencing genuine grief, loss, or depression.",
+      "what_not_to_do": [
+        "Don't say \"Stop crying\" or \"There's nothing to cry about.\"",
+        "Don't ignore the tears or walk away.",
+        "Don't assume it's manipulation.",
+        "Don't try to reason them out of it."
+      ],
+      "what_to_say": [
+        "\"I can see you're feeling sad. I'm here.\"",
+        "\"It's okay to cry. I'll sit with you.\"",
+        "\"Would you like a hug?\"",
+        "\"Let's go for a little walk and get some fresh air.\""
+      ],
+      "why_it_works": "Physical presence and gentle touch activate the parasympathetic nervous system, calming the stress response. Acknowledging the emotion without requiring an explanation shows respect. Sometimes just sitting together in silence is the most powerful intervention.",
+      "common_triggers": [
+        "Pain or physical discomfort",
+        "Depression (common in dementia)",
+        "Overstimulation or fatigue",
+        "Grief for lost abilities or relationships",
+        "Feeling misunderstood or dismissed",
+        "Pseudobulbar affect (neurological crying unrelated to mood)"
+      ],
+      "bonus_tips": [
+        "Screen for depression — it's treatable even in dementia",
+        "Gentle music, especially from their youth, can shift mood",
+        "Maintain eye contact and hold their hand",
+        "If crying seems unrelated to mood (comes and goes quickly), it may be pseudobulbar affect — discuss with the doctor",
+        "Keep a mood diary to identify patterns"
+      ],
+      "category_slug": "emotional-outbursts",
+      "tags": [
+        "crying",
+        "emotional",
+        "outbursts"
+      ],
+      "dementia_stage": "all",
+      "is_published": true
+    },
+    {
+      "title": "Delusions and Paranoia",
+      "slug": "delusions-and-paranoia",
+      "whats_happening": "Delusions are fixed false beliefs — they may believe a caregiver is an impostor, that a spouse is having an affair, or that people are conspiring against them. These are caused by damage to brain regions involved in reasoning, perception, and reality-testing. Paranoia peaks in mid-stage dementia.",
+      "what_not_to_do": [
+        "Don't argue with the delusion or present evidence against it.",
+        "Don't say \"That's not true\" or \"You're wrong.\"",
+        "Don't take accusations personally.",
+        "Don't whisper around them — it confirms suspicion."
+      ],
+      "what_to_say": [
+        "\"That sounds really frightening. I'm here to keep you safe.\"",
+        "\"I can understand why you feel that way.\"",
+        "\"Let's talk about what's worrying you.\"",
+        "\"I would never let anyone hurt you.\""
+      ],
+      "why_it_works": "You cannot reason someone out of a delusion because the reasoning centers of their brain are compromised. Emotional validation addresses the fear driving the delusion. Once the fear subsides, the delusion often loses its intensity.",
+      "common_triggers": [
+        "Unfamiliar people in the home",
+        "Overheard conversations they can't follow",
+        "TV shows they mistake for reality",
+        "Changes in routine or environment",
+        "Misidentifying familiar people (Capgras syndrome)"
+      ],
+      "bonus_tips": [
+        "Keep the environment simple, well-lit, and familiar",
+        "Avoid whispering, laughing nearby, or having secretive conversations",
+        "Turn off violent or dramatic TV programs — they may think it's real",
+        "Respond to the emotion (fear, anger, sadness) rather than the content",
+        "Consult their physician if delusions are persistent, distressing, or causing dangerous behavior",
+        "Document patterns — what time, what triggers, what helps"
+      ],
+      "category_slug": "suspicion-accusations",
+      "tags": [
+        "delusions",
+        "and",
+        "paranoia",
+        "suspicion",
+        "accusations"
+      ],
+      "dementia_stage": "all",
+      "is_published": true
+    },
+    {
+      "title": "Difficulty Dressing / Wearing Inappropriate Clothing",
+      "slug": "difficulty-dressing-wearing-inappropriate-clothing",
+      "whats_happening": "The sequence of getting dressed is a complex cognitive task. They may not remember the order (underwear before pants), may put clothes on backward, layer excessively, or choose seasonally inappropriate outfits. They've lost the executive function needed to plan and execute multi-step tasks.",
+      "what_not_to_do": [
+        "Don't say \"That doesn't match\" or \"You can't wear that.\"",
+        "Don't rush them or take over completely.",
+        "Don't lay out too many choices.",
+        "Don't argue about outfit selection."
+      ],
+      "what_to_say": [
+        "\"You look great! Let me help with this button.\"",
+        "\"It's chilly today. How about this cozy sweater?\"",
+        "\"Would you like the blue shirt or the green one?\"",
+        "\"Let me help get you started.\""
+      ],
+      "why_it_works": "Limiting choices to two options prevents overwhelm. Laying out clothes in order uses visual cues to guide sequencing. Complimenting their choices maintains dignity.",
+      "common_triggers": [
+        "Too many options in the closet",
+        "Complex fastenings (buttons, zippers, ties)",
+        "Not recognizing the weather or season",
+        "Forgetting the dressing sequence",
+        "Losing track mid-task"
+      ],
+      "bonus_tips": [
+        "Lay out clothing in order on the bed, one piece at a time",
+        "Switch to easy-on clothing: elastic waistbands, slip-on shoes, velcro closures, pullover tops",
+        "Remove out-of-season clothes from the closet",
+        "Let them wear what they want when safety isn't a concern — autonomy matters more than fashion",
+        "Same outfit every day is fine if they prefer it — buy multiples"
+      ],
+      "category_slug": "personal-care-resistance",
+      "tags": [
+        "difficulty",
+        "dressing",
+        "wearing",
+        "inappropriate",
+        "clothing",
+        "personal",
+        "care",
+        "resistance"
+      ],
+      "dementia_stage": "all",
+      "is_published": true
+    },
+    {
+      "title": "Difficulty Managing Finances and Important Tasks",
+      "slug": "difficulty-managing-finances-and-important-tasks",
+      "whats_happening": "Managing money, paying bills, and handling important decisions require executive function — planning, sequencing, and judgment — which are among the first cognitive domains affected by dementia. They may forget to pay bills, make poor financial decisions, fall for scams, or hide money.",
+      "what_not_to_do": [
+        "Don't accuse them of being irresponsible.",
+        "Don't wait for a financial disaster to step in.",
+        "Don't take over without explanation or involvement.",
+        "Don't shame them for mistakes."
+      ],
+      "what_to_say": [
+        "\"Let me help you with the bills this month — we can do it together.\"",
+        "\"I set up automatic payments so you don't have to worry about it.\"",
+        "\"You've done such a good job managing this. I want to help.\"",
+        "\"Let's make sure everything is taken care of.\""
+      ],
+      "why_it_works": "Collaborative framing (\"let's do it together\") preserves dignity while ensuring safety. Early legal and financial planning prevents crises.",
+      "common_triggers": [
+        "Complex financial documents",
+        "Phone or online scammers targeting vulnerable adults",
+        "Memory loss causing missed payments",
+        "Poor judgment in spending"
+      ],
+      "bonus_tips": [
+        "Set up automatic bill payments early",
+        "Establish power of attorney while they can still participate in the decision",
+        "Monitor bank accounts and credit cards for unusual activity",
+        "Register on \"Do Not Call\" lists and install call-blocking software",
+        "Reduce access to credit cards (keep one with a low limit for dignity purchases)",
+        "Let them keep small amounts of cash for a sense of independence"
+      ],
+      "category_slug": "identity-confusion",
+      "tags": [
+        "difficulty",
+        "managing",
+        "finances",
+        "and",
+        "important",
+        "tasks",
+        "identity",
+        "confusion"
+      ],
+      "dementia_stage": "all",
+      "is_published": true
+    },
+    {
+      "title": "Difficulty with Conversations and Communication",
+      "slug": "difficulty-with-conversations-and-communication",
+      "whats_happening": "Language abilities progressively decline. They may struggle to find words (anomia), lose their train of thought mid-sentence, use wrong words, repeat phrases, or become unable to follow complex conversations. In some dementias (frontotemporal/primary progressive aphasia), language is one of the first things affected.",
+      "what_not_to_do": [
+        "Don't finish their sentences unless they're clearly stuck and want help.",
+        "Don't speak to them like a child.",
+        "Don't talk about them as if they're not there.",
+        "Don't overwhelm them with long or complex sentences."
+      ],
+      "what_to_say": [
+        "Use short, simple sentences. One idea at a time.",
+        "\"Would you like tea or coffee?\" (Not: \"What would you like to drink?\")",
+        "\"Take your time. I'm listening.\"",
+        "\"I'm not going anywhere. There's no rush.\""
+      ],
+      "why_it_works": "Simple language reduces cognitive load. Yes/no or either/or questions remove the burden of word retrieval. Patience and non-verbal warmth (eye contact, smiling, touch) communicate more than words.",
+      "common_triggers": [
+        "Noisy or distracting environments",
+        "Multiple people talking at once",
+        "Open-ended questions requiring word retrieval",
+        "Fatigue",
+        "Stressful or unfamiliar situations"
+      ],
+      "bonus_tips": [
+        "Face them directly and maintain eye contact",
+        "Speak slowly and clearly (but not loudly — they're not deaf)",
+        "Use names instead of pronouns (\"Sarah is coming\" not \"She's coming\")",
+        "Give them time to respond — count to 10 silently before repeating",
+        "Use gestures, visual cues, and pointing alongside words",
+        "Listen for the emotion behind the words even when the words don't make sense"
+      ],
+      "category_slug": "communication-difficulties",
+      "tags": [
+        "difficulty",
+        "with",
+        "conversations",
+        "and",
+        "communication",
+        "difficulties"
+      ],
+      "dementia_stage": "all",
+      "is_published": true
+    },
+    {
+      "title": "Excessive or Inappropriate Eating",
+      "slug": "excessive-or-inappropriate-eating",
+      "whats_happening": "They may forget they've already eaten, lose the ability to feel satiety (fullness), eat non-food items (pica), or develop sudden cravings for sweets. Damage to the hypothalamus and frontal lobe can disrupt hunger regulation. In frontotemporal dementia, hyperphagia (excessive eating) and sweet cravings are common early symptoms.",
+      "what_not_to_do": [
+        "Don't say \"You just ate an hour ago!\"",
+        "Don't make food a battleground.",
+        "Don't leave dangerous non-food items accessible.",
+        "Don't restrict food so severely that they become distressed."
+      ],
+      "what_to_say": [
+        "\"How about a snack? I have some fruit ready.\"",
+        "\"Lunch is coming up soon. Here's a little something to tide you over.\"",
+        "\"Let's have some tea while we wait for dinner.\"",
+        "\"That looks like it was good. Are you still hungry?\""
+      ],
+      "why_it_works": "Small, frequent meals and readily available healthy snacks prevent the distress of hunger without the battle of restriction. Redirecting from non-food items to food satisfies the oral need safely.",
+      "common_triggers": [
+        "Forgetting recent meals",
+        "Hypothalamic damage affecting satiety signals",
+        "Medication effects",
+        "Boredom (eating as activity)",
+        "Anxiety or stress",
+        "Sweet cravings (frontotemporal dementia)"
+      ],
+      "bonus_tips": [
+        "Keep healthy snacks visible and accessible",
+        "Serve smaller portions more frequently (5–6 times per day)",
+        "Lock away cleaning products and non-food items that could be ingested (pica)",
+        "If they've truly just eaten, a small snack won't harm them — the fight is worse than the calories",
+        "Monitor weight changes and report to their doctor"
+      ],
+      "category_slug": "eating-medication",
+      "tags": [
+        "excessive",
+        "inappropriate",
+        "eating",
+        "medication",
+        "daily-care",
+        "health"
+      ],
+      "dementia_stage": "all",
+      "is_published": true
+    },
+    {
+      "title": "Exit-Seeking Behavior",
+      "slug": "exit-seeking-behavior",
+      "whats_happening": "Trying to leave a facility or home, often saying \"I need to go\" or \"Take me home.\" They feel trapped, anxious, or disoriented. This is different from wandering — it's purposeful.",
+      "what_not_to_do": [
+        "Don't physically block exits unless immediate safety requires it.",
+        "Don't bark orders like 'sit down' or 'you're not leaving.'",
+        "Don't dismiss the need behind the urge to go."
+      ],
+      "what_to_say": [
+        "\"Where would you like to go? Tell me about it.\" Then redirect: \"Let's get a snack first.\""
+      ],
+      "why_it_works": "Walking with the person and validating the urge lowers panic, making it easier to redirect them toward a safer destination.",
+      "common_triggers": [
+        "Feeling trapped, lost, or overstimulated",
+        "Late-day confusion",
+        "Wanting to go home or complete an old routine",
+        "Transitions to unfamiliar settings"
+      ],
+      "bonus_tips": [
+        "Don't block exits forcefully",
+        "Walk with them",
+        "Validate the feeling",
+        "Redirect.",
+        "Ask where they want to go and listen for the need underneath the words.",
+        "Offer a short walk, snack, or purposeful task before redirecting back.",
+        "Use door alarms or visual cues for safety without confrontation."
+      ],
+      "category_slug": "wandering",
+      "tags": [
+        "exit",
+        "seeking",
+        "behavior",
+        "wandering",
+        "safety",
+        "movement"
+      ],
+      "dementia_stage": "all",
+      "is_published": true
+    },
+    {
+      "title": "Getting Lost in Familiar Places",
+      "slug": "getting-lost-in-familiar-places",
+      "whats_happening": "Spatial navigation relies on the hippocampus, which is one of the first brain regions damaged by Alzheimer's disease. Places that were once familiar — even their own home — can suddenly feel foreign. They lose the mental map that tells them where things are.",
+      "what_not_to_do": [
+        "Don't say \"You've lived here for 30 years. How can you be lost?\"",
+        "Don't act shocked or frustrated.",
+        "Don't leave them to \"figure it out.\"",
+        "Don't rearrange furniture or rooms."
+      ],
+      "what_to_say": [
+        "\"The bathroom is right this way. I'll walk with you.\"",
+        "\"Let me show you — it's just down the hall.\"",
+        "\"You're in the right place. Your room is right here.\"",
+        "\"I'll put a sign on the door so it's easy to find.\""
+      ],
+      "why_it_works": "Gentle guidance without judgment preserves dignity. Visual cues (signs, pictures, color-coded doors) use procedural and visual memory pathways that may still be intact.",
+      "common_triggers": [
+        "Rearranged furniture",
+        "Dimly lit hallways",
+        "Waking up disoriented",
+        "After returning from an outing"
+      ],
+      "bonus_tips": [
+        "Put picture labels on doors (photo of a toilet on the bathroom door, photo of a bed on the bedroom door)",
+        "Use nightlights to illuminate pathways",
+        "Keep furniture layout consistent — don't rearrange",
+        "Consider contrast tape on doorways and edges",
+        "Remove area rugs that may confuse floor boundaries"
+      ],
+      "category_slug": "wandering",
+      "tags": [
+        "getting",
+        "lost",
+        "familiar",
+        "places",
+        "wandering"
+      ],
+      "dementia_stage": "all",
+      "is_published": true
+    },
+    {
+      "title": "Hallucinations (Seeing or Hearing Things)",
+      "slug": "hallucinations-seeing-or-hearing-things",
+      "whats_happening": "The brain is creating sensory experiences that aren't there — visual hallucinations (most common), auditory, or even tactile. This is caused by neurodegeneration in the visual processing and perceptual areas of the brain. In Lewy Body Dementia, hallucinations are often vivid and detailed. They are experiencing something very real to them.",
+      "what_not_to_do": [
+        "Don't say \"There's nothing there\" — it's real to them.",
+        "Don't argue about what they're seeing or hearing.",
+        "Don't react with fear or alarm.",
+        "Don't dismiss it as \"crazy\" or \"imagining things.\""
+      ],
+      "what_to_say": [
+        "\"I can see that's bothering you. You're safe with me.\"",
+        "\"Tell me what you're seeing. That sounds scary.\"",
+        "\"Let's go to the other room — I have something to show you.\"",
+        "\"I'll stay right here with you.\""
+      ],
+      "why_it_works": "Acknowledging their experience without reinforcing the hallucination validates their emotional state. Gently moving them to a different environment can often \"break\" the hallucination. Your calm presence reduces fear.",
+      "common_triggers": [
+        "Low lighting or shadows",
+        "Reflections in mirrors, windows, or shiny surfaces",
+        "Fatigue or sundowning",
+        "Medication changes or interactions",
+        "Vision or hearing impairment",
+        "UTIs or other infections (delirium)",
+        "Overstimulating or chaotic environments"
+      ],
+      "bonus_tips": [
+        "Improve lighting — eliminate shadows and dark corners",
+        "Cover or remove mirrors if they cause distress",
+        "Check vision and hearing — correct any impairments",
+        "Report new or worsening hallucinations to their doctor (may indicate delirium or medication issue)",
+        "If the hallucination is not distressing (e.g., seeing a deceased loved one and feeling comforted), it may not need intervention",
+        "Distinguish between hallucinations (seeing something not there) and illusions (misidentifying real objects — e.g., a coat rack looks like a person)"
+      ],
+      "category_slug": "identity-confusion",
+      "tags": [
+        "hallucinations",
+        "seeing",
+        "hearing",
+        "things",
+        "identity",
+        "confusion"
+      ],
+      "dementia_stage": "all",
+      "is_published": true
+    },
+    {
+      "title": "Hiding Things",
+      "slug": "hiding-things",
+      "whats_happening": "They may be trying to protect valuable items (as they perceive them) or creating a sense of control by having secret stashes. Memory loss means they immediately forget where they hid things, leading to accusations of theft. This is closely linked to paranoia and anxiety.",
+      "what_not_to_do": [
+        "Don't interrogate them: \"Where did you put it?\"",
+        "Don't get angry when important items go missing.",
+        "Don't rearrange their things without care.",
+        "Don't blame or accuse them."
+      ],
+      "what_to_say": [
+        "\"Let's look for it together.\"",
+        "\"I bet it's in a safe spot. You're good at keeping things safe.\"",
+        "\"Can you show me your special places?\"",
+        "\"I'll help you find it — no worries.\""
+      ],
+      "why_it_works": "Searching together is collaborative rather than confrontational. Framing their hiding as \"keeping things safe\" validates the intent behind the behavior.",
+      "common_triggers": [
+        "Paranoia or fear of theft",
+        "Anxiety about losing things",
+        "Habitual behavior from earlier life",
+        "Desire for control"
+      ],
+      "bonus_tips": [
+        "Learn their go-to hiding spots (under mattresses, inside shoes, between couch cushions, in pockets, inside vases)",
+        "Keep duplicates of important items",
+        "Check trash and laundry before disposing",
+        "Lock away truly irreplaceable items",
+        "Keep a spare set of keys, glasses, wallet"
+      ],
+      "category_slug": "identity-confusion",
+      "tags": [
+        "hiding",
+        "things",
+        "identity",
+        "confusion"
+      ],
+      "dementia_stage": "all",
+      "is_published": true
+    },
+    {
+      "title": "Hoarding and Collecting",
+      "slug": "hoarding-and-collecting",
+      "whats_happening": "Hoarding provides a sense of security and control. In a world where everything is slipping away, holding onto objects feels stabilizing. They may also be reverting to behaviors from times of scarcity in their past. Memory loss means they don't remember they already have multiples of things.",
+      "what_not_to_do": [
+        "Don't throw away their collected items in front of them.",
+        "Don't argue about why they don't need things.",
+        "Don't mock or belittle the behavior.",
+        "Don't remove everything at once."
+      ],
+      "what_to_say": [
+        "\"That's a nice collection. Tell me about it.\"",
+        "\"Would you like a special box to keep your things safe?\"",
+        "\"I'll help you organize these so you can find them.\"",
+        "\"Let's go through these together.\""
+      ],
+      "why_it_works": "Providing a designated space honors their need for control and security. Gradually and respectfully managing the collection (removing items when they're not looking) prevents confrontation.",
+      "common_triggers": [
+        "Anxiety and insecurity",
+        "Past experiences of scarcity or loss",
+        "Need for control in a confusing world",
+        "Memory loss (forgetting they already have items)"
+      ],
+      "bonus_tips": [
+        "Provide canvas bags or special containers for their \"treasures\"",
+        "Discreetly rotate items in and out",
+        "Ensure hoarded food doesn't spoil — check regularly",
+        "If they're taking others' belongings, create a \"shopping\" area with safe items they can \"find\"",
+        "Focus on safety: check for fire hazards, blocked pathways, spoiled food"
+      ],
+      "category_slug": "identity-confusion",
+      "tags": [
+        "hoarding",
+        "and",
+        "collecting",
+        "identity",
+        "confusion"
+      ],
+      "dementia_stage": "all",
+      "is_published": true
+    },
+    {
+      "title": "Inappropriate Undressing or Disrobing",
+      "slug": "inappropriate-undressing-or-disrobing",
+      "whats_happening": "They may be too hot, uncomfortable, need to use the bathroom, or have clothing that's irritating their skin. They may have forgotten social norms around nudity (loss of social inhibition due to frontal lobe damage). They may be trying to get ready for bed or confused about the sequence of dressing.",
+      "what_not_to_do": [
+        "Don't scold or shame them.",
+        "Don't overreact or draw attention to it.",
+        "Don't wrestle clothes back onto them.",
+        "Don't say \"That's disgusting\" or \"What are you doing?\""
+      ],
+      "what_to_say": [
+        "\"Let me help you get comfortable.\" (Offer different clothing.)",
+        "\"Are you feeling too warm? Let's find something lighter.\"",
+        "\"Do you need to use the bathroom?\"",
+        "\"Here, let me help you with that.\""
+      ],
+      "why_it_works": "Addressing the underlying need (temperature, bathroom, comfort) solves the problem without confrontation. Calm redirection preserves dignity while managing the behavior.",
+      "common_triggers": [
+        "Clothing that's too tight, itchy, or complicated",
+        "Needing to use the bathroom",
+        "Feeling too hot",
+        "Skin irritation or discomfort",
+        "Confusion about dressing/undressing sequence",
+        "Boredom"
+      ],
+      "bonus_tips": [
+        "Switch to simple, comfortable clothing (elastic waistbands, no buttons, soft fabrics)",
+        "Try back-closing garments if undressing is frequent and dangerous (hypothermia risk)",
+        "Offer regular bathroom breaks",
+        "Check for skin irritation, rashes, or tags rubbing",
+        "Lay out one piece of clothing at a time in the order it should be put on",
+        "In social settings, gently guide them to a private area"
+      ],
+      "category_slug": "personal-care-resistance",
+      "tags": [
+        "inappropriate",
+        "undressing",
+        "disrobing",
+        "personal",
+        "care",
+        "resistance"
+      ],
+      "dementia_stage": "all",
+      "is_published": true
+    },
+    {
+      "title": "Incontinence and Bathroom Difficulties",
+      "slug": "incontinence-and-bathroom-difficulties",
+      "whats_happening": "They may have lost the ability to recognize the urge to go, may not find the bathroom in time, may forget how to use the toilet, or may not be able to manage clothing. True incontinence (loss of bladder/bowel control) also occurs as the disease damages the brain's control centers.",
+      "what_not_to_do": [
+        "Don't scold or shame: \"You wet yourself again.\"",
+        "Don't use baby talk.",
+        "Don't show disgust.",
+        "Don't wait for them to ask for help — they may not recognize the need."
+      ],
+      "what_to_say": [
+        "\"Let's freshen up. I have clean clothes ready.\"",
+        "\"Time for a bathroom break.\" (Offer on a schedule.)",
+        "\"No worries. Let me help you get comfortable.\"",
+        "\"I'll take care of everything.\""
+      ],
+      "why_it_works": "Matter-of-fact, dignified language normalizes the experience and removes shame. Scheduled bathroom breaks (every 2 hours) use routine to compensate for lost awareness.",
+      "common_triggers": [
+        "Not finding the bathroom",
+        "Difficulty managing clothing (buttons, zippers)",
+        "Not recognizing the urge in time",
+        "Medication effects (diuretics)",
+        "UTI or prostate issues",
+        "Progression of the disease"
+      ],
+      "bonus_tips": [
+        "Schedule bathroom breaks every 2 hours during waking hours",
+        "Mark the bathroom door clearly with a picture",
+        "Leave the bathroom light on at all times",
+        "Use easy-remove clothing (elastic waistbands)",
+        "Keep a bedside commode for nighttime",
+        "Use absorbent products (call them \"protective undergarments,\" not \"diapers\")",
+        "Rule out UTI if incontinence is new or worsening — UTIs can cause sudden behavioral changes"
+      ],
+      "category_slug": "personal-care-resistance",
+      "tags": [
+        "incontinence",
+        "and",
+        "bathroom",
+        "difficulties",
+        "personal",
+        "care",
+        "resistance"
+      ],
+      "dementia_stage": "all",
+      "is_published": true
+    },
+    {
+      "title": "Making Repetitive Noises or Sounds",
+      "slug": "making-repetitive-noises-or-sounds",
+      "whats_happening": "Self-soothing, boredom, pain, or neurological vocal automatisms. The brain's language areas may be producing sound without meaning.",
+      "what_not_to_do": [
+        "Don't demand that they stop making noise.",
+        "Don't mock the sounds or call them attention-seeking.",
+        "Don't ignore possible pain, fear, or discomfort behind the repetition."
+      ],
+      "what_to_say": [
+        "\"Let's sing together.\"",
+        "simply sit with them."
+      ],
+      "why_it_works": "Rhythm, music, and comfort redirect the brain toward soothing patterns instead of escalating the repetitive vocal loop.",
+      "common_triggers": [
+        "Pain or physical discomfort",
+        "Boredom or loneliness",
+        "Anxiety or overstimulation",
+        "Neurological vocal automatisms"
+      ],
+      "bonus_tips": [
+        "Check for pain",
+        "Offer music, singing, or rhythmic activities",
+        "Provide comfort.",
+        "Try humming, singing, or clapping a simple rhythm together.",
+        "Check for pain, hunger, the need to toilet, or fatigue first.",
+        "A calm companion presence can reduce the urge to self-soothe with sound."
+      ],
+      "category_slug": "repetition",
+      "tags": [
+        "making",
+        "repetitive",
+        "noises",
+        "sounds",
+        "repetition"
+      ],
+      "dementia_stage": "all",
+      "is_published": true
+    },
+    {
+      "title": "Mirroring and Echolalia (Repeating Words/Actions)",
+      "slug": "mirroring-and-echolalia-repeating-words-actions",
+      "whats_happening": "Echolalia (repeating words or phrases they hear) and mirroring (copying your actions) are caused by damage to language production and executive function areas. The brain defaults to imitation when it can't generate original responses. It can also be a way of maintaining social connection when meaningful language is lost.",
+      "what_not_to_do": [
+        "Don't say \"Stop repeating me.\"",
+        "Don't mock or imitate them back.",
+        "Don't get frustrated or show annoyance.",
+        "Don't assume they're being annoying on purpose."
+      ],
+      "what_to_say": [
+        "Accept the echoing calmly — it's how they're staying connected.",
+        "Use simple phrases they can comfortably echo.",
+        "\"I love talking with you.\"",
+        "Sing together — music and singing use different brain pathways and may unlock expression."
+      ],
+      "why_it_works": "Echolalia is often self-soothing. Singing together can bypass damaged speech centers and access intact musical memory pathways, creating meaningful shared moments.",
+      "common_triggers": [
+        "Advanced language decline",
+        "Anxiety or need for connection",
+        "Understimulation",
+        "Attempting to participate in conversation"
+      ],
+      "bonus_tips": [
+        "Use the echoing to your advantage: if they repeat \"time for lunch,\" it can serve as a verbal cue",
+        "Singing familiar songs together is powerful — melody is stored differently than speech",
+        "Repetitive activities (sorting, folding) can channel the repetitive behavior productively"
+      ],
+      "category_slug": "communication-difficulties",
+      "tags": [
+        "mirroring",
+        "and",
+        "echolalia",
+        "repeating",
+        "words",
+        "actions",
+        "communication",
+        "difficulties"
+      ],
+      "dementia_stage": "all",
+      "is_published": true
+    },
+    {
+      "title": "Misidentifying Objects or People",
+      "slug": "misidentifying-objects-or-people",
+      "whats_happening": "Visual agnosia (inability to recognize objects) and prosopagnosia (inability to recognize faces) occur as the brain's perceptual processing breaks down. They may mistake a coat rack for a person, think a TV show is real, not recognize their own reflection, or believe a doll is a real baby. The eyes work fine — the brain can't interpret what it sees.",
+      "what_not_to_do": [
+        "Don't say \"That's obviously a coat rack, not a person.\"",
+        "Don't laugh at their mistakes.",
+        "Don't remove comforting misidentified objects (like a doll they think is a baby) unless there's a safety issue.",
+        "Don't force recognition."
+      ],
+      "what_to_say": [
+        "\"I can see why that looked like someone. It's just the coat rack.\"",
+        "\"Your baby is beautiful.\" (Enter their reality when it brings comfort.)",
+        "\"Let me turn on more light so we can see better.\"",
+        "\"That shadow does look funny. Let me fix it.\""
+      ],
+      "why_it_works": "Better lighting resolves many illusions. Entering their reality when it brings them comfort (like believing a doll is a baby) is therapeutic and kind — it's called \"therapeutic engagement\" and is supported by validation therapy research.",
+      "common_triggers": [
+        "Low lighting and shadows",
+        "Reflective surfaces (mirrors, windows)",
+        "Cluttered environments",
+        "Visual impairment (needs glasses check)",
+        "TV programs mistaken for reality"
+      ],
+      "bonus_tips": [
+        "Improve lighting throughout the home",
+        "Cover or remove mirrors if they cause distress (they may not recognize their own reflection and think a stranger is in the room)",
+        "Turn off TV when not intentionally watching — background TV can cause confusion",
+        "Remove clutter that creates visual complexity",
+        "Doll therapy and pet robots can be genuinely comforting and therapeutic — don't dismiss them"
+      ],
+      "category_slug": "identity-confusion",
+      "tags": [
+        "misidentifying",
+        "objects",
+        "people",
+        "identity",
+        "confusion"
+      ],
+      "dementia_stage": "all",
+      "is_published": true
+    },
+    {
+      "title": "Not Recognizing Loved Ones",
+      "slug": "not-recognizing-loved-ones",
+      "whats_happening": "Facial recognition requires complex brain processing. They may see your face but not connect it with your identity. They may think you're a stranger, their parent, or a younger version of you. Capgras delusion — believing a loved one has been replaced by an impostor — is also possible. This is one of the most painful experiences for families.",
+      "what_not_to_do": [
+        "Don't say \"It's me! You KNOW who I am!\"",
+        "Don't quiz them or put them on the spot.",
+        "Don't express hurt or cry in front of them — it confuses and distresses them.",
+        "Don't force the recognition."
+      ],
+      "what_to_say": [
+        "\"Hi, I'm [name]. I'm so happy to be here with you.\"",
+        "\"I'm your daughter, Sarah. We're going to have a nice day.\"",
+        "\"I love spending time with you.\"",
+        "Simply be warm and present — your emotional tone matters more than names."
+      ],
+      "why_it_works": "Gently identifying yourself removes the pressure of recognition. Your emotional presence — your warmth, your tone, your touch — is often recognized even when names and faces aren't. They may not know who you are, but they know how you make them feel.",
+      "common_triggers": [
+        "Changes in appearance (haircut, glasses, weight change)",
+        "Meeting someone they haven't seen recently",
+        "Advanced cognitive decline",
+        "Dim lighting making faces harder to process",
+        "Capgras delusion"
+      ],
+      "bonus_tips": [
+        "Try to maintain a consistent appearance",
+        "Use name tags or introduce yourself naturally each visit",
+        "Show old photos and share stories — it sometimes sparks recognition",
+        "Focus on connection, not identification",
+        "This is heartbreaking for families — seek support for your own grief",
+        "Remember: they may not know your name, but they often know your love"
+      ],
+      "category_slug": "identity-confusion",
+      "tags": [
+        "not",
+        "recognizing",
+        "loved",
+        "ones",
+        "identity",
+        "confusion"
+      ],
+      "dementia_stage": "all",
+      "is_published": true
+    },
+    {
+      "title": "Pacing and Restlessness",
+      "slug": "pacing-and-restlessness",
+      "whats_happening": "Pacing is a motor-driven behavior often caused by anxiety, excess energy, medication side effects, or an unmet physical need (bathroom, hunger, pain). The damaged brain may send \"go\" signals without a destination. It can also be a manifestation of akathisia (inner restlessness caused by certain medications).",
+      "what_not_to_do": [
+        "Don't force them to sit down.",
+        "Don't restrain or block their path.",
+        "Don't say \"Stop pacing — sit down!\"",
+        "Don't ignore it if it's new or escalating."
+      ],
+      "what_to_say": [
+        "\"Let's walk together. I'll come with you.\"",
+        "\"How about we go outside for a bit?\"",
+        "\"Let me get you a snack — you might be hungry.\"",
+        "\"Let's do something with our hands — want to fold towels?\""
+      ],
+      "why_it_works": "Walking WITH them validates the urge rather than fighting it. Addressing potential physical needs (bathroom, hunger, pain) may resolve the underlying cause. Channeling energy into purposeful activity gives the movement meaning.",
+      "common_triggers": [
+        "Anxiety or agitation",
+        "Medication side effects (especially antipsychotics)",
+        "Constipation or urinary urge",
+        "Pain",
+        "Boredom",
+        "Too much caffeine"
+      ],
+      "bonus_tips": [
+        "Create a safe walking path (remove trip hazards, install handrails)",
+        "Regular exercise earlier in the day can reduce later restlessness",
+        "Check medication side effects with the doctor",
+        "Ensure comfortable, well-fitting shoes",
+        "Music can shift the pacing to gentle dancing"
+      ],
+      "category_slug": "aggression-agitation",
+      "tags": [
+        "pacing",
+        "and",
+        "restlessness",
+        "aggression",
+        "agitation"
+      ],
+      "dementia_stage": "all",
+      "is_published": true
+    },
+    {
+      "title": "Physical Aggression (Hitting, Kicking, Biting)",
+      "slug": "physical-aggression-hitting-kicking-biting",
+      "whats_happening": "Physical aggression is usually a fight-or-flight response. They feel threatened, cornered, confused, or in pain and lash out to protect themselves. In their reality, they may believe they're being attacked. This is the brain's most primitive defense mechanism firing without the frontal lobe regulation that would normally inhibit it.",
+      "what_not_to_do": [
+        "Don't restrain, grab, or corner them.",
+        "Don't fight back or match their aggression.",
+        "Don't yell or use a threatening tone.",
+        "Don't take it personally — this is the disease."
+      ],
+      "what_to_say": [
+        "(Step back first — ensure safety) \"I'm not going to hurt you.\"",
+        "\"You're safe. I'm backing up to give you space.\"",
+        "\"I can see something is wrong. I want to help.\"",
+        "\"Let me know when you're ready. I'll be right here.\""
+      ],
+      "why_it_works": "Creating physical distance immediately reduces the threat perception. A low, calm voice signals that you're not a threat. Giving them control (\"let me know when you're ready\") reduces the trapped feeling that drives aggression.",
+      "common_triggers": [
+        "Personal care (bathing, dressing, toileting)",
+        "Being physically restrained or cornered",
+        "Pain they can't communicate",
+        "Fear or confusion",
+        "Overstimulation",
+        "Medication interactions or delirium"
+      ],
+      "bonus_tips": [
+        "Always prioritize your own safety first",
+        "Approach slowly, from the front, at eye level",
+        "Stop the activity that triggered the aggression and try again later",
+        "Check for pain, UTI, or constipation",
+        "Document incidents for the doctor (time, trigger, duration)",
+        "If aggression is new, sudden, or severe — it may be delirium (UTI, medication change, infection) and requires medical attention",
+        "Consider whether a different caregiver or approach might reduce triggers",
+        "Medications may be needed for severe cases — discuss with the doctor"
+      ],
+      "category_slug": "aggression-agitation",
+      "tags": [
+        "physical",
+        "aggression",
+        "hitting",
+        "kicking",
+        "biting",
+        "agitation",
+        "de-escalation",
+        "calming"
+      ],
+      "dementia_stage": "all",
+      "is_published": true
+    },
+    {
+      "title": "Picking at Skin or Clothing",
+      "slug": "picking-at-skin-or-clothing",
+      "whats_happening": "Tactile stimulation-seeking, anxiety, skin irritation, or boredom. Check for itching, rashes, or ill-fitting clothes.",
+      "what_not_to_do": [
+        "Don't scold or slap their hands away.",
+        "Don't assume it's only a bad habit without checking for discomfort.",
+        "Don't leave skin irritation or rough clothing unaddressed."
+      ],
+      "what_to_say": [
+        "\"Here, try holding this. It feels interesting.\""
+      ],
+      "why_it_works": "Replacing the repetitive motion with safe sensory input meets the underlying need without turning the moment into a power struggle.",
+      "common_triggers": [
+        "Anxiety or nervous energy",
+        "Skin irritation, itching, or dryness",
+        "Boredom and under-stimulation",
+        "Rough seams, tags, or ill-fitting clothing"
+      ],
+      "bonus_tips": [
+        "Offer fidget items, hand massage, or textured objects",
+        "Check for skin issues",
+        "Keep nails trimmed.",
+        "Offer a soft fidget, textured cloth, or folded washcloth to keep hands busy.",
+        "Check for rashes, dry skin, or clothing that is rubbing.",
+        "Keep nails short to reduce accidental skin damage."
+      ],
+      "category_slug": "repetition",
+      "tags": [
+        "picking",
+        "skin",
+        "clothing",
+        "repetition"
+      ],
+      "dementia_stage": "all",
+      "is_published": true
+    },
+    {
+      "title": "Refusing Medication",
+      "slug": "refusing-medication",
+      "whats_happening": "They may not understand what the pills are, may be afraid of being poisoned, may have difficulty swallowing, or the medication may taste bad. Paranoid delusions can make them suspicious of what you're giving them. They may also simply not remember why they need medication.",
+      "what_not_to_do": [
+        "Don't force pills into their mouth.",
+        "Don't hide medication without medical guidance.",
+        "Don't say \"You HAVE to take this.\"",
+        "Don't argue or threaten consequences."
+      ],
+      "what_to_say": [
+        "\"The doctor asked you to take this. It helps you feel good.\"",
+        "\"Let's take our vitamins together.\" (Take yours alongside them.)",
+        "\"Would you like it with juice or applesauce?\"",
+        "\"This is the one that helps with your [specific symptom].\""
+      ],
+      "why_it_works": "Invoking a trusted authority (doctor) can bypass resistance. Taking medication \"together\" normalizes it. Offering it with food addresses taste and swallowing concerns. Explaining the benefit in their terms gives purpose.",
+      "common_triggers": [
+        "Too many pills at once",
+        "Bitter taste or large pill size",
+        "Paranoia about being poisoned",
+        "Difficulty swallowing",
+        "Not understanding the purpose",
+        "Previous negative experience with medication"
+      ],
+      "bonus_tips": [
+        "Ask the pharmacist about liquid, dissolvable, or crushable forms",
+        "Mix crushed medication into applesauce, pudding, or yogurt (check with pharmacist first — some medications shouldn't be crushed)",
+        "Reduce the number of daily medications where possible (consult doctor)",
+        "Try different times of day if mornings are difficult",
+        "Use a calm, matter-of-fact approach — don't make it a negotiation",
+        "If they consistently refuse, report to their doctor — the medication plan may need adjustment"
+      ],
+      "category_slug": "eating-medication",
+      "tags": [
+        "refusing",
+        "medication",
+        "eating",
+        "daily-care",
+        "health"
+      ],
+      "dementia_stage": "all",
+      "is_published": true
+    },
+    {
+      "title": "Refusing to Accept Help",
+      "slug": "refusing-to-accept-help",
+      "whats_happening": "Accepting help means admitting they can't do something anymore. In early-to-mid stages, they may have partial awareness of their decline, and resistance is a way of protecting their identity and independence. Anosognosia (inability to recognize their own impairment) is also common — they genuinely believe they're fine.",
+      "what_not_to_do": [
+        "Don't say \"You can't do that anymore.\"",
+        "Don't take over tasks without warning.",
+        "Don't argue about their capability.",
+        "Don't make them feel helpless."
+      ],
+      "what_to_say": [
+        "\"Can you help ME with this? I could use a hand.\"",
+        "\"Let's do this together — it's more fun that way.\"",
+        "\"Would it be okay if I helped with this part?\"",
+        "\"You start, and I'll jump in if you need me.\""
+      ],
+      "why_it_works": "Reframing help as collaboration or asking THEM for help preserves dignity and autonomy. It shifts the dynamic from \"you need help\" to \"we're a team.\"",
+      "common_triggers": [
+        "Loss of identity and independence",
+        "Awareness of declining abilities (early stages)",
+        "Anosognosia (inability to perceive impairment)",
+        "New caregiver they don't trust yet",
+        "Feeling rushed or patronized"
+      ],
+      "bonus_tips": [
+        "Let them do as much as they safely can, even if it takes longer or isn't perfect",
+        "Set up tasks for success — pre-organize materials, provide visual cues",
+        "Offer choices, not commands",
+        "Introduce help gradually",
+        "Focus on what they CAN do, not what they can't"
+      ],
+      "category_slug": "personal-care-resistance",
+      "tags": [
+        "refusing",
+        "accept",
+        "help",
+        "personal",
+        "care",
+        "resistance"
+      ],
+      "dementia_stage": "all",
+      "is_published": true
+    },
+    {
+      "title": "Refusing to Bathe or Shower",
+      "slug": "refusing-to-bathe-or-shower",
+      "whats_happening": "Bathing is intimate, vulnerable, and potentially frightening. They may not understand why they need to undress. The sensation of water can feel disorienting or even painful. They may have lost the ability to recognize that they're dirty. Depression or apathy can also reduce personal care motivation.",
+      "what_not_to_do": [
+        "Don't force or physically overpower them.",
+        "Don't say \"You smell\" or shame them.",
+        "Don't spring it on them suddenly.",
+        "Don't insist on full immersion baths if they resist."
+      ],
+      "what_to_say": [
+        "\"Let's get freshened up — I warmed the towels for you.\"",
+        "\"It's spa day! I have your favorite lotion ready.\"",
+        "\"Would you like a bath or just a quick wash-up today?\"",
+        "\"The warm water will feel so nice.\""
+      ],
+      "why_it_works": "Framing bathing as pampering rather than hygiene changes the emotional context. Offering choices preserves dignity and autonomy. Warm towels, familiar products, and a calm environment reduce the sensory threat.",
+      "common_triggers": [
+        "Cold bathroom or cold water",
+        "Fear of falling or slipping",
+        "Feeling rushed or ambushed",
+        "Loss of modesty/dignity",
+        "Sensory sensitivity to water pressure or temperature",
+        "Not understanding the purpose of bathing"
+      ],
+      "bonus_tips": [
+        "Warm the bathroom beforehand",
+        "Use a handheld shower head for more control",
+        "Try sponge baths on resistant days — something is better than nothing",
+        "Same time each day builds routine and reduces resistance",
+        "Play their favorite music during the process",
+        "Consider that every-other-day bathing is medically acceptable",
+        "A same-gender caregiver may reduce embarrassment",
+        "Use no-rinse cleansing products as alternatives"
+      ],
+      "category_slug": "personal-care-resistance",
+      "tags": [
+        "refusing",
+        "bathe",
+        "shower",
+        "personal",
+        "care",
+        "resistance"
+      ],
+      "dementia_stage": "all",
+      "is_published": true
+    },
+    {
+      "title": "Refusing to Eat or Drink",
+      "slug": "refusing-to-eat-or-drink",
+      "whats_happening": "They may have lost the ability to recognize hunger or thirst. Food may taste different due to medication or neurological changes. They may have difficulty chewing or swallowing (dysphagia). Depression, apathy, or simply forgetting how to use utensils can also play a role. Sensory decline can make food seem unappealing.",
+      "what_not_to_do": [
+        "Don't force-feed or hold their mouth open.",
+        "Don't shame them: \"You need to eat or you'll get sick.\"",
+        "Don't overwhelm them with a full plate of food.",
+        "Don't rush mealtimes."
+      ],
+      "what_to_say": [
+        "\"I made your favorite. Want to try a little?\"",
+        "\"This smells so good. Let's eat together.\"",
+        "\"Would you like the soup or the sandwich?\"",
+        "\"Just have a taste. No pressure.\""
+      ],
+      "why_it_works": "Social eating (eating together) activates procedural memory — the muscle memory of shared meals. Familiar foods trigger emotional comfort. Small portions feel less overwhelming. Choice preserves dignity.",
+      "common_triggers": [
+        "Medications affecting taste or appetite",
+        "Dental or mouth pain",
+        "Difficulty recognizing food or utensils",
+        "Depression or apathy",
+        "Constipation causing discomfort",
+        "Too many choices or overwhelming portions",
+        "Noisy or distracting eating environment"
+      ],
+      "bonus_tips": [
+        "Serve smaller, more frequent meals and snacks (5–6 per day)",
+        "Use contrasting plate colors so food is visible (white plate, dark food)",
+        "Finger foods allow independence when utensils become confusing",
+        "Eat meals together — mirroring your eating cues their behavior",
+        "Ensure good oral health — mouth pain is a hidden cause of food refusal",
+        "Try smoothies, milkshakes, and nutrient-dense shakes when solid food is refused",
+        "Consult a speech therapist if choking or swallowing problems develop"
+      ],
+      "category_slug": "eating-medication",
+      "tags": [
+        "refusing",
+        "eat",
+        "drink",
+        "eating",
+        "medication",
+        "daily-care",
+        "health"
+      ],
+      "dementia_stage": "all",
+      "is_published": true
+    },
+    {
+      "title": "Refusing to Get Out of Bed",
+      "slug": "refusing-to-get-out-of-bed",
+      "whats_happening": "Depression, apathy, exhaustion, pain, or fear of falling. May also indicate illness.",
+      "what_not_to_do": [
+        "Don't yank covers off or force them upright.",
+        "Don't accuse them of being lazy.",
+        "Don't skip checking for illness, depression, or pain."
+      ],
+      "what_to_say": [
+        "\"The sun is out and I made your favorite tea. Want to join me?\""
+      ],
+      "why_it_works": "A gentle invitation tied to comfort or pleasure lowers fear and helps the person move toward the day without feeling controlled.",
+      "common_triggers": [
+        "Pain, illness, or medication side effects",
+        "Depression or apathy",
+        "Fear of falling when standing",
+        "Poor sleep or exhaustion"
+      ],
+      "bonus_tips": [
+        "Rule out illness or pain",
+        "Offer gentle motivation",
+        "Create a pleasant reason to get up (favorite breakfast, morning sunshine, a visitor).",
+        "Offer one simple reason to get up, like breakfast, sunshine, or a favorite song.",
+        "If this is new, check with a clinician for infection, dehydration, or other medical causes.",
+        "Break the task into small steps: sit up, feet down, then stand with support."
+      ],
+      "category_slug": "sleep-sundowning",
+      "tags": [
+        "refusing",
+        "get",
+        "out",
+        "bed",
+        "sleep",
+        "sundowning"
+      ],
+      "dementia_stage": "all",
+      "is_published": true
+    },
+    {
+      "title": "Repeating the Same Question",
+      "slug": "repeating-the-same-question",
+      "whats_happening": "Their short-term memory is severely impaired. They genuinely don't remember asking the question 30 seconds ago. Each time feels like the first time to them. They may also be seeking reassurance because they feel anxious or insecure.",
+      "what_not_to_do": [
+        "Don't say \"You just asked me that.\"",
+        "Don't show frustration or sigh heavily.",
+        "Don't ignore them or walk away.",
+        "Don't quiz them: \"Don't you remember?\""
+      ],
+      "what_to_say": [
+        "Answer warmly each time as if it's the first time.",
+        "\"Dinner is at 6. You're going to love it.\"",
+        "\"Yes, your daughter is coming tomorrow. That's exciting!\"",
+        "Try writing the answer on a card they can hold or refer to."
+      ],
+      "why_it_works": "Repetitive questioning is often driven by anxiety, not just memory loss. Each calm answer provides a micro-dose of reassurance. Written notes use a different memory pathway (visual/procedural) that may still be partially intact.",
+      "common_triggers": [
+        "Upcoming events creating anticipation or anxiety",
+        "Changes in routine",
+        "Boredom or under-stimulation",
+        "Unfamiliar environment"
+      ],
+      "bonus_tips": [
+        "Place a visible whiteboard or sign with answers: \"Lunch is at 12:00\" or \"Sarah visits on Thursday\"",
+        "Try redirecting into an activity after answering",
+        "The question often reveals an underlying worry — listen for the emotion beneath the words",
+        "A gentle touch while answering can provide additional reassurance"
+      ],
+      "category_slug": "repetition",
+      "tags": [
+        "repeating",
+        "the",
+        "same",
+        "question",
+        "repetition",
+        "daily-care",
+        "health"
+      ],
+      "dementia_stage": "all",
+      "is_published": true
+    },
+    {
+      "title": "Resistance to Care Activities",
+      "slug": "resistance-to-care-activities",
+      "whats_happening": "Bathing, toileting, dressing, dental care, and medical procedures can feel invasive and confusing. They may not understand why someone is undressing them or putting things in their mouth. They may feel afraid, violated, or embarrassed. This is a protective response, not defiance.",
+      "what_not_to_do": [
+        "Don't force care activities.",
+        "Don't use physical force or restraints.",
+        "Don't approach from behind or startle them.",
+        "Don't rush through personal care."
+      ],
+      "what_to_say": [
+        "\"I'm going to help you brush your teeth now. Is that okay?\"",
+        "\"Let's get you cleaned up. The warm water is all ready.\"",
+        "\"I'll go slowly. Tell me if anything bothers you.\"",
+        "\"We're almost done. You're doing great.\""
+      ],
+      "why_it_works": "Narrating each step of care gives them time to process what's happening. Asking permission (even if they can't fully consent) maintains dignity. A slow, predictable approach reduces the startle response.",
+      "common_triggers": [
+        "Being approached too quickly",
+        "Cold water, cold room, cold hands",
+        "Loss of modesty",
+        "Not understanding the purpose of the activity",
+        "Pain during care (arthritis, skin sensitivity)",
+        "Feeling rushed or handled roughly"
+      ],
+      "bonus_tips": [
+        "Approach from the front, at eye level",
+        "Use a calm, soothing voice throughout",
+        "Warm your hands before touching them",
+        "Break care tasks into small steps",
+        "Try again later if they resist — 15 minutes can make all the difference",
+        "Consider if the time of day or care provider makes a difference",
+        "Use distraction (music, conversation) during care"
+      ],
+      "category_slug": "personal-care-resistance",
+      "tags": [
+        "resistance",
+        "care",
+        "activities",
+        "personal"
+      ],
+      "dementia_stage": "all",
+      "is_published": true
+    },
+    {
+      "title": "Rummaging and Searching Through Things",
+      "slug": "rummaging-and-searching-through-things",
+      "whats_happening": "Rummaging through drawers, cabinets, and closets is a coping mechanism. They may be looking for something specific but can't articulate what. They may be hungry, bored, anxious, or trying to assert control over their environment. It can also be a continuation of lifelong habits (organizing, cleaning).",
+      "what_not_to_do": [
+        "Don't yell \"Stop going through everything!\"",
+        "Don't lock every drawer and cabinet — it increases frustration.",
+        "Don't take objects away aggressively.",
+        "Don't assume they're being destructive."
+      ],
+      "what_to_say": [
+        "\"What are you looking for? Let me help.\"",
+        "\"Here, look through this drawer — there are some interesting things in here.\"",
+        "\"Are you hungry? Let me get you a snack.\"",
+        "\"I have a project for you. Can you sort these for me?\""
+      ],
+      "why_it_works": "Providing a designated \"rummage space\" with safe, interesting items channels the behavior without stopping it. Addressing the potential underlying need (hunger, boredom, anxiety) targets the root cause.",
+      "common_triggers": [
+        "Boredom or under-stimulation",
+        "Anxiety or feeling insecure",
+        "Hunger or thirst",
+        "Looking for a specific item (even if they can't say what)",
+        "Continuation of past habits (filing, organizing, cleaning)"
+      ],
+      "bonus_tips": [
+        "Create a \"rummage box\" or \"busy drawer\" filled with safe, interesting items (old keys, fabric swatches, cards, photos, costume jewelry)",
+        "Lock away dangerous items, medications, chemicals, and sharp objects",
+        "Secure important documents and valuables",
+        "Check trash cans before emptying — items may have been hidden there",
+        "Learn their favorite hiding spots for lost items",
+        "Let them rummage safely — the act itself can be soothing"
+      ],
+      "category_slug": "identity-confusion",
+      "tags": [
+        "rummaging",
+        "and",
+        "searching",
+        "through",
+        "things",
+        "identity",
+        "confusion"
+      ],
+      "dementia_stage": "all",
+      "is_published": true
+    },
+    {
+      "title": "Sexually Inappropriate Behavior",
+      "slug": "sexually-inappropriate-behavior",
+      "whats_happening": "Damage to the frontal lobe removes social inhibition. They may mistake a caregiver for their spouse. They may have an unmet need for physical comfort or affection. Public masturbation, lewd comments, or unwanted touching are caused by the disease, not by intentional disrespect. This is one of the most distressing behaviors for caregivers.",
+      "what_not_to_do": [
+        "Don't react with shock, disgust, or anger.",
+        "Don't shame or lecture them.",
+        "Don't assume this is intentional.",
+        "Don't ignore it if it affects others' safety."
+      ],
+      "what_to_say": [
+        "\"Let's go to your room where it's more private.\"",
+        "\"I think you might be confusing me with someone else. I'm [your name].\"",
+        "\"Let me get you a blanket. Are you comfortable?\"",
+        "(Calmly redirect to a different activity.)"
+      ],
+      "why_it_works": "Calm, non-judgmental redirection addresses the behavior without escalating shame or confusion. Redirecting to a private space respects both their dignity and others' comfort. Identifying yourself clarifies the misidentification.",
+      "common_triggers": [
+        "Need for physical affection or comfort",
+        "Misidentifying caregivers as a spouse",
+        "Skin irritation in private areas",
+        "Urinary tract infection",
+        "Boredom",
+        "Loss of frontal-lobe inhibition"
+      ],
+      "bonus_tips": [
+        "Have an action plan ready before the behavior occurs",
+        "Keep hands busy with fidget items, activities, or comfort objects",
+        "A same-gender caregiver for personal care tasks may help",
+        "Rule out medical causes (UTI, skin irritation)",
+        "Protect other caregivers' safety — adjust care assignments if necessary",
+        "Consult the doctor if behavior is severe or escalating — SSRIs may help"
+      ],
+      "category_slug": "emotional-outbursts",
+      "tags": [
+        "sexually",
+        "inappropriate",
+        "behavior",
+        "emotional",
+        "outbursts"
+      ],
+      "dementia_stage": "all",
+      "is_published": true
+    },
+    {
+      "title": "Shadowing (Following You Everywhere)",
+      "slug": "shadowing-following-you-everywhere",
+      "whats_happening": "You are their anchor — the person who makes their confusing world feel safe. When they can't see you, they feel abandoned and panicked. This is not clingy behavior; it's a survival instinct driven by profound anxiety and disorientation. You represent the one constant in a world that no longer makes sense.",
+      "what_not_to_do": [
+        "Don't say \"Stop following me!\" or \"Give me space!\"",
+        "Don't sneak away when they're not looking.",
+        "Don't express annoyance or frustration visibly.",
+        "Don't lock yourself away from them."
+      ],
+      "what_to_say": [
+        "\"I'm right here. I'm not going anywhere.\"",
+        "\"Can you help me fold these towels while I cook?\"",
+        "\"I'll be in the next room. I'll leave the door open.\"",
+        "\"Let's sit together for a bit.\""
+      ],
+      "why_it_works": "Verbal reassurance of your presence addresses their core fear of abandonment. Giving them a task near you meets their need for proximity while giving you some functional space. Announcing your movements (even to the bathroom) prevents panic.",
+      "common_triggers": [
+        "Late afternoon/evening (sundowning hours)",
+        "After a change in environment or routine",
+        "After a nap or waking up disoriented",
+        "When the caregiver has been away",
+        "Increased cognitive decline"
+      ],
+      "bonus_tips": [
+        "Set up a comfortable \"home base\" near where you spend time — a chair with their favorite items, snacks, and activities",
+        "Always announce when you're leaving and when you'll return, even for brief moments",
+        "A comfort object (stuffed animal, familiar blanket, photo) can help",
+        "Consider hiring respite help so you can take needed breaks",
+        "Calming music or a familiar TV show can provide a \"companion\" presence",
+        "This behavior is often worse in the late afternoon — plan for extra togetherness then"
+      ],
+      "category_slug": "emotional-outbursts",
+      "tags": [
+        "shadowing",
+        "following",
+        "you",
+        "everywhere",
+        "emotional",
+        "outbursts"
+      ],
+      "dementia_stage": "all",
+      "is_published": true
+    },
+    {
+      "title": "Sleep Disturbances and Nighttime Waking",
+      "slug": "sleep-disturbances-and-nighttime-waking",
+      "whats_happening": "Dementia disrupts the brain's internal clock (suprachiasmatic nucleus), causing day/night confusion. They may sleep excessively during the day and be wide awake at night. Restless sleep, nighttime wandering, and calling out are common. Pain, medication effects, and need to urinate can all contribute.",
+      "what_not_to_do": [
+        "Don't use physical restraints to keep them in bed.",
+        "Don't give them sedatives without medical guidance.",
+        "Don't yell at them for waking you.",
+        "Don't leave the home unsecured at night."
+      ],
+      "what_to_say": [
+        "\"It's nighttime. Everything is okay. Let's get you back to bed.\"",
+        "\"I'm here. You're safe.\"",
+        "\"Let me get you some warm milk.\"",
+        "\"The sun will be up soon. Let's rest a little more.\""
+      ],
+      "why_it_works": "Calm, oriented reassurance helps reset their confusion. A gentle, non-confrontational approach avoids escalation. Meeting basic needs (bathroom, drink, warmth) addresses common nighttime triggers.",
+      "common_triggers": [
+        "Excessive daytime napping",
+        "Caffeine or sugar too late in the day",
+        "Pain or discomfort",
+        "Need to urinate",
+        "Unfamiliar environment or darkness",
+        "Disrupted circadian rhythm",
+        "Medications (some cause insomnia)"
+      ],
+      "bonus_tips": [
+        "Establish a consistent bedtime routine",
+        "Limit naps to 20 minutes before 2 PM",
+        "Increase daytime activity and exercise",
+        "Use nightlights in hallways, bedroom, and bathroom",
+        "Consider a bedside commode if bathroom trips are disruptive",
+        "Ensure comfort: temperature, bedding, nightclothes",
+        "Install door alarms for nighttime wandering safety",
+        "Bright light therapy in the morning can help reset circadian rhythms",
+        "Consider hiring overnight help so you, the caregiver, can sleep"
+      ],
+      "category_slug": "sleep-sundowning",
+      "tags": [
+        "sleep",
+        "disturbances",
+        "and",
+        "nighttime",
+        "waking",
+        "sundowning",
+        "evening",
+        "routine"
+      ],
+      "dementia_stage": "all",
+      "is_published": true
+    },
+    {
+      "title": "Sudden Personality Change",
+      "slug": "sudden-personality-change",
+      "whats_happening": "A gentle person becomes aggressive. A shy person becomes disinhibited. A tidy person becomes chaotic. Personality changes are caused by damage to specific brain regions that shaped behavioral traits over a lifetime.",
+      "what_not_to_do": [
+        "Don't keep demanding the person behave like they used to.",
+        "Don't interpret every change as intentional meanness.",
+        "Don't neglect your own grief and support needs."
+      ],
+      "what_to_say": [
+        "Adjust your communication to the person they are NOW, not the person they were."
+      ],
+      "why_it_works": "Adjusting expectations to the current brain changes reduces conflict and helps caregivers respond to the person in front of them with less resentment.",
+      "common_triggers": [
+        "Progression of dementia into new brain regions",
+        "Stress, fatigue, or overstimulation",
+        "Pain or untreated medical issues",
+        "Major changes in routine or environment"
+      ],
+      "bonus_tips": [
+        "Mourn the change",
+        "Seek support",
+        "Adapt your expectations",
+        "Focus on moments of connection.",
+        "Notice patterns in when the change is strongest and what helps.",
+        "Seek caregiver support because mourning personality changes is real grief.",
+        "Anchor interactions in present needs rather than who the person used to be."
+      ],
+      "category_slug": "emotional-outbursts",
+      "tags": [
+        "sudden",
+        "personality",
+        "change",
+        "emotional",
+        "outbursts"
+      ],
+      "dementia_stage": "all",
+      "is_published": true
+    },
+    {
+      "title": "Sundowning (Late-Day Confusion)",
+      "slug": "sundowning-late-day-confusion",
+      "whats_happening": "As daylight fades, their confusion, agitation, and anxiety intensify. This is caused by exhaustion from the day, disrupted circadian rhythms, reduced lighting creating shadows and disorientation, and hormonal shifts. The damaged brain struggles more when fatigued.",
+      "what_not_to_do": [
+        "Don't plan outings or stimulating activities in late afternoon.",
+        "Don't turn down lights too early — darkness worsens it.",
+        "Don't try to reason with them about the time of day.",
+        "Don't give caffeine or sugar in the afternoon."
+      ],
+      "what_to_say": [
+        "\"Let's wind down together. How about some tea?\"",
+        "\"You've had a big day. Let's rest.\"",
+        "\"I'm here. Everything is okay.\"",
+        "\"Let's listen to some of your favorite music.\""
+      ],
+      "why_it_works": "Lowering stimulation and increasing comfort aligns with their brain's declining capacity as the day progresses. Calm, rhythmic activities (music, rocking, gentle touch) soothe the nervous system. Bright lighting reduces shadow-related hallucinations and disorientation.",
+      "common_triggers": [
+        "Fatigue from too much daytime activity",
+        "Dim lighting creating confusing shadows",
+        "Hunger (low blood sugar in late afternoon)",
+        "Internal clock disruption",
+        "Too much daytime napping",
+        "Caffeine or sugar consumed late in the day"
+      ],
+      "bonus_tips": [
+        "Keep the home brightly lit as evening approaches — use full-spectrum bulbs",
+        "Plan the most demanding activities for morning when cognition is best",
+        "Serve a light, easy snack in late afternoon",
+        "Limit naps to 20 minutes earlier in the day",
+        "Establish a calming evening ritual: gentle music, warm drink, comfort items",
+        "Close curtains to reduce shadows and reflections",
+        "Light exercise (a walk) in the early afternoon can help tire them appropriately"
+      ],
+      "category_slug": "sleep-sundowning",
+      "tags": [
+        "sundowning",
+        "late",
+        "day",
+        "confusion",
+        "sleep",
+        "evening",
+        "routine"
+      ],
+      "dementia_stage": "all",
+      "is_published": true
+    },
+    {
+      "title": "Suspicion and Accusations of Stealing",
+      "slug": "suspicion-and-accusations-of-stealing",
+      "whats_happening": "They can't find something and their brain fills in the gap with the most logical explanation it can construct: someone must have taken it. This isn't manipulation — it's their damaged brain trying to make sense of a confusing reality. Paranoid delusions are common in mid-stage dementia.",
+      "what_not_to_do": [
+        "Don't say \"Nobody stole anything.\"",
+        "Don't argue or try to prove them wrong.",
+        "Don't get defensive or take it personally.",
+        "Don't dismiss them: \"That's ridiculous.\""
+      ],
+      "what_to_say": [
+        "\"I can see that's really upsetting. Let me help you look.\"",
+        "\"That must be so frustrating. Let's find it together.\"",
+        "\"I understand why you're worried. Your things are important.\"",
+        "\"I'll make sure your things are safe.\""
+      ],
+      "why_it_works": "Searching together validates their concern and gives them a sense of control. It also buys time for the distress to naturally subside. Arguing activates more fear; joining their mission calms it.",
+      "common_triggers": [
+        "Misplacing items (glasses, wallet, keys)",
+        "Forgetting where things are stored",
+        "New caregivers or visitors in the home",
+        "Increased confusion or cognitive decline",
+        "Inability to manage finances or belongings"
+      ],
+      "bonus_tips": [
+        "Learn their favorite hiding spots — check there first",
+        "Keep duplicates of commonly \"lost\" items (glasses, keys)",
+        "Let them keep a small amount of cash in a purse or wallet for reassurance",
+        "Avoid rearranging their belongings",
+        "Explain to other family members and visitors that accusations are a symptom of the disease, not reality",
+        "A gentle touch or hug after searching can provide comfort"
+      ],
+      "category_slug": "suspicion-accusations",
+      "tags": [
+        "suspicion",
+        "and",
+        "accusations",
+        "stealing"
+      ],
+      "dementia_stage": "all",
+      "is_published": true
+    },
+    {
+      "title": "Suspicion of Spouse Having an Affair (Othello Syndrome)",
+      "slug": "suspicion-of-spouse-having-an-affair-othello-syndrome",
+      "whats_happening": "A specific paranoid delusion where the person believes their partner is unfaithful. This is caused by brain damage, not actual suspicion.",
+      "what_not_to_do": [
+        "Don't argue case details or demand proof.",
+        "Don't mock the accusation or take it personally in the moment.",
+        "Don't continue conversations that intensify jealousy or fear."
+      ],
+      "what_to_say": [
+        "\"I would never hurt you. You're the most important person to me.\""
+      ],
+      "why_it_works": "Reassurance and emotional validation calm the fear beneath the delusion, which is more effective than trying to win a logic debate.",
+      "common_triggers": [
+        "Paranoid delusions in mid-stage dementia",
+        "Seeing unfamiliar names, messages, or TV scenes",
+        "Misreading absence or routine changes",
+        "General insecurity and confusion"
+      ],
+      "bonus_tips": [
+        "Don't argue",
+        "Validate the feeling",
+        "\"I can see this upsets you",
+        "I love you and I'm here.\"",
+        "Respond to the hurt and fear first, not the accusation itself.",
+        "Reduce exposure to dramatic TV or confusing conversations.",
+        "Seek medical advice if the delusion becomes persistent or unsafe."
+      ],
+      "category_slug": "suspicion-accusations",
+      "tags": [
+        "suspicion",
+        "spouse",
+        "having",
+        "affair",
+        "othello",
+        "syndrome",
+        "accusations"
+      ],
+      "dementia_stage": "all",
+      "is_published": true
+    },
+    {
+      "title": "Talking to Deceased Loved Ones",
+      "slug": "talking-to-deceased-loved-ones",
+      "whats_happening": "Long-term memories of loved ones feel present and real. They may be reliving a time when those people were alive. This can also occur near end-of-life.",
+      "what_not_to_do": [
+        "Don't correct them with blunt reminders that the person has died.",
+        "Don't argue about what is real.",
+        "Don't interrupt if the memory is bringing comfort."
+      ],
+      "what_to_say": [
+        "\"What did [person] like to do? They sound wonderful.\""
+      ],
+      "why_it_works": "Joining the emotional meaning of the memory provides safety and connection without forcing the person through repeated grief.",
+      "common_triggers": [
+        "Long-term memories becoming more vivid than recent reality",
+        "Loneliness or longing for comfort",
+        "End-of-day confusion or fatigue",
+        "Photos, music, or familiar stories"
+      ],
+      "bonus_tips": [
+        "Don't correct",
+        "Enter their reality",
+        "\"Tell me about [person].\" Only redirect if the experience is causing distress.",
+        "Invite reminiscence with questions about the loved one.",
+        "Redirect only if the conversation is causing fear or distress.",
+        "Use photos or music connected to that person for soothing connection."
+      ],
+      "category_slug": "identity-confusion",
+      "tags": [
+        "talking",
+        "deceased",
+        "loved",
+        "ones",
+        "identity",
+        "confusion"
+      ],
+      "dementia_stage": "all",
+      "is_published": true
+    },
+    {
+      "title": "Time Confusion and Disorientation",
+      "slug": "time-confusion-and-disorientation",
+      "whats_happening": "They may not know the year, season, or time of day. They may believe they need to go to a job they retired from decades ago, think their children are still young, or wake up thinking it's morning at midnight. The brain's ability to place itself in time is fundamentally disrupted.",
+      "what_not_to_do": [
+        "Don't quiz them: \"What year is it?\"",
+        "Don't correct them harshly: \"You retired 20 years ago!\"",
+        "Don't show frustration at their confusion.",
+        "Don't argue about the date or time."
+      ],
+      "what_to_say": [
+        "\"It's afternoon. We just had lunch.\" (Orient gently.)",
+        "\"The kids are all grown up now. They're doing great!\"",
+        "\"You worked so hard at your job. You earned your rest.\"",
+        "\"It's Saturday. No work today. We can relax.\""
+      ],
+      "why_it_works": "Gentle, non-judgmental orientation provides useful information without the shame of being \"wrong.\" Connecting time cues to concrete experiences (meals, daylight) uses context rather than abstract dates.",
+      "common_triggers": [
+        "Waking from sleep",
+        "Seasonal transitions",
+        "Lack of environmental time cues",
+        "Long-term memory overriding short-term (reliving past decades)"
+      ],
+      "bonus_tips": [
+        "Use a large clock with day, date, and AM/PM display",
+        "Open curtains during the day for natural light cues",
+        "Maintain consistent meal and activity times",
+        "Don't insist on correct orientation — sometimes entering their time frame is more compassionate",
+        "If they want to \"go to work,\" give them a meaningful task"
+      ],
+      "category_slug": "identity-confusion",
+      "tags": [
+        "time",
+        "confusion",
+        "and",
+        "disorientation",
+        "identity"
+      ],
+      "dementia_stage": "all",
+      "is_published": true
+    },
+    {
+      "title": "Verbal Outbursts and Cursing",
+      "slug": "verbal-outbursts-and-cursing",
+      "whats_happening": "Cursing and verbal aggression are often expressions of anger, frustration, fear, or stress. Interestingly, profanity is stored in a different part of the brain (limbic system/basal ganglia) than regular speech, so it may persist even when other language is lost. It's an emotional release, not a character flaw.",
+      "what_not_to_do": [
+        "Don't say \"Watch your language!\"",
+        "Don't argue or respond with anger.",
+        "Don't take the words personally.",
+        "Don't punish or lecture."
+      ],
+      "what_to_say": [
+        "\"I hear you. Something is bothering you.\"",
+        "\"That sounds really frustrating.\"",
+        "\"Let me help make it better.\"",
+        "\"You're right, that doesn't feel good. Let's fix it.\""
+      ],
+      "why_it_works": "Validating the feeling behind the words de-escalates the emotional intensity. Responding to the emotion rather than the language avoids power struggles. Your calm voice models the regulation their brain can no longer provide.",
+      "common_triggers": [
+        "Feeling out of control",
+        "Pain or discomfort",
+        "Being corrected or contradicted",
+        "Overstimulation",
+        "Feeling rushed during care tasks"
+      ],
+      "bonus_tips": [
+        "Stay calm and keep your voice soft and low",
+        "Give them space if they need it",
+        "Try to identify what happened right before the outburst",
+        "Redirect after acknowledging: \"I know this is hard. Let's get some air.\"",
+        "If outbursts are new or escalating, check for UTI, pain, or medication changes"
+      ],
+      "category_slug": "aggression-agitation",
+      "tags": [
+        "verbal",
+        "outbursts",
+        "and",
+        "cursing",
+        "aggression",
+        "agitation"
+      ],
+      "dementia_stage": "all",
+      "is_published": true
+    },
+    {
+      "title": "Wandering",
+      "slug": "wandering",
+      "whats_happening": "Wandering can stem from many sources: boredom, restlessness, searching for something familiar, continuing a lifelong habit (like going to work), medication side effects, or a need to use the bathroom. Their brain may be replaying old routines. They don't recognize they are \"lost.\"",
+      "what_not_to_do": [
+        "Don't physically restrain them — it increases agitation and can cause injury.",
+        "Don't yell \"Where are you going?!\" in a panicked tone.",
+        "Don't lock them in a room.",
+        "Don't assume they'll \"learn\" not to wander."
+      ],
+      "what_to_say": [
+        "\"Where are you headed? I'll come with you.\"",
+        "\"Let's go for a walk together. It's nice out.\"",
+        "\"Can I join you? I'd love the company.\"",
+        "\"Let's walk to the kitchen — I have a snack ready.\""
+      ],
+      "why_it_works": "Walking alongside them rather than blocking them avoids triggering a combative response. Redirecting the walk toward a safe destination satisfies the urge to move while keeping them safe. Matching their energy shows respect.",
+      "common_triggers": [
+        "Boredom or lack of structured activity",
+        "Time of day (often late afternoon/evening)",
+        "Looking for the bathroom or food",
+        "Reliving old routines (going to work, picking up children)",
+        "New or unfamiliar environment",
+        "Medication side effects"
+      ],
+      "bonus_tips": [
+        "Ensure regular physical exercise during the day to reduce restlessness",
+        "Install door alarms and motion sensors",
+        "Camouflage exit doors with curtains or paint them to match walls",
+        "Use a GPS tracking device (watch, shoe insert, or pendant)",
+        "Enroll in the MedicAlert + Alzheimer's Association Safe Return program",
+        "Keep recent photos available in case they get lost",
+        "Ensure they carry ID at all times",
+        "Address potential needs (bathroom, hunger, thirst) proactively"
+      ],
+      "category_slug": "wandering",
+      "tags": [
+        "wandering",
+        "safety",
+        "movement"
+      ],
+      "dementia_stage": "all",
+      "is_published": true
+    },
+    {
+      "title": "Wanting to Drive",
+      "slug": "wanting-to-drive",
+      "whats_happening": "Driving represents independence and identity. Giving it up is a profound loss. They may not recognize their impairment.",
+      "what_not_to_do": [
+        "Don't hand over the keys to avoid conflict.",
+        "Don't frame the conversation as punishment.",
+        "Don't leave the car visible and easily accessible if driving is no longer safe."
+      ],
+      "what_to_say": [
+        "\"The doctor says the medication means no driving for now. I'll take you wherever you need to go.\""
+      ],
+      "why_it_works": "Using a trusted external authority and offering alternatives protects dignity while reducing direct conflict about independence.",
+      "common_triggers": [
+        "Need for independence and identity",
+        "Old routines like commuting or errands",
+        "Seeing the car or keys",
+        "Poor insight into changed abilities"
+      ],
+      "bonus_tips": [
+        "Have the doctor \"prescribe\" no driving (removes you as the bad guy)",
+        "Hide or disable the car",
+        "Offer rides.",
+        "Ask the physician to be the one who says driving must stop.",
+        "Keep keys out of sight and consider disabling the vehicle if needed.",
+        "Offer a specific ride plan so they do not feel trapped."
+      ],
+      "category_slug": "wandering",
+      "tags": [
+        "wanting",
+        "drive",
+        "wandering",
+        "safety",
+        "movement"
+      ],
+      "dementia_stage": "all",
+      "is_published": true
+    },
+    {
+      "title": "Wanting to Go Home",
+      "slug": "wanting-to-go-home",
+      "whats_happening": "\"Home\" often doesn't mean their current house. It means safety, familiarity, comfort — often tied to a childhood home or a time when they felt secure. They feel disoriented and are longing for a place where things made sense. This is one of the most emotionally loaded behaviors.",
+      "what_not_to_do": [
+        "Don't say \"You ARE home\" — it invalidates their experience.",
+        "Don't argue with their perception of reality.",
+        "Don't lock doors in a way that creates panic.",
+        "Don't ignore the request hoping it goes away."
+      ],
+      "what_to_say": [
+        "\"Tell me about home. What do you miss most?\"",
+        "\"What would you do if you were there right now?\"",
+        "\"I want you to feel safe here. What would help?\"",
+        "\"Let's make some tea like you used to have at home.\""
+      ],
+      "why_it_works": "Asking about \"home\" lets you enter their reality and understand the underlying need (comfort, security, familiarity). Engaging their long-term memories of home provides emotional comfort without requiring a physical move. It validates rather than corrects.",
+      "common_triggers": [
+        "Late afternoon/evening (sundowning)",
+        "Feeling overwhelmed by unfamiliar surroundings",
+        "Missing deceased loved ones",
+        "After transitions (hospital stay, new facility)",
+        "Boredom or under-stimulation"
+      ],
+      "bonus_tips": [
+        "Surround them with familiar objects: photos, blankets, favorite chair",
+        "Create routines that feel \"homelike\" — cooking smells, familiar music",
+        "Sometimes a short drive or walk can satisfy the urge to \"go\" somewhere",
+        "If they're persistently trying to leave, go with them for a walk rather than restraining — then gently guide back",
+        "The feeling usually passes in 15–20 minutes with gentle distraction"
+      ],
+      "category_slug": "identity-confusion",
+      "tags": [
+        "wanting",
+        "home",
+        "identity",
+        "confusion"
+      ],
+      "dementia_stage": "all",
+      "is_published": true
+    },
+    {
+      "title": "Withdrawal from Social Activities",
+      "slug": "withdrawal-from-social-activities",
+      "whats_happening": "Social situations require enormous cognitive effort — following conversations, remembering names, navigating social norms. As these abilities decline, social settings become exhausting and embarrassing. Withdrawal is often a self-protective response, not a preference.",
+      "what_not_to_do": [
+        "Don't force them into large social gatherings.",
+        "Don't say \"You used to love parties.\"",
+        "Don't leave them alone at events.",
+        "Don't assume they don't want any social contact."
+      ],
+      "what_to_say": [
+        "\"Would you like to sit with me and [one friend] for tea?\"",
+        "\"Your friend [name] would love to see you. Just a short visit.\"",
+        "\"Let's go for a walk in the park — just us.\"",
+        "\"You don't have to talk. Just being together is nice.\""
+      ],
+      "why_it_works": "Small, low-pressure social interactions maintain connection without cognitive overload. One-on-one or very small groups are manageable when large groups aren't.",
+      "common_triggers": [
+        "Fear of embarrassment",
+        "Difficulty following group conversations",
+        "Overstimulating environments",
+        "Fatigue",
+        "Depression",
+        "Difficulty recognizing familiar people"
+      ],
+      "bonus_tips": [
+        "Keep social activities small and familiar",
+        "Inform close friends/family about the diagnosis so they can adapt",
+        "Activities that don't require conversation (watching a movie, listening to music, walking) still provide companionship",
+        "Companion animals can provide non-judgmental social connection",
+        "Consider adult day programs that offer structured social activities for people with dementia"
+      ],
+      "category_slug": "emotional-outbursts",
+      "tags": [
+        "withdrawal",
+        "from",
+        "social",
+        "activities",
+        "emotional",
+        "outbursts"
+      ],
+      "dementia_stage": "all",
+      "is_published": true
+    }
+  ]
+}
