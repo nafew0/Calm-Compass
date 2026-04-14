@@ -6,6 +6,7 @@ from rest_framework import serializers
 from django.contrib.auth.password_validation import validate_password
 from django.core.files.uploadedfile import SimpleUploadedFile
 from PIL import Image, ImageOps, ImageSequence, UnidentifiedImageError
+from zoneinfo import ZoneInfo
 
 from subscriptions.serializers import PlanSummarySerializer
 from subscriptions.services import LicenseService
@@ -91,6 +92,7 @@ class UserSerializer(serializers.ModelSerializer):
             "organization",
             "designation",
             "phone",
+            "timezone",
             "email_verified",
             "has_completed_setup",
             "current_plan",
@@ -157,6 +159,7 @@ class UserUpdateSerializer(serializers.ModelSerializer):
             "organization",
             "designation",
             "phone",
+            "timezone",
         ]
 
     def validate_email(self, value):
@@ -181,6 +184,17 @@ class UserUpdateSerializer(serializers.ModelSerializer):
 
     def validate_care_recipient_name(self, value):
         return (value or "").strip()
+
+    def validate_timezone(self, value):
+        normalized = (value or "").strip()
+        if not normalized:
+            return ""
+
+        try:
+            ZoneInfo(normalized)
+        except Exception as exc:
+            raise serializers.ValidationError("Enter a valid IANA timezone.") from exc
+        return normalized
 
     def validate_avatar(self, value):
         """Validate avatar uploads to common safe image formats and a sane size."""

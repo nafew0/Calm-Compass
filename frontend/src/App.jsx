@@ -18,6 +18,8 @@ const PaymentFailed = lazy(() => import('./pages/PaymentFailed'))
 const Pricing = lazy(() => import('./pages/Pricing'))
 const Setup = lazy(() => import('./pages/Setup'))
 const Dashboard = lazy(() => import('./pages/Dashboard'))
+const Log = lazy(() => import('./pages/Log'))
+const Medications = lazy(() => import('./pages/Medications'))
 const Profile = lazy(() => import('./pages/Profile'))
 const DecoderHome = lazy(() => import('./pages/decoder/DecoderHome'))
 const DecoderCategory = lazy(() => import('./pages/decoder/DecoderCategory'))
@@ -103,6 +105,22 @@ function App() {
                     element={
                       <ProtectedRoute>
                         <Dashboard />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/log"
+                    element={
+                      <ProtectedRoute>
+                        <Log />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/medications"
+                    element={
+                      <ProtectedRoute>
+                        <Medications />
                       </ProtectedRoute>
                     }
                   />

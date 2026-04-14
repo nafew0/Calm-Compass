@@ -126,6 +126,9 @@ INSTALLED_APPS = [
     "accounts",
     "subscriptions",
     "knowledgebase",
+    "daily_log",
+    "medications",
+    "ai_chat",
 ]
 
 MIDDLEWARE = [

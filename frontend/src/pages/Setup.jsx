@@ -75,8 +75,8 @@ export default function Setup() {
           </CardHeader>
           <CardContent className="space-y-8 pt-3">
             <div className="grid gap-4 rounded-3xl bg-slate-50 p-5 text-sm leading-7 text-slate-600">
-              <p>Behavior Decoder content is already being prepared in the background.</p>
-              <p>Daily Log and Medications will appear on your home screen as the next MVP tools.</p>
+              <p>Behavior Decoder is ready as the primary caregiver workflow.</p>
+              <p>Daily Log and Medications are both live on the care home for quick tracking.</p>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-5">

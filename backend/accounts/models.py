@@ -1,8 +1,10 @@
 import secrets
 import uuid
 from datetime import timedelta
+from zoneinfo import ZoneInfo
 
 from django.contrib.auth.models import AbstractUser
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils import timezone
 
@@ -13,6 +15,17 @@ def get_default_verification_expiry():
 
 def generate_email_verification_token():
     return secrets.token_hex(32)
+
+
+def validate_iana_timezone(value):
+    normalized = (value or "").strip()
+    if not normalized:
+        return
+
+    try:
+        ZoneInfo(normalized)
+    except Exception as exc:  # pragma: no cover - defensive zoneinfo validation
+        raise ValidationError("Enter a valid IANA timezone.") from exc
 
 
 class User(AbstractUser):
@@ -29,6 +42,12 @@ class User(AbstractUser):
     organization = models.CharField(max_length=255, blank=True, default="")
     designation = models.CharField(max_length=255, blank=True, default="")
     phone = models.CharField(max_length=30, blank=True, default="")
+    timezone = models.CharField(
+        max_length=100,
+        blank=True,
+        default="",
+        validators=[validate_iana_timezone],
+    )
     email_verified = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -73,6 +92,7 @@ class SiteSettings(models.Model):
     )
     ai_model_openai = models.CharField(max_length=100, blank=True, default="")
     ai_model_anthropic = models.CharField(max_length=100, blank=True, default="")
+    ai_fallback_lifetime_cap = models.PositiveIntegerField(default=100)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

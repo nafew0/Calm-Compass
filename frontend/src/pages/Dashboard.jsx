@@ -21,14 +21,18 @@ const supportCards = [
   {
     icon: ClipboardPenLine,
     title: 'Daily Log',
-    status: 'Planned next',
-    description: 'Mood and behavior tracking will sit here without adding friction to the day.',
+    status: 'Live now',
+    description: 'Track mood shifts, add short notes, and link a decoder behavior when it helps.',
+    href: '/log',
+    cta: 'Open Daily Log',
   },
   {
     icon: PillBottle,
     title: 'Medications',
-    status: 'Planned next',
-    description: 'Medication schedules and adherence tracking will follow without push reminders.',
+    status: 'Live now',
+    description: 'Track fixed or interval doses, log outcomes, and keep adherence visible in-app.',
+    href: '/medications',
+    cta: 'Open Medications',
   },
 ]
 
@@ -265,7 +269,7 @@ export default function Dashboard() {
         </section>
 
         <section className="grid gap-4 md:grid-cols-2">
-          {supportCards.map(({ icon: Icon, title, status, description }) => (
+          {supportCards.map(({ icon: Icon, title, status, description, href, cta }) => (
             <div
               key={title}
               className="rounded-[1.8rem] border border-slate-200 bg-white px-6 py-6 shadow-sm"
@@ -282,6 +286,17 @@ export default function Dashboard() {
                 {title}
               </h2>
               <p className="mt-3 text-sm leading-7 text-slate-600">{description}</p>
+              <div className="mt-5">
+                {href ? (
+                  <Button asChild className="rounded-full px-5">
+                    <Link to={href}>{cta}</Link>
+                  </Button>
+                ) : (
+                  <Button type="button" variant="outline" className="rounded-full px-5" disabled>
+                    {cta}
+                  </Button>
+                )}
+              </div>
             </div>
           ))}
 
@@ -295,10 +310,10 @@ export default function Dashboard() {
                   Current focus
                 </p>
                 <h2 className="mt-2 text-xl font-semibold tracking-tight text-slate-950">
-                  The decoder is now the primary caregiver workflow.
+                  Decoder, Daily Log, and Medications are all active in the MVP shell.
                 </h2>
                 <p className="mt-3 max-w-3xl text-sm leading-7 text-slate-600">
-                  Daily Log and Medications remain visible so the MVP shape stays intact, but the active build focus is fast decoder browse, search, and response detail.
+                  Use the decoder for fast guidance, capture the moment in Daily Log, and keep medication timing and outcomes organized without relying on push reminders.
                 </p>
               </div>
             </div>

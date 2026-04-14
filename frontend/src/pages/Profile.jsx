@@ -3,6 +3,7 @@ import {
   BriefcaseBusiness,
   Building2,
   Camera,
+  Clock3,
   HeartHandshake,
   LoaderCircle,
   Mail,
@@ -19,9 +20,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
+import { getSupportedTimezones } from '@/utils/timezones'
 
 const AVATAR_MAX_SIZE_BYTES = 5 * 1024 * 1024
 const AVATAR_ACCEPTED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif']
+const SUPPORTED_TIMEZONES = getSupportedTimezones()
 
 function buildFormState(user) {
   return {
@@ -30,6 +33,7 @@ function buildFormState(user) {
     care_recipient_name: user?.care_recipient_name || '',
     email: user?.email || '',
     phone: user?.phone || '',
+    timezone: user?.timezone || '',
     organization: user?.organization || '',
     designation: user?.designation || '',
     bio: user?.bio || '',
@@ -79,6 +83,7 @@ export default function Profile() {
       care_recipient_name: formData.care_recipient_name.trim(),
       email: formData.email,
       phone: formData.phone.trim(),
+      timezone: formData.timezone.trim(),
       organization: formData.organization.trim(),
       designation: formData.designation.trim(),
       bio: formData.bio.trim(),
@@ -206,6 +211,15 @@ export default function Profile() {
       autoComplete: 'tel',
     },
     {
+      id: 'timezone',
+      label: 'Timezone',
+      icon: Clock3,
+      placeholder: 'America/New_York',
+      autoComplete: 'off',
+      list: 'timezone-options',
+      description: 'Medication schedules use this timezone for upcoming doses and adherence.',
+    },
+    {
       id: 'organization',
       label: 'Organization',
       icon: Building2,
@@ -296,8 +310,8 @@ export default function Profile() {
                 <p className="mt-1 text-sm text-slate-500">@{user?.username}</p>
               </div>
 
-              <div className="grid gap-3">
-                <div className="rounded-2xl bg-slate-50 px-4 py-4">
+                <div className="grid gap-3">
+                  <div className="rounded-2xl bg-slate-50 px-4 py-4">
                   <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
                     Setup status
                   </p>
@@ -335,6 +349,11 @@ export default function Profile() {
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-5">
                 <div className="grid gap-5 sm:grid-cols-2">
+                  <datalist id="timezone-options">
+                    {SUPPORTED_TIMEZONES.map((timezoneValue) => (
+                      <option key={timezoneValue} value={timezoneValue} />
+                    ))}
+                  </datalist>
                   {profileFields.map(({ id, label, icon: Icon, description, readOnly, ...field }) => (
                     <div key={id} className={id === 'care_recipient_name' ? 'sm:col-span-2' : ''}>
                       <Label htmlFor={id} className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">

@@ -35,7 +35,7 @@ class Behavior(models.Model):
         related_name="behaviors",
     )
     title = models.CharField(max_length=255)
-    slug = models.SlugField(unique=True)
+    slug = models.SlugField(max_length=100, unique=True)
     tags = models.JSONField(default=list, blank=True)
     whats_happening = models.TextField()
     what_not_to_do = models.JSONField(default=list, blank=True)

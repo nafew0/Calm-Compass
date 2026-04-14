@@ -23,6 +23,7 @@ function buildInitialState(settings) {
     ai_provider: settings?.ai_provider || 'openai',
     ai_model_openai: settings?.ai_model_openai || '',
     ai_model_anthropic: settings?.ai_model_anthropic || '',
+    ai_fallback_lifetime_cap: settings?.ai_fallback_lifetime_cap ?? 100,
   }
 }
 
@@ -169,6 +170,24 @@ export default function AdminSettings() {
                 }
                 placeholder={formState.ai_provider === 'openai' ? 'gpt-5-mini' : 'claude-3-7-sonnet-latest'}
               />
+            </div>
+            <div className="space-y-2">
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">Lifetime AI cap</p>
+              <Input
+                type="number"
+                min="0"
+                value={formState.ai_fallback_lifetime_cap}
+                onChange={(event) =>
+                  handleChange(
+                    'ai_fallback_lifetime_cap',
+                    event.target.value === '' ? 0 : Number(event.target.value)
+                  )
+                }
+                placeholder="100"
+              />
+              <p className="text-sm text-muted-foreground">
+                Set to <span className="font-medium text-foreground">0</span> to disable the decoder AI fallback.
+              </p>
             </div>
           </div>
 

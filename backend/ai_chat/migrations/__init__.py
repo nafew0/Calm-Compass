@@ -1,0 +1,1 @@
+"""AI chat migrations package."""

@@ -121,6 +121,7 @@ class SiteSettingsAdminSerializer(serializers.ModelSerializer):
             "ai_provider",
             "ai_model_openai",
             "ai_model_anthropic",
+            "ai_fallback_lifetime_cap",
             "ai_secret_storage_mode",
             "ai_api_key_openai_meta",
             "ai_api_key_anthropic_meta",
@@ -153,6 +154,7 @@ class SiteSettingsUpdateSerializer(serializers.Serializer):
     )
     ai_model_openai = serializers.CharField(required=False, allow_blank=True, max_length=100)
     ai_model_anthropic = serializers.CharField(required=False, allow_blank=True, max_length=100)
+    ai_fallback_lifetime_cap = serializers.IntegerField(required=False, min_value=0)
 
     def validate(self, attrs):
         rejected_fields = [

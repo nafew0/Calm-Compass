@@ -22,6 +22,7 @@ class UserAdmin(BaseUserAdmin):
         "organization",
         "designation",
         "email_verified",
+        "timezone",
         "is_staff",
         "created_at",
     ]
@@ -35,6 +36,7 @@ class UserAdmin(BaseUserAdmin):
         "organization",
         "designation",
         "phone",
+        "timezone",
     ]
     ordering = ["-created_at"]
 
@@ -49,6 +51,7 @@ class UserAdmin(BaseUserAdmin):
                     "organization",
                     "designation",
                     "phone",
+                    "timezone",
                     "email_verified",
                 )
             },
@@ -69,6 +72,7 @@ class UserAdmin(BaseUserAdmin):
                     "organization",
                     "designation",
                     "phone",
+                    "timezone",
                     "email_verified",
                 )
             },
@@ -84,6 +88,7 @@ class SiteSettingsAdmin(admin.ModelAdmin):
         "require_email_verification",
         "logged_in_users_only_default",
         "ai_provider",
+        "ai_fallback_lifetime_cap",
         "updated_at",
     ]
     readonly_fields = ["created_at", "updated_at"]
@@ -100,6 +105,7 @@ class SiteSettingsAdmin(admin.ModelAdmin):
                     "ai_provider",
                     "ai_model_openai",
                     "ai_model_anthropic",
+                    "ai_fallback_lifetime_cap",
                 )
             },
         ),

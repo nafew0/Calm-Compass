@@ -12,7 +12,47 @@ import {
 
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
+import { Textarea } from '@/components/ui/textarea'
+import { askAI, getAIStatus } from '@/services/aiChat'
 import { getBehaviorDetail, recordBehaviorView } from '@/services/knowledgebase'
+
+const AI_HELPLINE_LABEL = 'Alzheimer’s Association 24/7 Helpline: 800-272-3900'
+
+function extractAIStatus(payload) {
+  if (!payload) {
+    return null
+  }
+
+  return {
+    available: Boolean(payload.available),
+    remaining_queries: Number(payload.remaining_queries ?? 0),
+    used_queries: Number(payload.used_queries ?? 0),
+    lifetime_cap: Number(payload.lifetime_cap ?? 0),
+    provider: payload.provider || '',
+    model: payload.model || '',
+    unavailable_reason: payload.unavailable_reason || null,
+  }
+}
+
+function AIAnswerCard({ answer, source }) {
+  if (!answer) {
+    return null
+  }
+
+  return (
+    <div className="rounded-[1.5rem] border border-slate-200 bg-slate-50 px-4 py-4">
+      <div className="flex items-center justify-between gap-3">
+        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
+          AI response
+        </p>
+        <Badge variant="outline" className="border-slate-200 bg-white text-slate-600">
+          {source === 'safety_fallback' ? 'Safety fallback' : 'AI'}
+        </Badge>
+      </div>
+      <div className="mt-4 whitespace-pre-wrap text-sm leading-7 text-slate-700">{answer}</div>
+    </div>
+  )
+}
 
 function DecoderSection({ icon: Icon, label, title, children, tone = 'slate' }) {
   const toneClasses = {
@@ -103,6 +143,12 @@ export default function DecoderBehavior() {
   const [loading, setLoading] = useState(true)
   const [errorStatus, setErrorStatus] = useState(null)
   const [errorMessage, setErrorMessage] = useState('')
+  const [aiStatus, setAIStatus] = useState(null)
+  const [aiStatusLoading, setAIStatusLoading] = useState(true)
+  const [aiQuestion, setAIQuestion] = useState('')
+  const [aiAnswer, setAIAnswer] = useState(null)
+  const [aiRequestError, setAIRequestError] = useState('')
+  const [aiSubmitting, setAISubmitting] = useState(false)
   const trackedSlugRef = useRef('')
 
   useEffect(() => {
@@ -150,6 +196,79 @@ export default function DecoderBehavior() {
     void recordBehaviorView(behavior.slug).catch(() => {})
   }, [behavior])
 
+  useEffect(() => {
+    let cancelled = false
+
+    const loadAIStatus = async () => {
+      setAIStatusLoading(true)
+      setAIRequestError('')
+      setAIAnswer(null)
+      setAIQuestion('')
+
+      try {
+        const response = await getAIStatus()
+        if (!cancelled) {
+          setAIStatus(extractAIStatus(response))
+        }
+      } catch (error) {
+        if (!cancelled) {
+          setAIStatus({
+            available: false,
+            remaining_queries: 0,
+            used_queries: 0,
+            lifetime_cap: 0,
+            provider: '',
+            model: '',
+            unavailable_reason:
+              error.response?.data?.detail || 'AI fallback could not be checked right now.',
+          })
+        }
+      } finally {
+        if (!cancelled) {
+          setAIStatusLoading(false)
+        }
+      }
+    }
+
+    loadAIStatus()
+
+    return () => {
+      cancelled = true
+    }
+  }, [slug])
+
+  const handleAskAI = async () => {
+    const normalizedQuestion = aiQuestion.trim()
+    if (!normalizedQuestion || !behavior?.slug || !aiStatus?.available) {
+      return
+    }
+
+    setAISubmitting(true)
+    setAIRequestError('')
+
+    try {
+      const response = await askAI({
+        behavior_slug: behavior.slug,
+        question: normalizedQuestion,
+      })
+      setAIAnswer({
+        answer: response.answer,
+        source: response.source,
+      })
+      setAIStatus(extractAIStatus(response))
+    } catch (error) {
+      const payload = error.response?.data
+      setAIRequestError(
+        payload?.detail || 'AI fallback could not respond right now. Please try again shortly.'
+      )
+      if (payload && typeof payload === 'object' && 'remaining_queries' in payload) {
+        setAIStatus(extractAIStatus(payload))
+      }
+    } finally {
+      setAISubmitting(false)
+    }
+  }
+
   if (loading) {
     return (
       <div className="min-h-[calc(100vh-4rem)] bg-[linear-gradient(180deg,#f4faf7_0%,#ffffff_100%)] px-4 py-8 sm:px-6 lg:px-8">
@@ -180,6 +299,14 @@ export default function DecoderBehavior() {
       </div>
     )
   }
+
+  const aiUnavailable = Boolean(aiStatus && !aiStatus.available)
+  const aiCapReached =
+    Boolean(aiStatus) &&
+    aiStatus.lifetime_cap > 0 &&
+    aiStatus.remaining_queries <= 0 &&
+    aiStatus.unavailable_reason
+  const showAIHelpline = aiUnavailable || aiAnswer?.source === 'safety_fallback'
 
   return (
     <div className="min-h-[calc(100vh-4rem)] bg-[linear-gradient(180deg,#f4faf7_0%,#ffffff_100%)] px-4 py-8 sm:px-6 lg:px-8">
@@ -302,20 +429,119 @@ export default function DecoderBehavior() {
               <Sparkles className="h-5 w-5" />
             </span>
             <div className="min-w-0 flex-1">
-              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
-                AI support
-              </p>
-              <h2 className="mt-2 text-xl font-semibold tracking-tight text-slate-950">
-                This didn’t help? Ask AI is coming next.
-              </h2>
+              <div className="flex flex-wrap items-start justify-between gap-4">
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
+                    AI support
+                  </p>
+                  <h2 className="mt-2 text-xl font-semibold tracking-tight text-slate-950">
+                    This didn’t help? Ask AI for one more layer of guidance.
+                  </h2>
+                </div>
+                {aiStatusLoading ? (
+                  <Badge variant="outline" className="border-slate-200 bg-white text-slate-600">
+                    Checking availability...
+                  </Badge>
+                ) : aiStatus ? (
+                  <Badge variant="outline" className="border-slate-200 bg-white text-slate-600">
+                    {aiStatus.remaining_queries} of {aiStatus.lifetime_cap} left
+                  </Badge>
+                ) : null}
+              </div>
+
               <p className="mt-3 max-w-2xl text-sm leading-7 text-slate-600">
-                AI fallback will stay inside this decoder flow and will arrive in a later phase.
-                For now, the decoder remains static and knowledge-base driven.
+                This is a secondary fallback, not the main product. Ask one focused follow-up and
+                CalmCompass will answer inside this page without storing a chat history.
               </p>
-              <div className="mt-5">
-                <Button type="button" variant="secondary" className="rounded-full" disabled>
-                  Ask AI for more help
-                </Button>
+
+              {aiStatus?.model ? (
+                <p className="mt-2 text-xs font-medium uppercase tracking-[0.16em] text-slate-500">
+                  {aiStatus.provider} • {aiStatus.model}
+                </p>
+              ) : null}
+
+              <div className="mt-5 space-y-4">
+                {aiStatusLoading ? (
+                  <div className="flex items-center gap-3 rounded-[1.4rem] border border-slate-200 bg-slate-50 px-4 py-4 text-sm text-slate-600">
+                    <LoaderCircle className="h-4 w-4 animate-spin" />
+                    Checking AI fallback status...
+                  </div>
+                ) : null}
+
+                {aiUnavailable ? (
+                  <div className="rounded-[1.5rem] border border-amber-200 bg-amber-50 px-4 py-4 text-sm leading-7 text-amber-900">
+                    <p className="font-semibold">
+                      {aiCapReached ? 'AI fallback limit reached' : 'AI fallback unavailable'}
+                    </p>
+                    <p className="mt-2">
+                      {aiStatus?.unavailable_reason ||
+                        'AI fallback could not be used right now.'}
+                    </p>
+                    <p className="mt-3">
+                      Keep using the static decoder first. For urgent support, contact local
+                      emergency services when safety is at risk or call the {AI_HELPLINE_LABEL}.
+                    </p>
+                  </div>
+                ) : (
+                  <>
+                    <div>
+                      <label
+                        htmlFor="ai-follow-up-question"
+                        className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500"
+                      >
+                        Your follow-up
+                      </label>
+                      <Textarea
+                        id="ai-follow-up-question"
+                        value={aiQuestion}
+                        onChange={(event) => setAIQuestion(event.target.value)}
+                        className="mt-2 min-h-[132px] border-slate-200"
+                        placeholder="Describe what is still not working, what changed, or what you need help saying next."
+                        maxLength={1200}
+                      />
+                      <p className="mt-2 text-xs text-slate-500">
+                        The AI prompt includes this behavior, the decoder guidance already shown,
+                        your care recipient name, and the last 15 Daily Log entries.
+                      </p>
+                    </div>
+
+                    <div className="flex flex-wrap items-center gap-3">
+                      <Button
+                        type="button"
+                        className="rounded-full px-6"
+                        disabled={aiSubmitting || !aiQuestion.trim()}
+                        onClick={handleAskAI}
+                      >
+                        {aiSubmitting ? (
+                          <>
+                            <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
+                            Asking AI...
+                          </>
+                        ) : (
+                          'Ask AI for more help'
+                        )}
+                      </Button>
+                      <p className="text-xs text-slate-500">
+                        Single-response only in this MVP.
+                      </p>
+                    </div>
+                  </>
+                )}
+
+                {aiRequestError ? (
+                  <div className="rounded-[1.4rem] border border-amber-200 bg-amber-50 px-4 py-4 text-sm leading-7 text-amber-900">
+                    {aiRequestError}
+                  </div>
+                ) : null}
+
+                <AIAnswerCard answer={aiAnswer?.answer} source={aiAnswer?.source} />
+
+                {showAIHelpline ? (
+                  <p className="text-xs leading-6 text-slate-500">
+                    For immediate safety risk or acute medical concern, stop here and seek urgent
+                    help first. {AI_HELPLINE_LABEL}
+                  </p>
+                ) : null}
               </div>
             </div>
           </div>

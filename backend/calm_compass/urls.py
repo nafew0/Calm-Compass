@@ -12,6 +12,9 @@ urlpatterns = [
     path("api/admin/", include("accounts.admin_urls")),
     path("api/", include("subscriptions.urls")),
     path("api/kb/", include("knowledgebase.urls")),
+    path("api/log/", include("daily_log.urls")),
+    path("api/medications/", include("medications.urls")),
+    path("api/ai/", include("ai_chat.urls")),
 ]
 
 # Serve media files in development

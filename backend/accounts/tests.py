@@ -45,6 +45,7 @@ class AccountsApiTests(TestCase):
         self.assertIn("access_token", response.data)
         self.assertIn("user", response.data)
         self.assertEqual(response.data["user"]["care_recipient_name"], "")
+        self.assertEqual(response.data["user"]["timezone"], "")
         self.assertFalse(response.data["user"]["has_completed_setup"])
 
     def test_user_registration_password_mismatch(self):
@@ -106,6 +107,7 @@ class AccountsApiTests(TestCase):
             password="TestPass123!",
             first_name="Mira",
             care_recipient_name="Dad",
+            timezone="America/New_York",
             email_verified=True,
         )
         self.client.force_authenticate(user=user)
@@ -114,6 +116,7 @@ class AccountsApiTests(TestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data["care_recipient_name"], "Dad")
+        self.assertEqual(response.data["timezone"], "America/New_York")
         self.assertTrue(response.data["has_completed_setup"])
 
     def test_profile_update_can_complete_setup(self):
@@ -130,6 +133,7 @@ class AccountsApiTests(TestCase):
             {
                 "first_name": "Ava",
                 "care_recipient_name": "Mom",
+                "timezone": "America/Chicago",
             },
             format="json",
         )
@@ -137,8 +141,28 @@ class AccountsApiTests(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data["first_name"], "Ava")
         self.assertEqual(response.data["care_recipient_name"], "Mom")
+        self.assertEqual(response.data["timezone"], "America/Chicago")
         self.assertTrue(response.data["has_completed_setup"])
 
         user.refresh_from_db()
         self.assertEqual(user.care_recipient_name, "Mom")
+        self.assertEqual(user.timezone, "America/Chicago")
         self.assertTrue(user.has_completed_setup)
+
+    def test_profile_update_rejects_invalid_timezone(self):
+        user = User.objects.create_user(
+            username="timecarer",
+            email="timecarer@example.com",
+            password="TestPass123!",
+            email_verified=True,
+        )
+        self.client.force_authenticate(user=user)
+
+        response = self.client.patch(
+            "/api/auth/user/update/",
+            {"timezone": "Not/A_Zone"},
+            format="json",
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIn("timezone", response.data)
