@@ -310,6 +310,8 @@ python manage.py createsuperuser
 python manage.py collectstatic --noinput
 ```
 
+`migrate` seeds the Behavior Decoder knowledge base automatically (data migration `knowledgebase.0004_seed_behaviors`). It is idempotent, so re-running `migrate` on every deploy is safe and will pick up fixture updates in `backend/knowledgebase/data/behaviors.json`.
+
 `check --deploy` should print a short list of warnings (HSTS, etc.) that are fine since Nginx handles TLS. If it **raises an error**, stop and fix before continuing.
 
 ---
