@@ -252,43 +252,74 @@ function AIAnswerCard({ answer, source }) {
 }
 
 function DecoderSection({ icon: Icon, title, children, tone = 'slate' }) {
-  const toneClasses = {
+  const surfaceClasses = {
+    slate: 'border-[rgb(var(--theme-border-rgb)/0.92)] bg-white',
+    amber:
+      'border-[rgb(var(--theme-secondary-strong-rgb)/0.96)] bg-[rgb(var(--theme-secondary-soft-rgb)/0.92)]',
+    emerald: 'border-emerald-200 bg-emerald-50',
+    sky:
+      'border-[rgb(var(--theme-primary-strong-rgb)/0.94)] bg-[rgb(var(--theme-primary-soft-rgb)/0.88)]',
+  }
+  const iconClasses = {
     slate: 'bg-[rgb(var(--theme-neutral-strong-rgb))] text-foreground',
     amber:
-      'bg-[rgb(var(--theme-secondary-soft-rgb)/0.92)] text-[rgb(var(--theme-secondary-ink-rgb))]',
-    emerald: 'bg-emerald-50 text-emerald-800',
-    sky: 'bg-[rgb(var(--theme-primary-soft-rgb)/0.92)] text-[rgb(var(--theme-primary-ink-rgb))]',
+      'bg-[rgb(var(--theme-secondary-strong-rgb)/0.82)] text-[rgb(var(--theme-secondary-ink-rgb))]',
+    emerald: 'bg-emerald-100 text-emerald-800',
+    sky: 'bg-[rgb(var(--theme-primary-strong-rgb)/0.82)] text-[rgb(var(--theme-primary-ink-rgb))]',
+  }
+  const titleClasses = {
+    slate: 'text-foreground',
+    amber: 'text-[rgb(var(--theme-secondary-ink-rgb))]',
+    emerald: 'text-emerald-900',
+    sky: 'text-[rgb(var(--theme-primary-ink-rgb))]',
+  }
+  const bodyClasses = {
+    slate: 'text-[rgb(var(--theme-foreground-rgb)/0.86)]',
+    amber: 'text-[rgb(var(--theme-secondary-ink-rgb)/0.88)]',
+    emerald: 'text-emerald-900/85',
+    sky: 'text-[rgb(var(--theme-primary-ink-rgb)/0.88)]',
   }
 
   return (
-    <section className="soft-card p-4">
+    <section className={`soft-card p-4 ${surfaceClasses[tone] || surfaceClasses.slate}`}>
       <div className="flex items-start gap-3">
         <span
-          className={`inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-lg ${toneClasses[tone] || toneClasses.slate}`}
+          className={`inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-lg ${iconClasses[tone] || iconClasses.slate}`}
         >
           <Icon className="h-5 w-5" />
         </span>
         <div className="min-w-0 pt-1">
-          <h2 className="text-xl font-semibold tracking-tight text-foreground">{title}</h2>
+          <h2 className={`text-xl font-semibold tracking-tight ${titleClasses[tone] || titleClasses.slate}`}>
+            {title}
+          </h2>
         </div>
       </div>
-      <div className="mt-4 text-sm leading-7 text-[rgb(var(--theme-foreground-rgb)/0.86)]">
+      <div className={`mt-4 text-sm leading-7 ${bodyClasses[tone] || bodyClasses.slate}`}>
         {children}
       </div>
     </section>
   )
 }
 
-function ListBlock({ items, ordered = false }) {
+function ListBlock({ items, ordered = false, tone = 'slate' }) {
   if (!items?.length) return null
 
   const List = ordered ? 'ol' : 'ul'
+  const badgeClasses = {
+    slate: 'bg-[rgb(var(--theme-neutral-strong-rgb))] text-foreground',
+    amber:
+      'bg-[rgb(var(--theme-secondary-strong-rgb)/0.82)] text-[rgb(var(--theme-secondary-ink-rgb))]',
+    emerald: 'bg-emerald-100 text-emerald-800',
+    sky: 'bg-[rgb(var(--theme-primary-strong-rgb)/0.82)] text-[rgb(var(--theme-primary-ink-rgb))]',
+  }
 
   return (
     <List className="space-y-3">
       {items.map((item, index) => (
         <li key={`${item}-${index}`} className="flex items-start gap-3">
-          <span className="mt-1 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-[rgb(var(--theme-neutral-strong-rgb))] text-xs font-semibold text-foreground">
+          <span
+            className={`mt-1 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-lg text-xs font-semibold ${badgeClasses[tone] || badgeClasses.slate}`}
+          >
             {ordered ? index + 1 : ''}
           </span>
           <span>{item}</span>
@@ -512,11 +543,11 @@ export default function DecoderBehavior() {
           </DecoderSection>
 
           <DecoderSection icon={TriangleAlert} title="What NOT to Do" tone="amber">
-            <ListBlock items={behavior.what_not_to_do} ordered />
+            <ListBlock items={behavior.what_not_to_do} ordered tone="amber" />
           </DecoderSection>
 
           <DecoderSection icon={MessageSquareText} title="What to Say Instead" tone="emerald">
-            <ListBlock items={behavior.what_to_say} />
+            <ListBlock items={behavior.what_to_say} tone="emerald" />
           </DecoderSection>
 
           <DecoderSection icon={Lightbulb} title="Why This Works">
