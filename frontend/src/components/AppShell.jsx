@@ -68,7 +68,7 @@ export default function AppShell({ children }) {
           <Link to="/dashboard" aria-label="CalmCompass home">
             <BrandLogo compact />
           </Link>
-          <div className="app-topbar-title min-w-0">
+          <div className="app-topbar-title min-w-0 flex-1">
             <p className="truncate text-sm font-semibold text-foreground">{title}</p>
             <p className="truncate text-xs text-muted-foreground">
               {user?.care_recipient_name || 'Care workspace'}
@@ -76,7 +76,7 @@ export default function AppShell({ children }) {
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon" aria-label="Open account menu">
+              <Button variant="ghost" size="icon" className="ml-auto" aria-label="Open account menu">
                 <Avatar className="h-8 w-8">
                   <AvatarImage src={resolveApiAssetUrl(user?.avatar)} alt={user?.username || 'Account'} />
                   <AvatarFallback className="bg-primary/10 text-xs font-semibold text-primary">

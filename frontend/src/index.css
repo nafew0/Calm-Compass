@@ -182,11 +182,13 @@
     margin-inline: auto;
     display: flex;
     width: min(calc(100% - 2rem), 86rem);
-    align-items: flex-end;
+    align-items: center;
+    justify-content: space-between;
     gap: 0.75rem;
   }
 
   .app-topbar-title {
+    flex: 1 1 auto;
     min-width: 0;
     text-align: center;
   }

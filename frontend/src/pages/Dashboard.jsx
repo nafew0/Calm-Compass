@@ -130,7 +130,7 @@ export default function Dashboard() {
                   >
                     <Icon className="h-5 w-5" />
                   </span>
-                  <h2 className={`text-xl font-semibold ${titleClass}`}>{title}</h2>
+                  <h2 className={`text-base font-semibold sm:text-xl ${titleClass}`}>{title}</h2>
                 </div>
                 <p className={`mt-4 text-sm leading-6 ${copyClass}`}>{copy}</p>
               </Link>
@@ -143,7 +143,7 @@ export default function Dashboard() {
             <span className="theme-icon-primary inline-flex h-10 w-10 shrink-0 items-center justify-center">
               <BookOpenText className="h-5 w-5" />
             </span>
-            <h2 className="text-xl font-semibold text-[rgb(var(--theme-primary-ink-rgb))]">
+            <h2 className="text-base font-semibold text-[rgb(var(--theme-primary-ink-rgb))] sm:text-xl">
               Last lookup
             </h2>
             {hasLastLookup ? (
